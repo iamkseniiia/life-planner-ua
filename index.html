@@ -1885,7 +1885,7 @@ function vHome(){
 
   <div class="card">
    <div class="rowj"><div class="h-sec" style="margin:0">📅 Цей тиждень</div><button class="btn o s" data-a="tab" data-id="week">Відкрити тиждень →</button></div>
-   <div class="rowj" style="margin:4px 0 12px"><span class="sub">${ws.done} из ${ws.total} действий выполнено</span></div>
+   <div class="rowj" style="margin:4px 0 12px"><span class="sub">${ws.done} з ${ws.total} дій виконано</span></div>
    ${barHTML(ws.total?Math.round(ws.done/ws.total*100):0)}
    <div style="margin-top:16px">
     ${wt.map(t=>{const g=goalOf(t.goalId);
