@@ -973,6 +973,10 @@ async function ghContent(c){
 async function githubPush(silent){
  const c=syncCfg();
  if(!syncReady(c)){ if(!silent) toast("Заповни налаштування GitHub Sync"); return; }
+ if(!meaningfulState(S)){
+  if(!silent) toast("Локальний планер порожній. Спочатку завантаж дані з GitHub або додай цілі.");
+  return;
+ }
  if(SYNC_BUSY) return;
  SYNC_BUSY=true;
  try{
@@ -984,8 +988,8 @@ async function githubPush(silent){
   if(!r.ok) throw new Error(`GitHub: ${r.status}`);
   const out=await r.json();
   c.lastSyncAt=new Date().toISOString(); c.lastSha=out.content&&out.content.sha||""; saveSyncCfg(c);
-  if(!silent) toast("Синхронізовано з GitHub");
- }catch(e){ if(!silent) toast("Не вдалося записати в GitHub"); }
+  if(!silent) toast(`Синхронізовано з GitHub: ${(S.goals||[]).length} цілей`);
+ }catch(e){ if(!silent) toast("Не вдалося записати в GitHub: "+String(e&&e.message||e).slice(0,80)); }
  finally{ SYNC_BUSY=false; }
 }
 async function githubPull(){
@@ -1001,8 +1005,18 @@ async function githubPull(){
   if(!res.ok){ toast(res.error||"GitHub-копія не підійшла"); return; }
   c.lastSyncAt=new Date().toISOString(); c.lastSha=cur.sha||""; saveSyncCfg(c);
   closeModal(); toast("Завантажено з GitHub");
- }catch(e){ toast("Не вдалося завантажити з GitHub"); }
+ }catch(e){ toast("Не вдалося завантажити з GitHub: "+String(e&&e.message||e).slice(0,80)); }
  finally{ SYNC_BUSY=false; }
+}
+async function githubCloudInfo(){
+ const c=syncCfg();
+ if(!syncReadReady(c)){ toast("Заповни налаштування GitHub Sync"); return; }
+ try{
+  const cur=await ghContent(c);
+  if(!cur||!cur.content){ toast("У GitHub ще немає копії"); return; }
+  const parsed=JSON.parse(b64dec(cur.content));
+  toast(`У GitHub: ${(parsed.goals||[]).length} цілей, ${(parsed.journal||[]).length} записів`);
+ }catch(e){ toast("Не вдалося перевірити GitHub: "+String(e&&e.message||e).slice(0,80)); }
 }
 async function autoGithubPullFirstRun(){
  if(meaningfulState(S)) return false;
@@ -4865,7 +4879,8 @@ function dataModal(){
    <label class="f"><span>Fine-grained token</span><input type="text" id="ghToken" value="${esc(gc.token)}" placeholder="github_pat_..."></label>
    <label class="row"><input type="checkbox" class="chk" id="ghAuto" ${gc.auto?"checked":""}><span style="font-size:15.5px">Автоматично вивантажувати зміни</span></label>
    <div class="row wr" style="gap:8px;margin-top:12px">
-    <button class="btn o s" id="ghSave">Зберегти налаштування</button>
+   <button class="btn o s" id="ghSave">Зберегти налаштування</button>
+    <button class="btn o s" id="ghInfo">Перевірити GitHub-копію</button>
     <button class="btn o s" id="ghPull">Завантажити з GitHub</button>
     <button class="btn s" id="ghPush">Вивантажити в GitHub</button>
    </div>
@@ -4948,8 +4963,9 @@ function dataModal(){
   const c={owner:val("ghOwner").trim(),repo:val("ghRepo").trim(),branch:val("ghBranch").trim()||"main",
    path:val("ghPath").trim()||"data/life-planner-state.json",token:val("ghToken").trim(),auto:!!$("#ghAuto").checked,
    lastSyncAt:gc.lastSyncAt||"",lastSha:gc.lastSha||""};
-  saveSyncCfg(c); toast("Налаштування GitHub Sync збережено");
+ saveSyncCfg(c); toast("Налаштування GitHub Sync збережено");
  };
+ $("#ghInfo").onclick=()=>{ $("#ghSave").onclick(); githubCloudInfo(); };
  $("#ghPush").onclick=()=>{ $("#ghSave").onclick(); githubPush(false); };
  $("#ghPull").onclick=()=>modal({title:"Завантажити з GitHub?",body:`<div class="sub">Поточний планер буде замінений даними з GitHub. Перед заміною автоматично створиться локальна резервна копія.</div>`,
   actions:[{t:"Скасувати",c:"o",fn:()=>dataModal()},{t:"Завантажити",fn:githubPull}]});
