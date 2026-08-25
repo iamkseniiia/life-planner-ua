@@ -947,11 +947,12 @@ const okToast=m=>toast(SAVE_FAILED?"Зміну застосовано, але п
 /* ═══════════ GitHub Sync: optional cross-device backup ═══════════ */
 let SYNC_TIMER=null, SYNC_BUSY=false;
 function syncCfg(){
- try{ return Object.assign({owner:"",repo:"",branch:"main",path:"data/life-planner-state.json",token:"",auto:false,lastSyncAt:"",lastSha:""},JSON.parse(localStorage.getItem(SYNC_KEY)||"{}")); }
- catch(e){ return {owner:"",repo:"",branch:"main",path:"data/life-planner-state.json",token:"",auto:false,lastSyncAt:"",lastSha:""}; }
+ try{ return Object.assign({owner:"iamkseniiia",repo:"life-planner-ua",branch:"main",path:"data/life-planner-state.json",token:"",auto:false,lastSyncAt:"",lastSha:""},JSON.parse(localStorage.getItem(SYNC_KEY)||"{}")); }
+ catch(e){ return {owner:"iamkseniiia",repo:"life-planner-ua",branch:"main",path:"data/life-planner-state.json",token:"",auto:false,lastSyncAt:"",lastSha:""}; }
 }
 function saveSyncCfg(c){ localStorage.setItem(SYNC_KEY,JSON.stringify(c)); }
-const syncReady=c=>c&&c.owner&&c.repo&&c.branch&&c.path&&c.token;
+const syncReadReady=c=>c&&c.owner&&c.repo&&c.branch&&c.path;
+const syncReady=c=>syncReadReady(c)&&c.token;
 function scheduleGitHubSync(){
  const c=syncCfg();
  if(!c.auto||!syncReady(c)) return;
@@ -962,7 +963,9 @@ const b64enc=s=>{const bytes=new TextEncoder().encode(s);let bin="";bytes.forEac
 const b64dec=s=>{const bin=atob(String(s||"").replace(/\s/g,""));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes);};
 async function ghContent(c){
  const u=`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${encodeURIComponent(c.path).replace(/%2F/g,"/")}?ref=${encodeURIComponent(c.branch)}`;
- const r=await fetch(u,{headers:{Authorization:`Bearer ${c.token}`,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}});
+ const headers={Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+ if(c.token) headers.Authorization=`Bearer ${c.token}`;
+ const r=await fetch(u,{headers});
  if(r.status===404) return null;
  if(!r.ok) throw new Error(`GitHub: ${r.status}`);
  return r.json();
@@ -970,6 +973,10 @@ async function ghContent(c){
 async function githubPush(silent){
  const c=syncCfg();
  if(!syncReady(c)){ if(!silent) toast("Заповни налаштування GitHub Sync"); return; }
+ if(!meaningfulState(S)){
+  if(!silent) toast("Локальний планер порожній. Спочатку завантаж дані з GitHub або додай цілі.");
+  return;
+ }
  if(SYNC_BUSY) return;
  SYNC_BUSY=true;
  try{
@@ -981,13 +988,13 @@ async function githubPush(silent){
   if(!r.ok) throw new Error(`GitHub: ${r.status}`);
   const out=await r.json();
   c.lastSyncAt=new Date().toISOString(); c.lastSha=out.content&&out.content.sha||""; saveSyncCfg(c);
-  if(!silent) toast("Синхронізовано з GitHub");
- }catch(e){ if(!silent) toast("Не вдалося записати в GitHub"); }
+  if(!silent) toast(`Синхронізовано з GitHub: ${(S.goals||[]).length} цілей`);
+ }catch(e){ if(!silent) toast("Не вдалося записати в GitHub: "+String(e&&e.message||e).slice(0,80)); }
  finally{ SYNC_BUSY=false; }
 }
 async function githubPull(){
  const c=syncCfg();
- if(!syncReady(c)){ toast("Заповни налаштування GitHub Sync"); return; }
+ if(!syncReadReady(c)){ toast("Заповни налаштування GitHub Sync"); return; }
  if(SYNC_BUSY) return;
  SYNC_BUSY=true;
  try{
@@ -998,8 +1005,32 @@ async function githubPull(){
   if(!res.ok){ toast(res.error||"GitHub-копія не підійшла"); return; }
   c.lastSyncAt=new Date().toISOString(); c.lastSha=cur.sha||""; saveSyncCfg(c);
   closeModal(); toast("Завантажено з GitHub");
- }catch(e){ toast("Не вдалося завантажити з GitHub"); }
+ }catch(e){ toast("Не вдалося завантажити з GitHub: "+String(e&&e.message||e).slice(0,80)); }
  finally{ SYNC_BUSY=false; }
+}
+async function githubCloudInfo(){
+ const c=syncCfg();
+ if(!syncReadReady(c)){ toast("Заповни налаштування GitHub Sync"); return; }
+ try{
+  const cur=await ghContent(c);
+  if(!cur||!cur.content){ toast("У GitHub ще немає копії"); return; }
+  const parsed=JSON.parse(b64dec(cur.content));
+  toast(`У GitHub: ${(parsed.goals||[]).length} цілей, ${(parsed.journal||[]).length} записів`);
+ }catch(e){ toast("Не вдалося перевірити GitHub: "+String(e&&e.message||e).slice(0,80)); }
+}
+async function autoGithubPullFirstRun(){
+ if(meaningfulState(S)) return false;
+ const c=syncCfg();
+ if(!syncReadReady(c)) return false;
+ try{
+  const cur=await ghContent(c);
+  if(!cur||!cur.content) return false;
+  const parsed=JSON.parse(b64dec(cur.content));
+  const res=applyImportedState(parsed);
+  if(!res.ok) return false;
+  toast("Прогрес завантажено з GitHub");
+  return true;
+ }catch(e){ return false; }
 }
 
 
@@ -1885,7 +1916,7 @@ function vHome(){
 
   <div class="card">
    <div class="rowj"><div class="h-sec" style="margin:0">📅 Цей тиждень</div><button class="btn o s" data-a="tab" data-id="week">Відкрити тиждень →</button></div>
-   <div class="rowj" style="margin:4px 0 12px"><span class="sub">${ws.done} из ${ws.total} действий выполнено</span></div>
+   <div class="rowj" style="margin:4px 0 12px"><span class="sub">${ws.done} з ${ws.total} дій виконано</span></div>
    ${barHTML(ws.total?Math.round(ws.done/ws.total*100):0)}
    <div style="margin-top:16px">
     ${wt.map(t=>{const g=goalOf(t.goalId);
@@ -4848,7 +4879,8 @@ function dataModal(){
    <label class="f"><span>Fine-grained token</span><input type="text" id="ghToken" value="${esc(gc.token)}" placeholder="github_pat_..."></label>
    <label class="row"><input type="checkbox" class="chk" id="ghAuto" ${gc.auto?"checked":""}><span style="font-size:15.5px">Автоматично вивантажувати зміни</span></label>
    <div class="row wr" style="gap:8px;margin-top:12px">
-    <button class="btn o s" id="ghSave">Зберегти налаштування</button>
+   <button class="btn o s" id="ghSave">Зберегти налаштування</button>
+    <button class="btn o s" id="ghInfo">Перевірити GitHub-копію</button>
     <button class="btn o s" id="ghPull">Завантажити з GitHub</button>
     <button class="btn s" id="ghPush">Вивантажити в GitHub</button>
    </div>
@@ -4931,8 +4963,9 @@ function dataModal(){
   const c={owner:val("ghOwner").trim(),repo:val("ghRepo").trim(),branch:val("ghBranch").trim()||"main",
    path:val("ghPath").trim()||"data/life-planner-state.json",token:val("ghToken").trim(),auto:!!$("#ghAuto").checked,
    lastSyncAt:gc.lastSyncAt||"",lastSha:gc.lastSha||""};
-  saveSyncCfg(c); toast("Налаштування GitHub Sync збережено");
+ saveSyncCfg(c); toast("Налаштування GitHub Sync збережено");
  };
+ $("#ghInfo").onclick=()=>{ $("#ghSave").onclick(); githubCloudInfo(); };
  $("#ghPush").onclick=()=>{ $("#ghSave").onclick(); githubPush(false); };
  $("#ghPull").onclick=()=>modal({title:"Завантажити з GitHub?",body:`<div class="sub">Поточний планер буде замінений даними з GitHub. Перед заміною автоматично створиться локальна резервна копія.</div>`,
   actions:[{t:"Скасувати",c:"o",fn:()=>dataModal()},{t:"Завантажити",fn:githubPull}]});
@@ -5514,7 +5547,7 @@ const FIRST_RUN=!S;
 if(FIRST_RUN) S=seed({empty:true});
 if(!S.seenAch.length) S.seenAch=achList().filter(a=>a.on).map(a=>a.id);
 checkPeriods(); save(); render(); renderCredits();
-if(FIRST_RUN) setTimeout(startChoice,150);
+if(FIRST_RUN) setTimeout(()=>autoGithubPullFirstRun().then(ok=>{ if(!ok) startChoice(); }),150);
 else if(S.migratedFrom){ const k=S.migratedFrom; delete S.migratedFrom; save();
  setTimeout(()=>toast("Данные перенесены в общее хранилище приложения"),400); }
 /* если вкладка была открыта через полночь — пересчитываем календарь при возврате */
