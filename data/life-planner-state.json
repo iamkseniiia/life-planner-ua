@@ -615,7 +615,7 @@
   "monthReviews": {},
   "seenAch": [],
   "lastSeenMonth": "m_202608",
-  "newWeekPending": false,
+  "newWeekPending": true,
   "monthPending": "",
   "monthQueue": [],
   "catchUp": false,
