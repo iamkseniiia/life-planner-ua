@@ -353,13 +353,13 @@
     },
     {
       "id": "g_x4iyuz3s",
-      "emoji": "🏋️‍♀️",
-      "name": "Выстроить устойчивый спортивный режим",
+      "emoji": "🏃‍♀️",
+      "name": "Gym",
       "sphereId": "s_3l75x9xh",
       "type": "count",
       "priority": 3,
       "status": "active",
-      "deadline": "2027-02-25",
+      "deadline": "2026-12-31",
       "results": [],
       "metrics": [
         {
@@ -398,13 +398,13 @@
     },
     {
       "id": "g_f0z0xd7p",
-      "emoji": "💼",
-      "name": "Провести поиск новой работы",
+      "emoji": "📚",
+      "name": "Work / Knowledge",
       "sphereId": "s_e4i15w2t",
       "type": "project",
       "priority": 2,
       "status": "active",
-      "deadline": "2026-10-31",
+      "deadline": "2026-12-31",
       "results": [],
       "metrics": [],
       "milestones": [
