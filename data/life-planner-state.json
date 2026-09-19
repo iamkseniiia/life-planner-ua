@@ -595,5 +595,40 @@
   "calendarUpgrade": true,
   "initApplied": "2026-08-25T17:23:28.356Z",
   "declined": {},
-  "missedWeeks": 2
+  "missedWeeks": 2,
+  "habits": [
+    {
+      "id": "hb_search",
+      "name": "Пошук роботи",
+      "emoji": "🔍",
+      "days": "weekdays",
+      "sphereId": "money",
+      "archived": false
+    },
+    {
+      "id": "hb_eng",
+      "name": "Англійська / книга",
+      "emoji": "📚",
+      "days": "all",
+      "sphereId": "growth",
+      "archived": false
+    },
+    {
+      "id": "hb_train",
+      "name": "Тренування",
+      "emoji": "🏋️",
+      "days": "all",
+      "sphereId": "body",
+      "archived": false
+    },
+    {
+      "id": "hb_food",
+      "name": "Правильне харчування",
+      "emoji": "🥗",
+      "days": "all",
+      "sphereId": "body",
+      "archived": false
+    }
+  ],
+  "habitLog": {}
 }
