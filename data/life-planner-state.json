@@ -316,6 +316,26 @@
           "regular": false,
           "perWeek": 0,
           "easyWeek": 0
+        },
+        {
+          "id": "me_g82x4uf1",
+          "name": "Reels",
+          "emoji": "✅",
+          "unit": "шт",
+          "total": 2,
+          "plan": {
+            "m_202608": 0,
+            "m_202609": 0,
+            "m_202610": 0,
+            "m_202611": 0,
+            "m_202612": 0,
+            "m_202701": 0,
+            "m_202702": 0
+          },
+          "valueType": "count",
+          "regular": true,
+          "perWeek": 2,
+          "easyWeek": 0
         }
       ],
       "milestones": [],
