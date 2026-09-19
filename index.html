@@ -620,8 +620,8 @@ function normalize(d){
   g.milestones=objs(g.milestones); g.result=Object.assign({from:0,to:0,current:0,unit:""},obj(g.result));
   g.type=g.type||"result"; g.priority=Number(g.priority)||2; g.status=g.status||"active"; g.emoji=g.emoji||"🎯";
   return g;});
- d.week=obj(d.week); if(!d.week.start) d.week=Object.assign({},b.week,d.week); d.week.tasks=objs(d.week.tasks).map(t=>Object.assign({type:"binary",planned:1,completed:0,carried:0,xpGiven:false,easy:"",day:"",note:"",reason:"",reasons:[]},t));
- d.week.tasks.forEach(t=>{ if(!t.source||!t.source.kind) t.source={kind:t.metricId?"metric":"manual",id:t.metricId||"",goalId:t.goalId||""}; if(!t.reasons) t.reasons=[]; });
+ d.week=obj(d.week); if(!d.week.start) d.week=Object.assign({},b.week,d.week); d.week.tasks=objs(d.week.tasks).map(t=>Object.assign({type:"binary",planned:1,completed:0,carried:0,xpGiven:false,easy:"",day:"",note:"",reason:"",reasons:[],doneLevel:""},t));
+ d.week.tasks.forEach(t=>{ if(!t.source||!t.source.kind) t.source={kind:t.metricId?"metric":"manual",id:t.metricId||"",goalId:t.goalId||""}; if(!t.reasons) t.reasons=[]; if(!t.doneLevel&&t.done) t.doneLevel="full"; });
  d.week.mode=d.week.mode||"normal";
  d.week.review=d.week.review||{a1:"",a2:"",a3:""};
  d.hyps=(d.hyps||[]).map(h=>Object.assign({nextTest:"",hist:[]},h));
@@ -1518,6 +1518,31 @@ function undecline(kind,id){ if(S.declined) delete S.declined[kind+"|"+id]; }
 function sourceBusy(kind,id){ return S.week.tasks.some(t=>{const s2=taskSource(t);return s2.kind===kind&&s2.id===id&&!t.done;}); }
 function sourceDone(kind,id){ return S.week.tasks.some(t=>{const s2=taskSource(t);return s2.kind===kind&&s2.id===id&&t.done;}); }
 
+/* ——— full/minimum для дій тижня (як у звичок): не success/fail, а дві чесні версії ——— */
+function taskEffLevel(t){ if(!t.done) return ""; return t.doneLevel==="min"?"min":"full"; }
+function setTaskLevel(t,level){
+ if(!t) return;
+ const cur=taskEffLevel(t);
+ if(cur===level){                              // повторний тап знімає відмітку — можна передумати
+  t.done=false; t.doneLevel=""; t.completed=0;
+  if(t.metricId) factUndoBySource(t.id,t.metricId);
+  else { for(let i=S.journal.length-1;i>=0;i--){ if(S.journal[i].sourceId===t.id&&S.journal[i].kind==="note"){S.journal.splice(i,1);jTouch();break;} } }
+  closeSource(t,false);
+  return;
+ }
+ const wasDone=t.done;
+ t.doneLevel=level; t.done=true;
+ if(!wasDone){
+  t.completed=t.planned;
+  const xp=t.challenge?5:t.imp?3:1;
+  if(!t.xpGiven){ addXP(xp); t.xpGiven=true; }
+  if(t.metricId) factAdd(t.goalId,t.metricId,1,{type:"task",id:t.id},{title:t.title,xp});
+  else jAdd({goalId:t.goalId,title:t.title,xp,sourceType:"task",sourceId:t.id});
+  closeSource(t,true);
+ }
+ okToast(level==="min"?"🌱 Мінімум зараховано — це теж прогрес":(t.challenge?"🔥 Головний виклик зроблено!":"✨ Відмічено"));
+}
+
 /* ——— календарь: приложение само знает дату ——— */
 function periodState(){ const n=today();
  if(n<S.period.start) return "before";
@@ -1916,6 +1941,35 @@ function strainCard(){
   </div>
  </div>`;
 }
+/* ——— «Спростити день»: без вини, без видалення, з можливістю Undo ——— */
+function simplifyCandidates(){
+ const td=today();
+ const habits=(S.habits||[]).filter(h=>habitDue(h,td)&&!habitLevel(h,td));
+ const tasks=S.week.tasks.filter(t=>t.type==="binary"&&t.easy&&!t.done);
+ return {habits,tasks};
+}
+function simplifyDay(){
+ const {habits,tasks}=simplifyCandidates();
+ if(!habits.length&&!tasks.length){ toast("Сьогодні і так усе просто 🌿"); return; }
+ const td=today();
+ modal({title:"🌿 Спростити день",body:`
+  <div class="sub" style="margin-bottom:14px">Замінимо ще не відмічені пункти на мінімальну версію. Нічого не видаляється — дію завжди можна повернути назад.</div>
+  ${habits.length?`<div class="small" style="margin-bottom:6px">Звички → мінімум</div>
+   ${habits.map(h=>`<div class="rowj" style="padding:5px 0"><span style="font-size:15px">${h.emoji} ${esc(h.name)}</span><span class="pill ok">🌱 мінімум</span></div>`).join("")}`:""}
+  ${tasks.length?`<div class="small" style="margin:${habits.length?"14px":"0"} 0 6px">Дії тижня → мінімум</div>
+   ${tasks.map(t=>`<div class="rowj" style="padding:5px 0"><span style="font-size:15px">${esc(t.title)}</span><span class="pill ok">🌱 ${esc(t.easy)}</span></div>`).join("")}`:""}`,
+  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Спростити день",fn:()=>{
+   closeModal();
+   habits.forEach(h=>setHabit(h.id,td,"min"));
+   tasks.forEach(t=>setTaskLevel(t,"min"));
+   save(); render();
+   toastUndo("День спрощено — залишились лише мінімуми",()=>{
+    habits.forEach(h=>setHabit(h.id,td,"min"));    // повторний виклик знімає позначку — чесний відкат
+    tasks.forEach(t=>setTaskLevel(t,"min"));
+    commit("Повернули");
+   });
+  }}]});
+}
 function vHome(){
  const ws=weekStats();
  /* на головній показуємо всі активні цілі: пріоритет задає порядок, а не видимість */
@@ -1958,6 +2012,7 @@ function vHome(){
       </span>
      </div>`;}).join(""):`<div class="emptyb">На сьогодні звичок немає — додай ➕</div>`}
    </div>
+   <button class="btn o s" style="margin-top:10px;width:100%" data-a="simplifyday">🌿 Спростити сьогоднішній день</button>
   </div>
 
   ${periodCard()}
@@ -2216,15 +2271,18 @@ function vWeek(){
 function taskHTML(t){
  const g=goalOf(t.goalId), s=g?sphereOf(g.sphereId):null;
  const m=g&&t.metricId?g.metrics.find(x=>x.id===t.metricId):null;
+ const lvl=t.type==="binary"?taskEffLevel(t):"";
+ const hasMin=t.type==="binary"&&!!t.easy;
  return `<div class="task ${t.done?"done":""}">
-  ${t.type==="binary"?`<input type="checkbox" class="chk" data-a="tdone" data-id="${t.id}" ${t.done?"checked":""}>`:`<div style="font-size:22px;padding-top:2px">${t.done?"✅":(m?m.emoji||"🔁":"🔁")}</div>`}
+  ${t.type==="binary"?(hasMin?`<input type="checkbox" class="chk" data-a="tfull" data-id="${t.id}" ${lvl==="full"?"checked":""} title="Повна версія">`
+    :`<input type="checkbox" class="chk" data-a="tdone" data-id="${t.id}" ${t.done?"checked":""}>`):`<div style="font-size:22px;padding-top:2px">${t.done?"✅":(m?m.emoji||"🔁":"🔁")}</div>`}
   <div class="tb">
-   <div class="tt">${esc(t.title)}</div>
+   <div class="tt">${esc(t.title)}${lvl==="min"?` <span class="pill ok">🌱 мінімум</span>`:""}</div>
    <div class="tmeta">
     ${g?`<span class="pill" style="background:${s.color}1f;color:${s.color}">${g.emoji} ${esc(g.name.length>24?g.name.slice(0,24)+"…":g.name)}</span>`:""}
     ${t.challenge?`<span class="pill acc">🔥 головний виклик</span>`:t.imp?`<span class="pill">важливе</span>`:""}
     ${t.day?`<span class="pill">${esc(t.day)}</span>`:""}
-    ${t.easy?`<span class="pill ok">🌱 ${esc(t.easy)}</span>`:""}
+    ${t.easy&&lvl!=="min"?`<span class="pill ok">🌱 мінімум: ${esc(t.easy)}</span>`:""}
     ${t.carried?`<span class="pill warn">перенесення ×${t.carried}</span>`:""}
    </div>
    ${t.type==="count"?`<div class="counter">
@@ -2240,6 +2298,7 @@ function taskHTML(t){
     </div>`:""}
   </div>
   <div style="display:flex;flex-direction:column;gap:2px">
+   ${hasMin?`<button class="ico" data-a="tmin" data-id="${t.id}" title="Мінімум — теж рахується">🌱</button>`:""}
    <button class="ico" data-a="tedit" data-id="${t.id}">✏️</button>
    <button class="ico" data-a="tdel" data-id="${t.id}">🗑</button>
   </div>
@@ -2896,6 +2955,8 @@ function act(a,el){
   }
   commit(); break;
  }
+ case "tfull": setTaskLevel(S.week.tasks.find(x=>x.id===id),"full"); commit(); break;
+ case "tmin": setTaskLevel(S.week.tasks.find(x=>x.id===id),"min"); commit(); break;
  case "qp":{
   const t=S.week.tasks.find(x=>x.id===id);
   const g=goalOf(t.goalId), m=g&&t.metricId?g.metrics.find(x=>x.id===t.metricId):null;
@@ -2945,7 +3006,7 @@ function act(a,el){
    <label class="f"><span>🔥 Главный вызов</span><input type="text" id="nC"></label>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Начать",fn:()=>{
     const keep=[...document.querySelectorAll(".cw:checked")].map(c=>c.dataset.id);
-    const tasks=S.week.tasks.filter(t=>keep.includes(t.id)).map(t=>({...t,id:uid(),done:false,completed:0,xpGiven:false,carried:(t.carried||0)+1}));
+    const tasks=S.week.tasks.filter(t=>keep.includes(t.id)).map(t=>({...t,id:uid(),done:false,doneLevel:"",completed:0,xpGiven:false,carried:(t.carried||0)+1}));
     S.week={start:val("nS"),focus:val("nF"),challenge:val("nC"),tasks};
     closeModal();commit("Новая неделя началась");}}]});
   break;
@@ -3076,6 +3137,7 @@ function act(a,el){
  case "habitmin": setHabit(id,el.dataset.d||today(),"min"); commit(); break;
  case "habitnew": habitModal(null); break;
  case "habitedit": habitModal(S.habits.find(x=>x.id===id)); break;
+ case "simplifyday": simplifyDay(); break;
  case "editwork":
   modal({title:"Про нагрузку",body:`<label class="f"><span>Как устроена моя нагрузка</span><textarea id="wn" style="min-height:180px">${esc(S.workNote)}</textarea></label>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{S.workNote=val("wn");closeModal();commit("Збережено");}}]});
@@ -3262,7 +3324,7 @@ function collectWeek(sug){
   if(sel.value==="move"){
    /* переносится только остаток: сделанное уже записано в журнал и факт метрики */
    const left=(t.type==="binary")?1:Math.max(1,(Number(t.planned)||1)-(Number(t.completed)||0));
-   carried.push({...t,id:uid(),done:false,completed:0,planned:left,xpGiven:false,carried:(t.carried||0)+1});
+   carried.push({...t,id:uid(),done:false,doneLevel:"",completed:0,planned:left,xpGiven:false,carried:(t.carried||0)+1});
   }
   else if(sel.value==="old") dropped.push(t);
  });
