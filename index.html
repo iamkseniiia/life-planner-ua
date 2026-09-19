@@ -1791,10 +1791,11 @@ const NAVG=[
  {k:"home",e:"🏠",l:"Сьогодні",tabs:["home"]},
  {k:"plan",e:"🗂",l:"План",tabs:["week","path"]},
  {k:"goals",e:"🎯",l:"Цілі",tabs:["goals"]},
- {k:"review",e:"🔎",l:"Огляд",tabs:["wrev","mrev","hyp","hist"]},
- {k:"ach",e:"🏅",l:"Досягнення",tabs:["ach"]}
+ {k:"progress",e:"🔎",l:"Прогрес",tabs:["wrev","mrev","hyp","hist","ach"]}
 ];
-const SUBLBL={week:"Тиждень",path:"90 днів",wrev:"Тиждень",mrev:"Місяць",hyp:"Гіпотези",hist:"Історія"};
+/* реальна довжина періоду замість зашитого «90 днів» — цикл може бути будь-якої довжини */
+function periodLenLabel(){ const d=daysBetween(S.period.start,S.period.end)+1; return `${d} дн. циклу`; }
+const SUBLBL={week:"Тиждень",wrev:"Тиждень",mrev:"Місяць",hyp:"Гіпотези",hist:"Історія"};
 function groupOf(tab){ return NAVG.find(g=>g.tabs.includes(tab))||NAVG[0]; }
 function renderNav(){
  const cur=groupOf(TAB).k;
@@ -1807,11 +1808,21 @@ function renderNav(){
   render(); window.scrollTo({top:0});
  });
 }
-/* маленький перемикач під-вкладок усередині групи («Тиждень / 90 днів», «Тиждень / Місяць / Гіпотези / Історія») */
+/* маленький перемикач під-вкладок усередині групи («Тиждень / Період», «Огляд / Досягнення» → «Тиждень / Місяць / Гіпотези / Історія») */
 function subNavHTML(tab){
  const g=groupOf(tab);
+ if(g.k==="progress"){
+  const curSub=tab==="ach"?"ach":"overview";
+  const ovTarget=curSub==="overview"?TAB:"wrev";        /* залишаємось на поточній під-вкладці, якщо вже в Огляді */
+  const top=`<div class="seg">
+   <button class="${curSub==="overview"?"on":""}" data-subnav="${ovTarget}">Огляд</button>
+   <button class="${curSub==="ach"?"on":""}" data-subnav="ach">🏅 Досягнення</button>
+  </div>`;
+  const inner=curSub==="overview"?`<div class="seg" style="margin-top:8px">${["wrev","mrev","hyp","hist"].map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${SUBLBL[t]||t}</button>`).join("")}</div>`:"";
+  return top+inner;
+ }
  if(g.tabs.length<2) return "";
- return `<div class="seg">${g.tabs.map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${SUBLBL[t]||t}</button>`).join("")}</div>`;
+ return `<div class="seg">${g.tabs.map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${t==="path"?periodLenLabel():(SUBLBL[t]||t)}</button>`).join("")}</div>`;
 }
 /* яка функція малює екран — потрібна і для відмальовування, і для пробної збірки при імпорті */
 function viewFor(tab){ return {home:vHome,path:vPath,goals:vGoals,week:vWeek,hist:vHist,hyp:vHyp,wrev:vWRev,mrev:vMRev,ach:vAch}[tab]||vHome; }
