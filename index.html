@@ -98,6 +98,9 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .bar{height:9px;border-radius:99px;background:var(--soft);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:99px;background:var(--acc);transition:width .4s ease}
 .bar.thin{height:6px}
+.seg{display:inline-flex;gap:2px;background:var(--soft);border-radius:12px;padding:3px;margin-bottom:16px}
+.seg button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:14.5px;color:var(--ink2);cursor:pointer;white-space:nowrap}
+.seg button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:var(--sh)}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;background:var(--soft);color:var(--ink2);font-size:13.5px;white-space:nowrap}
 .pill.acc{background:var(--acc-soft);color:var(--acc)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
@@ -531,12 +534,16 @@ function habitDue(h,dateStr){
  if(Array.isArray(h.days)) return h.days.includes(dw);
  return true;
 }
-function habitDone(h,dateStr){ return !!((S.habitLog||{})[dateStr]||{})[h.id]; }
-function toggleHabit(id,dateStr){
+/* рівень виконання звички за день: "full" — повна версія, "min" — мінімальна (теж рахується, це не провал), null — не відмічено */
+function habitLevel(h,dateStr){ const v=((S.habitLog||{})[dateStr]||{})[h.id]; return v==="min"?"min":(v?"full":null); }
+function habitDone(h,dateStr){ return !!habitLevel(h,dateStr); }
+/* тап по тому самому рівню знімає відмітку — щоб можна було передумати без зайвих кроків */
+function setHabit(id,dateStr,level){
  S.habitLog=S.habitLog||{};
  S.habitLog[dateStr]=S.habitLog[dateStr]||{};
- S.habitLog[dateStr][id]=!S.habitLog[dateStr][id];
- if(!S.habitLog[dateStr][id]) delete S.habitLog[dateStr][id];
+ if(S.habitLog[dateStr][id]===level) delete S.habitLog[dateStr][id];
+ else S.habitLog[dateStr][id]=level;
+ if(!Object.keys(S.habitLog[dateStr]).length) delete S.habitLog[dateStr];
 }
 function emptySeed(){
  const start=today(), end=addDays(start,180);
@@ -1754,24 +1761,32 @@ function checkAch(){
 }
 
 /* ═══════════ навигация ═══════════ */
-const NAV=[["home","🏠","Головна"],["path","🗺","Мій шлях"],["goals","🎯","Цілі"],["week","📅","Цей тиждень"],
- ["hist","✨","Історія"],["hyp","🧪","Гіпотези"],["wrev","💭","Підсумки тижня"],["mrev","🔎","Підсумки місяця"],["ach","🏅","Досягнення"]];
-const BOT=["home","path","goals","week","more"];
+/* 5 розділів верхнього рівня замість 9: споріднені екрани згруповані, перемикаються сегментним контролом усередині сторінки */
+const NAVG=[
+ {k:"home",e:"🏠",l:"Сьогодні",tabs:["home"]},
+ {k:"plan",e:"🗂",l:"План",tabs:["week","path"]},
+ {k:"goals",e:"🎯",l:"Цілі",tabs:["goals"]},
+ {k:"review",e:"🔎",l:"Огляд",tabs:["wrev","mrev","hyp","hist"]},
+ {k:"ach",e:"🏅",l:"Досягнення",tabs:["ach"]}
+];
+const SUBLBL={week:"Тиждень",path:"90 днів",wrev:"Тиждень",mrev:"Місяць",hyp:"Гіпотези",hist:"Історія"};
+function groupOf(tab){ return NAVG.find(g=>g.tabs.includes(tab))||NAVG[0]; }
 function renderNav(){
- $("#tabs").innerHTML=NAV.map(([k,e,l])=>`<button class="${TAB===k?"on":""}" data-nav="${k}">${e} ${l}</button>`).join("");
- $("#bnav").innerHTML=BOT.map(k=>{
-  if(k==="more") return `<button class="${NAV.slice(4).some(n=>n[0]===TAB)?"on":""}" data-nav="more"><span class="e">⋯</span>Ще</button>`;
-  const n=NAV.find(x=>x[0]===k); return `<button class="${TAB===k?"on":""}" data-nav="${k}"><span class="e">${n[1]}</span>${n[2].replace("Цей ","")}</button>`;
- }).join("");
+ const cur=groupOf(TAB).k;
+ const html=NAVG.map(g=>`<button class="${cur===g.k?"on":""}" data-nav="${g.k}"><span class="e">${g.e}</span> ${g.l}</button>`).join("");
+ $("#tabs").innerHTML=html;
+ $("#bnav").innerHTML=NAVG.map(g=>`<button class="${cur===g.k?"on":""}" data-nav="${g.k}"><span class="e">${g.e}</span>${g.l}</button>`).join("");
  document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{
-  if(b.dataset.nav==="more"){ moreSheet(); return; }
-  TAB=b.dataset.nav; render(); window.scrollTo({top:0});
+  const g=NAVG.find(x=>x.k===b.dataset.nav);
+  TAB=cur===g.k?TAB:g.tabs[0];             /* якщо вже в цій групі — лишаємось на поточній під-вкладці */
+  render(); window.scrollTo({top:0});
  });
 }
-function moreSheet(){
- modal({title:"Усі розділи",body:NAV.map(([k,e,l])=>`<button class="btn o wide" style="justify-content:flex-start;margin-bottom:10px" data-go="${k}">${e} ${l}</button>`).join(""),
-  actions:[{t:"Закрити",c:"g",fn:closeModal}]});
- document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{TAB=b.dataset.go;closeModal();render();window.scrollTo({top:0});});
+/* маленький перемикач під-вкладок усередині групи («Тиждень / 90 днів», «Тиждень / Місяць / Гіпотези / Історія») */
+function subNavHTML(tab){
+ const g=groupOf(tab);
+ if(g.tabs.length<2) return "";
+ return `<div class="seg">${g.tabs.map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${SUBLBL[t]||t}</button>`).join("")}</div>`;
 }
 /* яка функція малює екран — потрібна і для відмальовування, і для пробної збірки при імпорті */
 function viewFor(tab){ return {home:vHome,path:vPath,goals:vGoals,week:vWeek,hist:vHist,hyp:vHyp,wrev:vWRev,mrev:vMRev,ach:vAch}[tab]||vHome; }
@@ -1784,7 +1799,8 @@ function render(){
  $("#thBtn").textContent=S.theme==="dark"?"☀️":"🌙";
  renderNav();
  const v=viewFor(TAB);
- $("#view").innerHTML=v();
+ $("#view").innerHTML=subNavHTML(TAB)+v();
+ document.querySelectorAll("[data-subnav]").forEach(b=>b.onclick=()=>{TAB=b.dataset.subnav;render();window.scrollTo({top:0});});
  bind($("#view"));
 }
 
@@ -1860,9 +1876,9 @@ function newWeekCard(){
  if(!S.newWeekPending) return "";
  const left=S.week.tasks.filter(t=>!t.done).length;
  return `<div class="card" style="background:var(--acc-soft)">
-  <div class="h-sec" style="margin-bottom:6px">✨ Почався новий тиждень</div>
-  <div class="sub">Минулий тиждень (${weekLabel(mondayOf(S.week.start))}) завершено. Я подивилась на план поточного місяця, на фактично виконаний обсяг, на те, що залишилось, на ${left} незавершених дій та на активні цілі — і зібрала пропозицію на новий тиждень.</div>
-  ${S.missedWeeks>0?`<div class="hint warn" style="margin-top:12px">Пропущено тижнів: ${S.missedWeeks}. Вони збережуться як «тиждень не вівся», старий хвіст переносити не буду.</div>`:""}
+  <div class="h-sec" style="margin-bottom:6px">✨ Новий тиждень</div>
+  <div class="sub">${weekLabel(mondayOf(S.week.start))} завершено${left?` · ${left} дій лишилось невиконаними`:""}. Готова пропозиція плану на цей тиждень.</div>
+  ${S.missedWeeks>0?`<div class="hint warn" style="margin-top:12px">Пропущено тижнів: ${S.missedWeeks} — рахую їх як «не вівся», старих хвостів не переношу.</div>`:""}
   <button class="btn" style="margin-top:16px" data-a="startweek">✨ Переглянути план тижня</button>
  </div>`;
 }
@@ -1910,11 +1926,6 @@ function vHome(){
  const doneHabits=dueHabits.filter(h=>habitDone(h,td)).length;
  return `
  <div class="stack">
-  ${periodCard()}
-  ${newWeekCard()}
-  ${newMonthCard()}
-  ${pendingReviewCards()}
-
   <div class="card" style="padding:18px 20px">
    <div class="rowj">
     <div>
@@ -1930,21 +1941,29 @@ function vHome(){
 
   <div class="card" style="border:1.5px solid var(--acc)">
    <div class="rowj">
-    <div class="h-sec" style="margin:0">🎯 Сьогодні</div>
+    <div class="h-sec" style="margin:0">🎯 Фокус на сьогодні</div>
     <span class="row" style="gap:10px;align-items:center">
      ${dueHabits.length?`<span class="small">${doneHabits} з ${dueHabits.length}</span>`:""}
      <button class="ico" data-a="habitnew" title="Додати звичку">➕</button>
     </span>
    </div>
    <div style="margin-top:10px">
-    ${dueHabits.length?dueHabits.map(h=>`
-     <div class="task" style="padding:11px 14px;margin-bottom:8px">
-      <input type="checkbox" class="chk" data-a="habittoggle" data-id="${h.id}" data-d="${td}" ${habitDone(h,td)?"checked":""}>
-      <div class="tb"><div class="tt" style="${habitDone(h,td)?"color:var(--ink3);text-decoration:line-through":""}">${h.emoji} ${esc(h.name)}</div></div>
-      <button class="ico" data-a="habitedit" data-id="${h.id}">✏️</button>
-     </div>`).join(""):`<div class="emptyb">На сьогодні звичок немає — додай ➕</div>`}
+    ${dueHabits.length?dueHabits.map(h=>{const lvl=habitLevel(h,td);
+     return `<div class="task" style="padding:11px 14px;margin-bottom:8px">
+      <input type="checkbox" class="chk" data-a="habitfull" data-id="${h.id}" data-d="${td}" ${lvl==="full"?"checked":""}>
+      <div class="tb"><div class="tt" style="${lvl?"color:var(--ink3)":""}${lvl==="full"?";text-decoration:line-through":""}">${h.emoji} ${esc(h.name)}${lvl==="min"?` <span class="pill ok">🌱 мінімум</span>`:""}</div></div>
+      <span class="row" style="gap:2px">
+       <button class="ico" data-a="habitmin" data-id="${h.id}" data-d="${td}" title="Зробити мінімум — теж рахується">🌱</button>
+       <button class="ico" data-a="habitedit" data-id="${h.id}">✏️</button>
+      </span>
+     </div>`;}).join(""):`<div class="emptyb">На сьогодні звичок немає — додай ➕</div>`}
    </div>
   </div>
+
+  ${periodCard()}
+  ${newWeekCard()}
+  ${newMonthCard()}
+  ${pendingReviewCards()}
 
   ${alerts.length?`<div class="card" style="background:var(--warn-soft)">
     <div class="h-sec" style="margin-bottom:8px">🧪 Варто перевірити гіпотезу</div>
@@ -2048,7 +2067,10 @@ function vPath(){
 
 /* ═══════════ 🎯 цели ═══════════ */
 function vGoals(){
- const cards=S.goals.map(g=>{
+ /* активні цілі — першими (за пріоритетом), потім призупинені, завершені — в самому кінці, щоб не заважали */
+ const order={active:0,paused:1,done:2};
+ const sorted=S.goals.slice().sort((a,b)=>(order[a.status]??1)-(order[b.status]??1)||b.priority-a.priority);
+ const cards=sorted.map(g=>{
   const s=sphereOf(g.sphereId), rp=resultPct(g), ap=actionPct(g);
   const tag=g.type==="project"?"✅ проєкт":g.type==="count"?"🔁 кількість":"🎯 результат";
   return `<div class="gcard">
@@ -2431,17 +2453,18 @@ function vWRev(){
   <button class="btn" data-a="wrsave">Зберегти підсумки</button>
  </div>
  <div class="card" style="background:var(--acc-soft)">
-  <div class="h-sec" style="margin-bottom:6px">✨ Хочеш розібрати тиждень глибше?</div>
-  <div class="sub">Усередині застосунку моделі немає: я збираю готовий запит, ти вставляєш його в ChatGPT або Claude.</div>
-  <div class="small" style="margin-top:10px">✨ <b style="font-weight:600">Спланувати наступний тиждень</b> — розбір плюс спільне планування; після твого підтвердження ШІ видасть пакет, який можна повернути сюди кнопкою «Застосувати зміни».</div>
-  <div class="small" style="margin-top:6px">🔎 <b style="font-weight:600">Проаналізувати минулий тиждень</b> — тільки розбір, нічого повертати не потрібно.</div>
-  <div class="row wr" style="gap:8px;margin-top:16px">
-   <button class="btn" data-a="ainext">✨ Спланувати наступний тиждень з ШІ</button>
-   <button class="btn o" data-a="aiweek">🔎 Проаналізувати минулий тиждень</button>
-   <button class="btn o" data-a="aiimport">📥 Застосувати зміни з ШІ</button>
+  <div class="h-sec" style="margin-bottom:6px">✨ Розібрати тиждень з ШІ</div>
+  <div class="sub">Готую запит — вставляєш його в ChatGPT або Claude, модель усередині застосунку не потрібна.</div>
+  <div class="row wr" style="gap:8px;margin-top:14px">
+   <button class="btn" data-a="ainext">✨ Спланувати наступний тиждень</button>
+   <button class="btn o" data-a="aiweek">🔎 Проаналізувати минулий</button>
   </div>
+  <details class="dd"><summary>Застосувати готову відповідь від ШІ<span>▾</span></summary><div>
+   <div class="small" style="margin:8px 0 12px">Встав сюди пакет змін, який ШІ підготував за запитом вище.</div>
+   <button class="btn o s" data-a="aiimport">📥 Застосувати зміни з ШІ</button>
+  </div></details>
  </div>
- ${past?`<div class="card"><div class="h-sec">📅 Минулі тижні</div>${past}</div>`:""}`;
+ ${past?`<div class="card"><details class="dd"><summary>📅 Минулі тижні<span>▾</span></summary><div style="margin-top:8px">${past}</div></details></div>`:""}`;
 }
 
 /* ═══════════ 🔎 підсумки місяця ═══════════ */
@@ -2627,8 +2650,8 @@ function vMRev(){
      ${resLines.slice(1).map(x=>`<div class="small" style="color:var(--ink3)">${x}</div>`).join("")}
     </div>`;
    }).join("");
-   return rowsC?`<div class="card"><div class="h-sec">🔗 Дії та результат</div>
-    <div class="sub">Дивимось поруч: наскільки виконувався план дій і як змінювався результат. Це не означає, що одне обов'язково спричинило інше.</div>${rowsC}</div>`:"";
+   return rowsC?`<div class="card"><details class="dd"><summary>🔗 Дії та результат по кожній цілі<span>▾</span></summary><div>
+    <div class="sub" style="margin-top:8px">Дивимось поруч: наскільки виконувався план дій і як змінювався результат. Це не означає, що одне обов'язково спричинило інше.</div>${rowsC}</div></details></div>`:"";
  })()}
  ${steps.length?`<div class="card">
   <div class="rowj"><div class="h-sec" style="margin:0">📝 Пункти плану</div><span class="pill">${sd} з ${steps.length}</span></div>
@@ -3049,10 +3072,8 @@ function act(a,el){
   metricModal(g,m); break;
  }
  case "month": monthModal(el.dataset.id); break;
- case "habittoggle":{
-  const h=S.habits.find(x=>x.id===id); if(!h) break;
-  toggleHabit(id,el.dataset.d||today()); commit(); break;
- }
+ case "habitfull": setHabit(id,el.dataset.d||today(),"full"); commit(); break;
+ case "habitmin": setHabit(id,el.dataset.d||today(),"min"); commit(); break;
  case "habitnew": habitModal(null); break;
  case "habitedit": habitModal(S.habits.find(x=>x.id===id)); break;
  case "editwork":
