@@ -420,51 +420,6 @@
         "unit": ""
       },
       "completionMode": ""
-    },
-    {
-      "id": "g_iwhxouo0",
-      "emoji": "❤️",
-      "name": "Регулярно уделять время отношениям",
-      "sphereId": "s_r4d93r2h",
-      "type": "count",
-      "priority": 1,
-      "status": "active",
-      "deadline": "2027-02-25",
-      "results": [],
-      "metrics": [
-        {
-          "id": "me_f2y9xtur",
-          "name": "Осознанное время вдвоём",
-          "emoji": "❤️",
-          "unit": "часов",
-          "total": 129,
-          "plan": {
-            "m_202608": 4,
-            "m_202609": 20,
-            "m_202610": 22,
-            "m_202611": 21,
-            "m_202612": 22,
-            "m_202701": 22,
-            "m_202702": 18
-          },
-          "valueType": "volume",
-          "regular": true,
-          "perWeek": 5,
-          "easyWeek": 3
-        }
-      ],
-      "milestones": [],
-      "hypothesis": "",
-      "full": "Проводить 5 осознанных часов вдвоём в неделю в любом подходящем формате.",
-      "easy": "В тяжёлую неделю сохранить минимум 3 часа вдвоём.",
-      "note": "Это согласованная с партнёром договорённость. Желаемый эффект — больше близости и внимания, совместных впечатлений, лучшее общение и улучшение интимной стороны.",
-      "resultLegacy": {
-        "from": 0,
-        "to": 0,
-        "current": 0,
-        "unit": ""
-      },
-      "completionMode": ""
     }
   ],
   "week": {
@@ -563,16 +518,14 @@
         "reason": "",
         "reasons": [],
         "id": "ymqg3g7r",
-        "goalId": "g_iwhxouo0",
-        "metricId": "me_f2y9xtur",
+        "goalId": "",
+        "metricId": "",
         "title": "Провести 4 часа вдвоём",
         "done": false,
         "imp": false,
         "challenge": false,
         "source": {
-          "kind": "metric",
-          "id": "me_f2y9xtur",
-          "goalId": "g_iwhxouo0"
+          "kind": "manual"
         }
       }
     ]
