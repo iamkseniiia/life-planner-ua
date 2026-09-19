@@ -514,6 +514,30 @@ function seed(opts){
   workNote:"Стабильная работа маркетологом — около 10 часов в неделю. Проект Sims и бустинг — около 2 часов в месяц и примерно 25 000 ₽. Профессиональная работа — максимум около 30 часов в неделю и не больше 6 часов тяжёлой работы в день. Английский, спорт, люди и обычная жизнь в эти часы не входят."};
 }
 
+/* щоденні звички — компактний трекер на головній: пошук роботи по буднях, англійська/книга щодня, тренування, харчування */
+function defaultHabits(){
+ return [
+  {id:"hb_search",name:"Пошук роботи",emoji:"🔍",days:"weekdays",sphereId:"money",archived:false},
+  {id:"hb_eng",name:"Англійська / книга",emoji:"📚",days:"all",sphereId:"growth",archived:false},
+  {id:"hb_train",name:"Тренування",emoji:"🏋️",days:"all",sphereId:"body",archived:false},
+  {id:"hb_food",name:"Правильне харчування",emoji:"🥗",days:"all",sphereId:"body",archived:false}
+ ];
+}
+/* чи стоїть звичка на сьогодні (і на дату dateStr загалом) — weekdays = пн–пт, all = щодня, або власний список днів [0..6] */
+function habitDue(h,dateStr){
+ if(h.archived) return false;
+ const dw=D(dateStr).getDay();
+ if(h.days==="weekdays") return dw>=1&&dw<=5;
+ if(Array.isArray(h.days)) return h.days.includes(dw);
+ return true;
+}
+function habitDone(h,dateStr){ return !!((S.habitLog||{})[dateStr]||{})[h.id]; }
+function toggleHabit(id,dateStr){
+ S.habitLog=S.habitLog||{};
+ S.habitLog[dateStr]=S.habitLog[dateStr]||{};
+ S.habitLog[dateStr][id]=!S.habitLog[dateStr][id];
+ if(!S.habitLog[dateStr][id]) delete S.habitLog[dateStr][id];
+}
 function emptySeed(){
  const start=today(), end=addDays(start,180);
  const st={v:4,theme:"light",xp:0,name:"друже",period:{start,end},
@@ -522,6 +546,7 @@ function emptySeed(){
   hyps:[],journal:[],appliedPackets:[],journalUpgrade:true,resultUpgrade:true,regUpgrade:true,
   weekReviews:[],weekArchive:[],monthReviews:{},seenAch:[],
   lastSeenMonth:"",newWeekPending:false,monthPending:"",monthQueue:[],catchUp:false,firstWeek:true,
+  habits:defaultHabits(),habitLog:{},
   workNote:"Тут можна описати своє навантаження: скільки годин на тиждень іде на роботу і що в ці години не входить."};
  const S0=S; S=st; st.months=buildMonths(start,end);
  st.months.forEach(m=>st.monthData[m.id]={theme:"",outcome:"",review:"",steps:[]});
@@ -717,6 +742,11 @@ function normalize(d){
   }));
   d.regUpgrade=true;
  }
+ /* щоденні звички: якщо їх не було зовсім — заводимо стандартний набір один раз, далі не чіпаємо */
+ if(!Array.isArray(d.habits)) d.habits=defaultHabits();
+ d.habits=d.habits.filter(h=>h&&typeof h==="object").map(h=>Object.assign({id:uid(),name:"Звичка",emoji:"✅",days:"all",sphereId:"",archived:false},h));
+ d.habitLog=obj(d.habitLog);
+ Object.keys(d.habitLog).forEach(k=>{ d.habitLog[k]=obj(d.habitLog[k]); });
  jTouch();                                    /* журнал могли изменить миграции — сбрасываем кэш фактов */
  return d;
 }
@@ -1871,41 +1901,49 @@ function strainCard(){
  </div>`;
 }
 function vHome(){
- const cm=curMonthId(), mm=S.months.find(m=>m.id===cm), md=S.monthData[cm];
  const ws=weekStats();
  /* на головній показуємо всі активні цілі: пріоритет задає порядок, а не видимість */
  const top=S.goals.filter(g=>g.status==="active").sort((a,b)=>b.priority-a.priority||resultPct(b)-resultPct(a));
- const wt=S.week.tasks.filter(t=>!t.done).slice(0,4);
  const alerts=S.goals.filter(needsHypothesis);
- /* фактичні досягнення */
- const facts=[];
- S.goals.filter(g=>g.status!=="paused").forEach(g=>{
-  const rp=resultPct(g);
-  if(rp>=50&&rp<100) facts.push(`${g.emoji} Вже ${rp}% цілі «${g.name}»`);
-  g.metrics.forEach(m=>{const f=mFact(m); if(f>=5) facts.push(`${m.emoji||"✅"} ${nfmt(f)} — ${m.name.toLowerCase()}`);});
-  if(g.type==="project"){const dn=g.milestones.filter(x=>x.done).length; if(dn) facts.push(`${g.emoji} Пройдено етапів: ${dn} з ${g.milestones.length}`);}
- });
- const got=achList().filter(a=>a.on).length;
  const td=today();
+ const dueHabits=(S.habits||[]).filter(h=>habitDue(h,td));
+ const doneHabits=dueHabits.filter(h=>habitDone(h,td)).length;
  return `
  <div class="stack">
   ${periodCard()}
   ${newWeekCard()}
   ${newMonthCard()}
   ${pendingReviewCards()}
-  <div class="card">
-   <div class="mid">👋 Привіт, ${esc(S.name)}!</div>
-   <div class="sub" style="margin-top:6px">📅 ${dfull(td).replace(" "+td.slice(0,4),"")} · ${dowOf(td)}</div>
-   <div class="sub" style="margin-top:2px">Зараз ${esc(mm.label)} · ${esc(md.theme||"тему місяця не задано")}</div>
-   <div class="sub" style="margin-top:2px">У цьому місяці залишилося ${daysLeftInMonth()} днів · до кінця великого періоду ${daysLeft()}</div>
-   <div style="margin-top:18px">${barHTML(periodPct())}</div>
-   <div class="rowj" style="margin-top:8px"><span class="small">Шлях пройдено на ${periodPct()}%</span><span class="small">до ${dfull(S.period.end)}</span></div>
+
+  <div class="card" style="padding:18px 20px">
+   <div class="rowj">
+    <div>
+     <div class="mid">👋 ${esc(S.name)}</div>
+     <div class="sub" style="margin-top:4px">📅 ${dfull(td).replace(" "+td.slice(0,4),"")} · ${dowOf(td)}</div>
+    </div>
+    <div style="text-align:right">
+     <span class="pill acc">✨ Рівень ${level()}</span>
+     <div class="small" style="margin-top:6px">${daysLeft()} дн. до фінішу</div>
+    </div>
+   </div>
   </div>
 
-  <div class="card">
-   <div class="rowj"><div class="h-sec" style="margin:0">✨ Рівень ${level()}</div><span class="pill acc">${lvlPct()} / 100</span></div>
-   <div style="margin-top:14px">${barHTML(lvlPct())}</div>
-   <div class="small" style="margin-top:10px">Отримано досягнень: ${got}</div>
+  <div class="card" style="border:1.5px solid var(--acc)">
+   <div class="rowj">
+    <div class="h-sec" style="margin:0">🎯 Сьогодні</div>
+    <span class="row" style="gap:10px;align-items:center">
+     ${dueHabits.length?`<span class="small">${doneHabits} з ${dueHabits.length}</span>`:""}
+     <button class="ico" data-a="habitnew" title="Додати звичку">➕</button>
+    </span>
+   </div>
+   <div style="margin-top:10px">
+    ${dueHabits.length?dueHabits.map(h=>`
+     <div class="task" style="padding:11px 14px;margin-bottom:8px">
+      <input type="checkbox" class="chk" data-a="habittoggle" data-id="${h.id}" data-d="${td}" ${habitDone(h,td)?"checked":""}>
+      <div class="tb"><div class="tt" style="${habitDone(h,td)?"color:var(--ink3);text-decoration:line-through":""}">${h.emoji} ${esc(h.name)}</div></div>
+      <button class="ico" data-a="habitedit" data-id="${h.id}">✏️</button>
+     </div>`).join(""):`<div class="emptyb">На сьогодні звичок немає — додай ➕</div>`}
+   </div>
   </div>
 
   ${alerts.length?`<div class="card" style="background:var(--warn-soft)">
@@ -1922,36 +1960,15 @@ function vHome(){
   ${strainCard()}
 
   <div class="card">
-   <div class="rowj"><div class="h-sec" style="margin:0">🎯 Головні цілі</div><button class="btn o s" data-a="tab" data-id="goals">Усі цілі →</button></div>
-   ${top.map(g=>{const s=sphereOf(g.sphereId),rp=resultPct(g);
-     return `<div style="margin-top:18px">
+   <div class="rowj"><div class="h-sec" style="margin:0">🎯 Цілі</div><button class="btn o s" data-a="tab" data-id="goals">Усі →</button></div>
+   ${top.slice(0,3).map(g=>{const s=sphereOf(g.sphereId),rp=resultPct(g);
+     return `<div style="margin-top:16px">
       <div class="rowj"><div style="font-size:16px">${g.emoji} ${esc(g.name)}</div><span class="num">${rp}%</span></div>
-      <div class="small" style="margin:6px 0 9px">${esc(goalLine(g))}</div>
+      <div class="small" style="margin:5px 0 8px">${esc(goalLine(g))}</div>
       ${barHTML(rp,s.color)}
      </div>`;}).join("")||`<div class="emptyb">Цілей поки немає</div>`}
+   <button class="btn o s" style="margin-top:16px;width:100%" data-a="tab" data-id="week">📅 ${ws.total?`${ws.done} з ${ws.total} дій цього тижня`:"Відкрити цей тиждень"} →</button>
   </div>
-
-  <div class="card">
-   <div class="rowj"><div class="h-sec" style="margin:0">📅 Цей тиждень</div><button class="btn o s" data-a="tab" data-id="week">Відкрити тиждень →</button></div>
-   <div class="rowj" style="margin:4px 0 12px"><span class="sub">${ws.done} з ${ws.total} дій виконано</span></div>
-   ${barHTML(ws.total?Math.round(ws.done/ws.total*100):0)}
-   <div style="margin-top:16px">
-    ${wt.map(t=>{const g=goalOf(t.goalId);
-      return `<div class="rowj" style="padding:9px 0"><span style="font-size:15.5px">${g?g.emoji:"•"} ${esc(t.title)}</span>
-      <span class="small">${t.type==="count"?`${t.completed} / ${t.planned}`:""}</span></div>`;}).join("")
-      ||`<div class="hint ok">Усі дії тижня виконані 🎉</div>`}
-   </div>
-  </div>
-
-  ${S.week.challenge?`<div class="card" style="background:var(--acc-soft)">
-    <div class="h-sec" style="margin-bottom:6px">🔥 Головний виклик тижня</div>
-    <div style="font-size:17px;line-height:1.45">${esc(S.week.challenge)}</div>
-   </div>`:""}
-
-  ${facts.length?`<div class="card">
-    <div class="h-sec">🎉 Прогрес</div>
-    ${facts.slice(0,4).map(f=>`<div style="padding:7px 0;font-size:15.5px">${esc(f)}</div>`).join("")}
-   </div>`:""}
  </div>`;
 }
 
@@ -1973,7 +1990,8 @@ function vPath(){
   </tr>`;
  }).join("");
  const proj=S.goals.filter(g=>g.type==="project");
- const mcards=S.months.map(x=>{
+ /* завершені місяці в цю сітку не виводимо — вони більше не потребують уваги тут, підсумок по них є в «Підсумках місяця» */
+ const mcards=S.months.filter(x=>x.id===cm||today()<=x.end).map(x=>{
   const d=S.monthData[x.id], st=x.id===cm?"cur":(today()>x.end?"past":"");
   const done=d.steps.filter(s=>s.done).length;
   const mline=rows.map(({m})=>`<div class="rowj mx-desk" style="padding:5px 0"><span class="small">${m.emoji||"✅"} ${esc(m.name)}</span><span class="num">${aFmt(fMonth(m,x.id),m.unit)} / ${aFmt(m.plan[x.id]||0,m.unit)}</span></div>`).join("");
@@ -2692,7 +2710,7 @@ const pickedEmo=sel=>{const b=document.querySelector(sel+" button.on");return (b
 function emoPicker(id,cur,list){
  return `<div class="emo" id="${id}">${list.map(e=>`<button type="button" class="${e===cur?"on":""}">${e}</button>`).join("")}</div>`;
 }
-const EMOS=["🎯","💰","🎥","📺","🎬","🇬🇧","📚","🏃‍♀️","🧘‍♀️","✈️","🏠","👯","🎨","🧪","🌱","💡","🐶","🍀","⭐","🔥"];
+const EMOS=["🎯","💰","💻","📱","🎥","📸","🎬","📺","🎙","🇬🇧","📚","🎓","🏋️","💪","🏃‍♀️","🧘‍♀️","🥗","😴","✈️","🏠","👯","❤️","🎨","🧪","🌱","💡","📈","🛠","🎉","🏆","🐶","🍀","⭐","🔥"];
 const MEMOS=["✅","🎬","🔎","🧪","📖","🗣","🏋️‍♀️","🧘‍♀️","✉️","📞","🤝","💸","👋","🎪","📝","🎯"];
 
 /* ═══════════ действия ═══════════ */
@@ -3031,6 +3049,12 @@ function act(a,el){
   metricModal(g,m); break;
  }
  case "month": monthModal(el.dataset.id); break;
+ case "habittoggle":{
+  const h=S.habits.find(x=>x.id===id); if(!h) break;
+  toggleHabit(id,el.dataset.d||today()); commit(); break;
+ }
+ case "habitnew": habitModal(null); break;
+ case "habitedit": habitModal(S.habits.find(x=>x.id===id)); break;
  case "editwork":
   modal({title:"Про нагрузку",body:`<label class="f"><span>Как устроена моя нагрузка</span><textarea id="wn" style="min-height:180px">${esc(S.workNote)}</textarea></label>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{S.workNote=val("wn");closeModal();commit("Збережено");}}]});
@@ -4850,6 +4874,32 @@ function stepModal(mid,s){
    s.title=val("sT")||"Пункт"; s.goalId=val("sG"); const i=val("sI");
    s.imp=i==="i"; s.challenge=i==="c"; s.xp=i==="c"?5:i==="i"?3:1;
    if(isNew) d.steps.push(s); save(); monthModal(mid);}}]});
+}
+
+/* ═══════════ модалка: щоденна звичка ═══════════ */
+function habitModal(h){
+ const isNew=!h;
+ h=h||{id:"",name:"",emoji:"✅",days:"all"};
+ modal({title:isNew?"Нова щоденна звичка":"Змінити звичку",body:`
+  <label class="f"><span>Назва</span><input id="hbN" value="${esc(h.name)}" placeholder="Напр. Тренування"></label>
+  <label class="f"><span>Емодзі</span>${emoPicker("hbE",h.emoji||"✅",EMOS)}</label>
+  <label class="f"><span>Коли відмічати</span>
+   <select id="hbD">
+    <option value="all" ${h.days==="all"?"selected":""}>Щодня</option>
+    <option value="weekdays" ${h.days==="weekdays"?"selected":""}>Тільки будні (пн–пт)</option>
+   </select>
+  </label>`,
+  actions:[
+   ...(isNew?[]:[{t:"Видалити",c:"o",fn:()=>{S.habits=S.habits.filter(x=>x.id!==h.id);closeModal();commit("Звичку видалено");}}]),
+   {t:"Скасувати",c:"o",fn:closeModal},
+   {t:"Зберегти",fn:()=>{
+     const name=val("hbN").trim(); if(!name) return;
+     const emoji=pickedEmo("#hbE"), days=val("hbD");
+     if(isNew) S.habits.push({id:"hb_"+uid(),name,emoji,days,sphereId:"",archived:false});
+     else { h.name=name; h.emoji=emoji; h.days=days; }
+     closeModal(); commit(isNew?"Звичку додано":"Збережено");
+   }}
+  ]});
 }
 
 /* ═══════════ модалки: гіпотеза ═══════════ */
