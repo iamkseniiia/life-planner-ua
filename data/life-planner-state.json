@@ -409,23 +409,13 @@
       "metrics": [],
       "milestones": [
         {
-          "id": "aw5ha3um",
-          "title": "Критерии и материалы для поиска готовы",
-          "done": false
-        },
-        {
-          "id": "m9vrwa1h",
-          "title": "Активный поиск после отпуска запущен",
-          "done": false
-        },
-        {
-          "id": "4ac2xt6l",
-          "title": "Результаты поиска проанализированы и стратегия скорректирована",
-          "done": false
-        },
-        {
           "id": "t2g5aebz",
           "title": "Решение по доступным вариантам и следующему шагу принято",
+          "done": true
+        },
+        {
+          "id": "szaw2rl4",
+          "title": "Англійська або Книги кожен день розвивати мозок",
           "done": false
         }
       ],
@@ -586,7 +576,10 @@
   "weekReviews": [],
   "weekArchive": [],
   "monthReviews": {},
-  "seenAch": [],
+  "seenAch": [
+    "half_g_f0z0xd7p",
+    "done_g_f0z0xd7p"
+  ],
   "lastSeenMonth": "m_202608",
   "newWeekPending": true,
   "monthPending": "m_202608",
