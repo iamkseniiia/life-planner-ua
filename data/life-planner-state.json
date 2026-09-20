@@ -4,22 +4,15 @@
   "xp": 5,
   "name": "Ksenia",
   "period": {
-    "start": "2026-08-25",
-    "end": "2027-02-25"
+    "start": "2026-09-21",
+    "end": "2026-12-13"
   },
   "months": [
     {
-      "id": "m_202608",
-      "label": "25–31 серпня 2026",
-      "short": "Авг",
-      "start": "2026-08-25",
-      "end": "2026-08-31"
-    },
-    {
       "id": "m_202609",
-      "label": "Сентябрь 2026",
+      "label": "21–30 вересня 2026",
       "short": "Сен",
-      "start": "2026-09-01",
+      "start": "2026-09-21",
       "end": "2026-09-30"
     },
     {
@@ -38,54 +31,13 @@
     },
     {
       "id": "m_202612",
-      "label": "Декабрь 2026",
+      "label": "1–13 грудня 2026",
       "short": "Дек",
       "start": "2026-12-01",
-      "end": "2026-12-31"
-    },
-    {
-      "id": "m_202701",
-      "label": "Январь 2027",
-      "short": "Янв",
-      "start": "2027-01-01",
-      "end": "2027-01-31"
-    },
-    {
-      "id": "m_202702",
-      "label": "1–25 лютого 2027",
-      "short": "Фев",
-      "start": "2027-02-01",
-      "end": "2027-02-25"
+      "end": "2026-12-13"
     }
   ],
   "monthData": {
-    "m_202608": {
-      "theme": "Мягкий старт",
-      "outcome": "Начать блог и спорт без перегруза на фоне завершения текущей работы.",
-      "review": "",
-      "steps": [
-        {
-          "id": "4nqfpxz0",
-          "goalId": "g_z7uie412",
-          "title": "Собрать первые идеи и выбрать 3 стартовых сюжета",
-          "done": false,
-          "imp": true,
-          "challenge": false,
-          "xp": 3,
-          "xpGiven": false
-        },
-        {
-          "id": "0o0npzy9",
-          "goalId": "g_x4iyuz3s",
-          "title": "Запланировать две первые силовые тренировки",
-          "done": false,
-          "imp": false,
-          "challenge": false,
-          "xp": 1,
-          "xpGiven": false
-        }
-      ]
-    },
     "m_202609": {
       "theme": "Отпуск и новый старт",
       "outcome": "Использовать поездку для lifestyle-контента, поддерживать активность и после 20 сентября запустить поиск работы и ритм из 3 силовых тренировок.",
@@ -193,70 +145,6 @@
           "xpGiven": false
         }
       ]
-    },
-    "m_202701": {
-      "theme": "Полная рабочая версия",
-      "outcome": "Закрепить 6 публикаций и 6 силовых тренировок в неделю.",
-      "review": "",
-      "steps": [
-        {
-          "id": "clzq88c7",
-          "goalId": "g_z7uie412",
-          "title": "Закрепить 2–3 наиболее удачных повторяемых формата",
-          "done": false,
-          "imp": true,
-          "challenge": false,
-          "xp": 3,
-          "xpGiven": false
-        },
-        {
-          "id": "luu5w14r",
-          "goalId": "g_x4iyuz3s",
-          "title": "Перейти к схеме 3 тренировки на низ и 3 на верх",
-          "done": false,
-          "imp": false,
-          "challenge": true,
-          "xp": 5,
-          "xpGiven": false
-        }
-      ]
-    },
-    "m_202702": {
-      "theme": "Закрепление и следующий этап",
-      "outcome": "Сохранить полный ритм до 25 февраля, проанализировать результаты блога и определить следующий этап.",
-      "review": "",
-      "steps": [
-        {
-          "id": "5a4ipp4s",
-          "goalId": "g_z7uie412",
-          "title": "Подвести итоги шести месяцев ведения блога",
-          "done": false,
-          "imp": true,
-          "challenge": false,
-          "xp": 3,
-          "xpGiven": false
-        },
-        {
-          "id": "9rt3kj5t",
-          "goalId": "g_z7uie412",
-          "title": "Определить следующий этап развития и возможной монетизации",
-          "done": false,
-          "imp": false,
-          "challenge": false,
-          "xp": 1,
-          "xpGiven": false
-        },
-        {
-          "id": "4ugxdw22",
-          "goalId": "g_x4iyuz3s",
-          "title": "Оценить устойчивость спортивной системы",
-          "done": false,
-          "imp": false,
-          "challenge": false,
-          "xp": 1,
-          "xpGiven": false
-        }
-      ]
     }
   },
   "spheres": [
@@ -304,13 +192,10 @@
           "unit": "публикаций",
           "total": 114,
           "plan": {
-            "m_202608": 1,
             "m_202609": 10,
             "m_202610": 16,
             "m_202611": 18,
-            "m_202612": 22,
-            "m_202701": 26,
-            "m_202702": 21
+            "m_202612": 22
           },
           "valueType": "count",
           "regular": false,
@@ -324,13 +209,10 @@
           "unit": "шт",
           "total": 2,
           "plan": {
-            "m_202608": 0,
             "m_202609": 0,
             "m_202610": 0,
             "m_202611": 0,
-            "m_202612": 0,
-            "m_202701": 0,
-            "m_202702": 0
+            "m_202612": 0
           },
           "valueType": "count",
           "regular": true,
@@ -369,13 +251,10 @@
           "unit": "тренировок",
           "total": 108,
           "plan": {
-            "m_202608": 0,
             "m_202609": 6,
             "m_202610": 14,
             "m_202611": 17,
-            "m_202612": 22,
-            "m_202701": 0,
-            "m_202702": 0
+            "m_202612": 22
           },
           "valueType": "count",
           "regular": false,
@@ -433,116 +312,16 @@
     }
   ],
   "week": {
-    "start": "2026-08-24",
-    "focus": "Начать блог и спорт без перегруза, пока завершается работа в текущей компании.",
-    "challenge": "Опубликовать первый материал без ожидания идеальной готовности.",
+    "start": "2026-09-21",
+    "focus": "",
+    "challenge": "",
     "mode": "normal",
     "review": {
       "a1": "",
       "a2": "",
       "a3": ""
     },
-    "tasks": [
-      {
-        "type": "binary",
-        "planned": 1,
-        "completed": 0,
-        "carried": 0,
-        "xpGiven": false,
-        "easy": "Записать хотя бы 5 простых идей",
-        "day": "",
-        "note": "",
-        "reason": "",
-        "reasons": [],
-        "doneLevel": "",
-        "id": "97x68cpl",
-        "goalId": "g_z7uie412",
-        "metricId": "",
-        "title": "Собрать минимум 10 идей и выбрать 3 стартовых сюжета",
-        "done": false,
-        "imp": true,
-        "challenge": false,
-        "source": {
-          "kind": "monthStep",
-          "id": "4nqfpxz0",
-          "monthId": "m_202608",
-          "goalId": "g_z7uie412"
-        }
-      },
-      {
-        "type": "count",
-        "planned": 1,
-        "completed": 0,
-        "carried": 0,
-        "xpGiven": true,
-        "easy": "Опубликовать один максимально простой материал без сложного монтажа",
-        "day": "",
-        "note": "",
-        "reason": "",
-        "reasons": [],
-        "doneLevel": "",
-        "id": "tyy8morb",
-        "goalId": "g_z7uie412",
-        "metricId": "me_mb37lk76",
-        "title": "Опубликовать 1 материал",
-        "done": false,
-        "imp": true,
-        "challenge": true,
-        "source": {
-          "kind": "metric",
-          "id": "me_mb37lk76",
-          "goalId": "g_z7uie412"
-        }
-      },
-      {
-        "type": "count",
-        "planned": 2,
-        "completed": 0,
-        "carried": 0,
-        "xpGiven": false,
-        "easy": "Провести хотя бы одну сокращённую тренировку",
-        "day": "",
-        "note": "",
-        "reason": "",
-        "reasons": [],
-        "doneLevel": "",
-        "id": "cc6ng1qf",
-        "goalId": "g_x4iyuz3s",
-        "metricId": "me_snfstee2",
-        "title": "Провести 2 силовые тренировки",
-        "done": false,
-        "imp": true,
-        "challenge": false,
-        "source": {
-          "kind": "metric",
-          "id": "me_snfstee2",
-          "goalId": "g_x4iyuz3s"
-        }
-      },
-      {
-        "type": "volume",
-        "planned": 4,
-        "completed": 0,
-        "carried": 0,
-        "xpGiven": false,
-        "easy": "Провести хотя бы 3 часа вдвоём",
-        "day": "",
-        "note": "",
-        "reason": "",
-        "reasons": [],
-        "doneLevel": "",
-        "id": "ymqg3g7r",
-        "goalId": "",
-        "metricId": "",
-        "title": "Провести 4 часа вдвоём",
-        "done": false,
-        "imp": false,
-        "challenge": false,
-        "source": {
-          "kind": "manual"
-        }
-      }
-    ]
+    "tasks": []
   },
   "hyps": [
     {
@@ -578,7 +357,144 @@
   "resultUpgrade": true,
   "regUpgrade": true,
   "weekReviews": [],
-  "weekArchive": [],
+  "weekArchive": [
+    {
+      "id": "h9orv6z5",
+      "start": "2026-08-24",
+      "end": "2026-08-30",
+      "focus": "Начать блог и спорт без перегруза, пока завершается работа в текущей компании.",
+      "challenge": "Опубликовать первый материал без ожидания идеальной готовности.",
+      "mode": "normal",
+      "status": "done",
+      "tasks": [
+        {
+          "type": "binary",
+          "planned": 1,
+          "completed": 0,
+          "carried": 0,
+          "xpGiven": false,
+          "easy": "Записать хотя бы 5 простых идей",
+          "day": "",
+          "note": "",
+          "reason": "",
+          "reasons": [],
+          "doneLevel": "",
+          "id": "97x68cpl",
+          "goalId": "g_z7uie412",
+          "metricId": "",
+          "title": "Собрать минимум 10 идей и выбрать 3 стартовых сюжета",
+          "done": false,
+          "imp": true,
+          "challenge": false,
+          "source": {
+            "kind": "monthStep",
+            "id": "4nqfpxz0",
+            "monthId": "m_202608",
+            "goalId": "g_z7uie412"
+          },
+          "goalName": "Instagram / Tik-Tok / YouTube",
+          "goalEmoji": "🎯",
+          "metricName": "",
+          "metricUnit": "",
+          "status": "open"
+        },
+        {
+          "type": "count",
+          "planned": 1,
+          "completed": 0,
+          "carried": 0,
+          "xpGiven": true,
+          "easy": "Опубликовать один максимально простой материал без сложного монтажа",
+          "day": "",
+          "note": "",
+          "reason": "",
+          "reasons": [],
+          "doneLevel": "",
+          "id": "tyy8morb",
+          "goalId": "g_z7uie412",
+          "metricId": "me_mb37lk76",
+          "title": "Опубликовать 1 материал",
+          "done": false,
+          "imp": true,
+          "challenge": true,
+          "source": {
+            "kind": "metric",
+            "id": "me_mb37lk76",
+            "goalId": "g_z7uie412"
+          },
+          "goalName": "Instagram / Tik-Tok / YouTube",
+          "goalEmoji": "🎯",
+          "metricName": "Содержательные публикации",
+          "metricUnit": "публикаций",
+          "status": "open"
+        },
+        {
+          "type": "count",
+          "planned": 2,
+          "completed": 0,
+          "carried": 0,
+          "xpGiven": false,
+          "easy": "Провести хотя бы одну сокращённую тренировку",
+          "day": "",
+          "note": "",
+          "reason": "",
+          "reasons": [],
+          "doneLevel": "",
+          "id": "cc6ng1qf",
+          "goalId": "g_x4iyuz3s",
+          "metricId": "me_snfstee2",
+          "title": "Провести 2 силовые тренировки",
+          "done": false,
+          "imp": true,
+          "challenge": false,
+          "source": {
+            "kind": "metric",
+            "id": "me_snfstee2",
+            "goalId": "g_x4iyuz3s"
+          },
+          "goalName": "Gym",
+          "goalEmoji": "🏃‍♀️",
+          "metricName": "Силовые тренировки",
+          "metricUnit": "тренировок",
+          "status": "open"
+        },
+        {
+          "type": "volume",
+          "planned": 4,
+          "completed": 0,
+          "carried": 0,
+          "xpGiven": false,
+          "easy": "Провести хотя бы 3 часа вдвоём",
+          "day": "",
+          "note": "",
+          "reason": "",
+          "reasons": [],
+          "doneLevel": "",
+          "id": "ymqg3g7r",
+          "goalId": "",
+          "metricId": "",
+          "title": "Провести 4 часа вдвоём",
+          "done": false,
+          "imp": false,
+          "challenge": false,
+          "source": {
+            "kind": "manual"
+          },
+          "goalName": "",
+          "goalEmoji": "",
+          "metricName": "",
+          "metricUnit": "",
+          "status": "open"
+        }
+      ],
+      "review": {
+        "a1": "",
+        "a2": "",
+        "a3": ""
+      },
+      "reviewStatus": "pending"
+    }
+  ],
   "monthReviews": {},
   "seenAch": [
     "half_g_f0z0xd7p",
@@ -586,11 +502,9 @@
     "ch1"
   ],
   "lastSeenMonth": "m_202609",
-  "newWeekPending": true,
-  "monthPending": "m_202608",
-  "monthQueue": [
-    "m_202608"
-  ],
+  "newWeekPending": false,
+  "monthPending": "",
+  "monthQueue": [],
   "catchUp": false,
   "firstWeek": true,
   "workNote": "До 1 сентября активная работа в текущей компании. В сентябре отпуск с возвращением 20 сентября; после возвращения на поиск работы доступно до 3–4 часов в будние дни. В октябре возможен переезд. Быт и уход за собой занимают значительную часть дня, поэтому плану нужен запас ресурса. Работа с психологом поддерживает устойчивость, но отдельно не отслеживается.",
@@ -600,7 +514,7 @@
   "calendarUpgrade": true,
   "initApplied": "2026-08-25T17:23:28.356Z",
   "declined": {},
-  "missedWeeks": 2,
+  "missedWeeks": 0,
   "habits": [
     {
       "id": "hb_search",
@@ -635,5 +549,6 @@
       "archived": false
     }
   ],
-  "habitLog": {}
+  "habitLog": {},
+  "cycleResetSep2026": true
 }
