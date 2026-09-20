@@ -568,8 +568,6 @@
     }
   },
   "rhythmOverride": {
-    "hb_search": {
-      "2026-09-21": "none"
-    }
+    "hb_search": {}
   }
 }
