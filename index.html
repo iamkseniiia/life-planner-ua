@@ -18,6 +18,7 @@
   --ok:#2FA84F; --ok-soft:#E7F6EA;
   --warn:#C77700; --warn-soft:#FFF3E0;
   --bad:#D70015;
+  --missed-bg:#F1E8FF; --missed-fg:#7A3FB0;
   --r:28px; --r2:20px; --r3:14px;
   --sh:0 1px 2px rgba(0,0,0,.06), 0 20px 40px -24px rgba(0,0,0,.16);
   --f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -28,6 +29,7 @@
   --ink:#F5F5F7; --ink2:#AEAEB2; --ink3:#8E8E93;
   --line:#3A3A3C; --acc:#0A84FF; --acc-soft:#152230;
   --ok:#30D158; --ok-soft:#13291A; --warn:#FF9F0A; --warn-soft:#332711; --bad:#FF453A;
+  --missed-bg:#2A2140; --missed-fg:#C9A6F0;
   --sh:0 1px 2px rgba(0,0,0,.5), 0 24px 48px -20px rgba(0,0,0,.65);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-style:normal!important}
@@ -100,6 +102,30 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .seg{display:inline-flex;gap:2px;background:var(--soft);border-radius:12px;padding:3px;margin-bottom:16px}
 .seg button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:14.5px;color:var(--ink2);cursor:pointer;white-space:nowrap}
 .seg button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:var(--sh)}
+/* ——— 12-тижневий блокнот: таби тижнів + ритм-таблиця ——— */
+.nbtabs{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
+.nbtabs::-webkit-scrollbar{display:none}
+.nbtab{flex:0 0 auto;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink2);font-size:14.5px;font-weight:600;cursor:pointer;position:relative;transition:background .15s ease,color .15s ease}
+.nbtab:hover{border-color:var(--ink3)}
+.nbtab.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.nbtab.cur::after{content:"";position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:5px;height:5px;border-radius:99px;background:var(--acc)}
+.nbtab.on.cur::after{background:#fff}
+.rtable-wrap{overflow-x:auto;margin:0 -10px;padding:0 10px}
+.rtable{border-collapse:collapse;width:100%;min-width:620px}
+.rtable th{font-size:12px;color:var(--ink3);font-weight:500;padding:4px 3px 8px;text-align:center;line-height:1.3}
+.rtable th.rtoday{color:var(--acc);font-weight:700}
+.rtable th span{display:block;font-size:14.5px;color:var(--ink2);margin-top:1px}
+.rtable th.rtoday span{color:var(--acc)}
+.rrow-h{position:sticky;left:0;background:var(--card);text-align:left;font-size:14.5px;padding:9px 10px 9px 4px;white-space:nowrap;z-index:1}
+.rrow-h button{margin-left:4px;vertical-align:middle}
+.rtable td{text-align:center;padding:3px}
+.rtable td.rtoday{background:color-mix(in srgb,var(--acc) 6%,transparent)}
+.rcell{width:36px;height:36px;min-width:36px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink3);font-size:15px;cursor:pointer;transition:transform .15s ease}
+.rcell:active{transform:scale(.92)}
+.rcell.done{background:var(--completed,var(--acc));border-color:transparent;color:#fff;font-weight:700}
+.rcell.missed{background:var(--missed-bg);border-color:transparent;color:var(--missed-fg)}
+.rcell.none{background:var(--soft);border-color:transparent;color:var(--ink3);cursor:default}
+.rsum-h,.rsum{font-size:13px;color:var(--ink2);white-space:nowrap;padding:0 10px}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;background:var(--soft);color:var(--ink2);font-size:13.5px;white-space:nowrap}
 .pill.acc{background:var(--acc-soft);color:var(--acc)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
@@ -544,6 +570,23 @@ function setHabit(id,dateStr,level){
  else S.habitLog[dateStr][id]=level;
  if(!Object.keys(S.habitLog[dateStr]).length) delete S.habitLog[dateStr];
 }
+/* ——— «12 тижнів»: метадані конкретного тижня циклу (результат + фокуси), ключ — номер 1..12 ——— */
+function weekMeta(n){
+ S.weeksMeta=S.weeksMeta||{};
+ if(!S.weeksMeta[n]||typeof S.weeksMeta[n]!=="object") S.weeksMeta[n]={outcome:"",focus:[]};
+ const m=S.weeksMeta[n];
+ if(typeof m.outcome!=="string") m.outcome="";
+ if(!Array.isArray(m.focus)) m.focus=[];
+ return m;
+}
+function weekNStart(n){ return addDays(S.period.start,(n-1)*7); }
+function weekNEnd(n){ return addDays(weekNStart(n),6); }
+/* стан клітинки ритм-таблиці для звички h на конкретну дату: none|planned|done|missed */
+function cellState(h,dateStr){
+ if(!habitDue(h,dateStr)) return "none";
+ if(habitLevel(h,dateStr)) return "done";
+ return dateStr<today()?"missed":"planned";
+}
 function emptySeed(){
  const start=today(), end=addDays(start,180);
  const st={v:4,theme:"light",xp:0,name:"друже",period:{start,end},
@@ -552,7 +595,7 @@ function emptySeed(){
   hyps:[],journal:[],appliedPackets:[],journalUpgrade:true,resultUpgrade:true,regUpgrade:true,
   weekReviews:[],weekArchive:[],monthReviews:{},seenAch:[],
   lastSeenMonth:"",newWeekPending:false,monthPending:"",monthQueue:[],catchUp:false,firstWeek:true,
-  habits:defaultHabits(),habitLog:{},
+  habits:defaultHabits(),habitLog:{},weeksMeta:{},
   workNote:"Тут можна описати своє навантаження: скільки годин на тиждень іде на роботу і що в ці години не входить."};
  const S0=S; S=st; st.months=buildMonths(start,end);
  st.months.forEach(m=>st.monthData[m.id]={theme:"",outcome:"",review:"",steps:[]});
@@ -565,7 +608,7 @@ const BACKUP_KEY="life_planner_pre_reset_backup";
 const IMPORT_BACKUP_KEY="life_planner_pre_import_backup";
 const SYNC_KEY="life_planner_github_sync";
 const LEGACY_KEYS=["lifeplanner_clean_2026","lifeplanner_v4","lifeplanner_v3_polina"];
-let S=null, TAB="home", MSEL=null;
+let S=null, TAB="notebook", MSEL=null;
 
 function normalize(d){
  /* базовая структура берётся из универсального пустого состояния, а не из демо-данных */
@@ -1852,6 +1895,7 @@ function checkAch(){
 /* ═══════════ навигация ═══════════ */
 /* 5 розділів верхнього рівня замість 9: споріднені екрани згруповані, перемикаються сегментним контролом усередині сторінки */
 const NAVG=[
+ {k:"notebook",e:"📓",l:"12 тижнів",tabs:["notebook"]},
  {k:"home",e:"🏠",l:"Сьогодні",tabs:["home"]},
  {k:"plan",e:"🗂",l:"План",tabs:["week","path"]},
  {k:"goals",e:"🎯",l:"Цілі",tabs:["goals"]},
@@ -1889,7 +1933,7 @@ function subNavHTML(tab){
  return `<div class="seg">${g.tabs.map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${t==="path"?periodLenLabel():(SUBLBL[t]||t)}</button>`).join("")}</div>`;
 }
 /* яка функція малює екран — потрібна і для відмальовування, і для пробної збірки при імпорті */
-function viewFor(tab){ return {home:vHome,path:vPath,goals:vGoals,week:vWeek,hist:vHist,hyp:vHyp,wrev:vWRev,mrev:vMRev,ach:vAch}[tab]||vHome; }
+function viewFor(tab){ return {notebook:vNotebook,home:vHome,path:vPath,goals:vGoals,week:vWeek,hist:vHist,hyp:vHyp,wrev:vWRev,mrev:vMRev,ach:vAch}[tab]||vNotebook; }
 function render(){
  jTouch();
  renderSaveWarn();
@@ -2044,6 +2088,76 @@ function simplifyDay(){
     commit("Повернули");
    });
   }}]});
+}
+/* ═══════════ 📓 12 тижнів — цифровий блокнот ═══════════ */
+let NBWEEK=null;
+function vNotebook(){
+ const curWeekN=Math.min(12,Math.max(1,weekOfPeriod()));
+ if(!NBWEEK) NBWEEK=curWeekN;
+ const n=NBWEEK;
+ const wStart=weekNStart(n);
+ const days=[0,1,2,3,4,5,6].map(i=>addDays(wStart,i));
+ const td=today();
+ const meta=weekMeta(n);
+ const rows=(S.habits||[]).filter(h=>!h.archived);
+
+ const tabsHTML=`<div class="nbtabs" role="tablist" aria-label="Тижні циклу">
+  ${Array.from({length:12},(_,i)=>i+1).map(w=>{
+    const isCur=w===curWeekN, isSel=w===n;
+    return `<button role="tab" aria-selected="${isSel}" class="nbtab ${isSel?"on":""} ${isCur?"cur":""}" data-a="nbweek" data-id="${w}" title="${esc(weekLabel(weekNStart(w)))}">${w}</button>`;
+  }).join("")}
+ </div>`;
+
+ const outcomeHTML=`<div class="card">
+  <div class="rowj"><div class="h-sec" style="margin:0">Результат тижня</div><button class="ico" data-a="nboutcome" data-id="${n}" title="Змінити">✏️</button></div>
+  <div style="margin-top:8px;font-size:16px;line-height:1.5">${meta.outcome?esc(meta.outcome):`<span class="small">Ще не задано — опиши, який закінчений результат потрібен до кінця тижня</span>`}</div>
+ </div>`;
+
+ const focusHTML=`<div class="card">
+  <div class="rowj"><div class="h-sec" style="margin:0">🎯 Фокус тижня</div><button class="ico" data-a="nbfocusnew" data-id="${n}" title="Додати фокус">➕</button></div>
+  <div style="margin-top:8px">
+   ${meta.focus.length?meta.focus.map(f=>`<label class="row" style="padding:8px 0;gap:10px;align-items:flex-start">
+     <input type="checkbox" class="chk" data-a="nbfocustoggle" data-id="${f.id}" data-w="${n}" ${f.done?"checked":""}>
+     <span style="flex:1;font-size:15.5px;${f.done?"color:var(--ink3);text-decoration:line-through":""}">${esc(f.text)}</span>
+     <button class="ico" data-a="nbfocusdel" data-id="${f.id}" data-w="${n}">🗑</button>
+    </label>`).join(""):`<div class="emptyb">На цей тиждень ще немає фокусів — додай ➕</div>`}
+  </div>
+ </div>`;
+
+ const STATE_ICON={done:"✓",missed:"×",none:"–",planned:""};
+ const rtable=`<div class="card" style="padding:18px 10px 20px">
+  <div class="rowj" style="padding:0 8px 10px"><div class="h-sec" style="margin:0">Ритм тижня</div><button class="btn o s" data-a="habitnew">➕ Напрям</button></div>
+  <div class="rtable-wrap">
+   <table class="rtable">
+    <thead><tr>
+     <th class="rrow-h"></th>
+     ${days.map((d,i)=>`<th class="${d===td?"rtoday":""}">${DAYS[i]}<span>${+d.split("-")[2]}</span></th>`).join("")}
+     <th class="rsum-h">За тиждень</th>
+    </tr></thead>
+    <tbody>
+     ${rows.map(h=>{
+       let doneN=0,dueN=0;
+       const cells=days.map(d=>{
+         const st=cellState(h,d);
+         if(st!=="none") dueN++; if(st==="done") doneN++;
+         const label=`${h.name}, ${dowOf(d)} ${dfmt(d)}, ${st==="none"?"не заплановано":st==="done"?"виконано":st==="missed"?"не виконано":"заплановано"}`;
+         return `<td class="${d===td?"rtoday":""}"><button class="rcell ${st}" data-a="rcell" data-id="${h.id}" data-d="${d}" aria-label="${esc(label)}" title="${esc(label)}">${STATE_ICON[st]}</button></td>`;
+       }).join("");
+       return `<tr><td class="rrow-h">${h.emoji} ${esc(h.name)}<button class="ico" data-a="habitedit" data-id="${h.id}" title="Змінити">✏️</button></td>
+        ${cells}
+        <td class="rsum">${dueN?`${doneN}/${dueN}`:`<span class="small">не заплановано</span>`}</td></tr>`;
+     }).join("")||`<tr><td colspan="9"><div class="emptyb">Напрямів ще немає — додай перший ➕</div></td></tr>`}
+    </tbody>
+   </table>
+  </div>
+ </div>`;
+
+ return `<div class="h-page">📓 12 тижнів</div>
+ ${tabsHTML}
+ <div class="sub" style="margin:12px 0 18px">Тиждень ${n} · ${weekLabel(wStart)}${n===curWeekN?` <span class="pill acc">поточний</span>`:""}</div>
+ ${outcomeHTML}
+ ${focusHTML}
+ ${rtable}`;
 }
 function vHome(){
  const ws=weekStats();
@@ -3213,6 +3327,43 @@ function act(a,el){
  case "habitnew": habitModal(null); break;
  case "habitedit": habitModal(S.habits.find(x=>x.id===id)); break;
  case "simplifyday": simplifyDay(); break;
+
+ /* ——— «12 тижнів» ——— */
+ case "nbweek": NBWEEK=Number(id); render(); window.scrollTo({top:0}); break;
+ case "rcell":{
+  const h=(S.habits||[]).find(x=>x.id===id); if(!h) break;
+  const d2=el.dataset.d;
+  if(!habitDue(h,d2)){ toast("Цей напрям не заплановано на цей день — зміни розклад через ✏️"); break; }
+  setHabit(h.id,d2,"full"); commit(); break;
+ }
+ case "nboutcome":{
+  const n=Number(id), m=weekMeta(n);
+  modal({title:`Результат тижня ${n}`,body:`
+   <label class="f"><span>Який закінчений результат потрібен до кінця тижня?</span>
+    <textarea id="nbO" rows="3" placeholder="Наприклад: опублікувати 2 матеріали й провести 4 тренування">${esc(m.outcome)}</textarea></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{ weekMeta(n).outcome=val("nbO").trim(); closeModal(); commit("Збережено"); }}]});
+  break;
+ }
+ case "nbfocusnew":{
+  const n=Number(id);
+  modal({title:"➕ Новий фокус тижня",body:`
+   <label class="f"><span>Короткий пункт фокусу</span><input type="text" id="nbF" placeholder="Наприклад: визначити візуальний стиль блогу"></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Додати",fn:()=>{
+    const txt=val("nbF").trim();
+    if(txt) weekMeta(n).focus.push({id:uid(),text:txt,done:false});
+    closeModal();
+    if(txt) commit("Додано");
+   }}]});
+  break;
+ }
+ case "nbfocustoggle":{
+  const n=Number(el.dataset.w), f=weekMeta(n).focus.find(x=>x.id===id); if(f) f.done=el.checked;
+  commit(); break;
+ }
+ case "nbfocusdel":{
+  const n=Number(el.dataset.w), m=weekMeta(n);
+  m.focus=m.focus.filter(x=>x.id!==id); commit(); break;
+ }
  case "editwork":
   modal({title:"Про нагрузку",body:`<label class="f"><span>Как устроена моя нагрузка</span><textarea id="wn" style="min-height:180px">${esc(S.workNote)}</textarea></label>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{S.workNote=val("wn");closeModal();commit("Збережено");}}]});
