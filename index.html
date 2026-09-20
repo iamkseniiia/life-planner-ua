@@ -11,28 +11,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,420;9..144,500;9..144,560;9..144,650&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FAF7F1; --card:#FFFFFF; --soft:#F3ECDD;
-  --ink:#221E18; --ink2:#6E6555; --ink3:#A89C84;
-  --line:#EAE0CB;
-  --acc:#9C7A3C; --acc-soft:#F1E5C7;
-  --ok:#4F7D63; --ok-soft:#E7EFE7;
-  --warn:#AD7F27; --warn-soft:#F7EDD6;
-  --bad:#AC5A46;
+  --bg:#F5F5F7; --card:#FFFFFF; --soft:#F2F2F7;
+  --ink:#1D1D1F; --ink2:#6E6E73; --ink3:#86868B;
+  --line:#D2D2D7;
+  --acc:#0071E3; --acc-soft:#EAF3FF;
+  --ok:#2FA84F; --ok-soft:#E7F6EA;
+  --warn:#C77700; --warn-soft:#FFF3E0;
+  --bad:#D70015;
   --r:28px; --r2:20px; --r3:14px;
-  --sh:0 1px 2px rgba(40,32,20,.05), 0 24px 48px -24px rgba(40,32,20,.24);
+  --sh:0 1px 2px rgba(0,0,0,.06), 0 20px 40px -24px rgba(0,0,0,.16);
   --f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --fd:"Fraunces",ui-serif,Georgia,"Times New Roman",serif;
 }
 [data-t="dark"]{
-  --bg:#141210; --card:#1E1B15; --soft:#262119;
-  --ink:#F5EFE2; --ink2:#B7AB90; --ink3:#847858;
-  --line:#332C1F; --acc:#DDB86A; --acc-soft:#332912;
-  --ok:#8FC29F; --ok-soft:#1F2E20; --warn:#E2B563; --warn-soft:#332912; --bad:#E08D74;
-  --sh:0 1px 2px rgba(0,0,0,.35), 0 28px 56px -22px rgba(0,0,0,.6);
+  --bg:#000000; --card:#1C1C1E; --soft:#2C2C2E;
+  --ink:#F5F5F7; --ink2:#AEAEB2; --ink3:#8E8E93;
+  --line:#3A3A3C; --acc:#0A84FF; --acc-soft:#152230;
+  --ok:#30D158; --ok-soft:#13291A; --warn:#FF9F0A; --warn-soft:#332711; --bad:#FF453A;
+  --sh:0 1px 2px rgba(0,0,0,.5), 0 24px 48px -20px rgba(0,0,0,.65);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-style:normal!important}
 html,body{margin:0;padding:0}
-body{background:var(--bg);background-image:radial-gradient(circle at 12% -8%,color-mix(in srgb,var(--acc) 7%,transparent),transparent 42%);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font-family:inherit;font-size:16px;color:inherit}
 h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px 140px}
@@ -46,10 +46,9 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .rbtn:hover{color:var(--ink);border-color:var(--ink3)}
 .tabs{max-width:1180px;margin:0 auto;padding:2px 20px 14px;display:flex;gap:26px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tabs button{background:transparent;border:0;border-radius:0;padding:8px 1px;cursor:pointer;color:var(--ink2);white-space:nowrap;font-size:15px;position:relative;transition:color .15s ease}
+.tabs button{background:transparent;border:0;border-radius:999px;padding:8px 16px;cursor:pointer;color:var(--ink2);white-space:nowrap;font-size:15px;position:relative;transition:color .15s ease,background .15s ease}
 .tabs button:hover{color:var(--ink)}
-.tabs button.on{color:var(--ink);font-weight:600}
-.tabs button.on::after{content:"";position:absolute;left:1px;right:1px;bottom:-7px;height:2px;border-radius:2px;background:var(--acc)}
+.tabs button.on{color:var(--acc);font-weight:600;background:var(--acc-soft)}
 @media(max-width:760px){.tabs{display:none}}
 
 /* bottom nav (mobile) */
@@ -707,6 +706,66 @@ function normalize(d){
   }
   d.calendarUpgrade=true;
  }
+ /* ——— разовий перехід на новий 12-тижневий цикл (21.09.2026–13.12.2026, точно 12 тижнів по 7 днів), за явним
+    запитом користувачки — «12-тижневий блокнот» замінює попередню концепцію. 14–19.12 свідомо лишаються поза
+    циклом — це вікно для окремого майбутнього екрана підсумку/перезавантаження, а не 13-й тиждень.
+    Спрацьовує рівно один раз. Стара ціль/метрики/історія не видаляються — лише перерозподіляються по нових місяцях,
+    так само, як штатний перехід на календарні місяці вище. Поточний незавершений тиждень зберігається в архіві. */
+ if(!d.cycleResetSep2026){
+  const NS="2026-09-21", NE="2026-12-13";
+  if(d.period.start!==NS||d.period.end!==NE){
+   const S0=S; S=d;
+   const fresh=buildMonths(NS,NE);
+   const map={};
+   d.months.forEach(om=>{ const t=fresh.find(x=>om.start>=x.start&&om.start<=x.end)||fresh.find(x=>x.start>=om.start&&x.start<=om.end); if(t) map[om.id]=t.id; });
+   const nd={}; fresh.forEach(m=>nd[m.id]={theme:"",outcome:"",review:"",steps:[]});
+   d.months.forEach(om=>{ const to=map[om.id], od=d.monthData[om.id]; if(!to||!od) return;
+    const t=nd[to];
+    const join=(a,b2)=>!a?b2:(!b2?a:(a===b2?a:a+" · "+b2));
+    t.theme=join(t.theme,od.theme||""); t.outcome=join(t.outcome,od.outcome||""); t.review=join(t.review,od.review||"");
+    t.steps=t.steps.concat(od.steps||[]);
+   });
+   d.goals.forEach(g=>(g.metrics||[]).forEach(m=>{
+    const np={}; fresh.forEach(x=>np[x.id]=0);
+    d.months.forEach(om=>{ const to=map[om.id]; if(to) np[to]=(np[to]||0)+(Number((m.plan||{})[om.id])||0); });
+    m.plan=np;
+   }));
+   const nr={};
+   Object.keys(d.monthReviews||{}).forEach(k=>{ const to=map[k]||k; const old=d.monthReviews[k];
+    if(!nr[to]) nr[to]=old; else { ["a1","a2","a3","a4"].forEach(f=>{ if(old[f]) nr[to][f]=nr[to][f]?nr[to][f]+" · "+old[f]:old[f]; }); if(old.status==="done") nr[to].status="done"; }
+   });
+   d.monthReviews=nr;
+   d.journal.forEach(e=>{ const byDate=fresh.find(x=>e.date>=x.start&&e.date<=x.end); e.monthId=byDate?byDate.id:e.monthId; });
+   d.monthQueue=(d.monthQueue||[]).map(x=>map[x]||x).filter(x=>fresh.some(m=>m.id===x));
+   d.monthPending=map[d.monthPending]||"";
+   d.lastSeenMonth=map[d.lastSeenMonth]||"";
+   if(d.lastAcknowledgedMonth) d.lastAcknowledgedMonth=map[d.lastAcknowledgedMonth]||"";
+   if(d.skippedM) Object.keys(d.skippedM).forEach(k=>{
+    const v=d.skippedM[k];
+    if(typeof v==="string"){ if(map[v]) d.skippedM[k]=map[v]; return; }
+    if(v&&typeof v==="object"){ const nv={}; Object.keys(v).forEach(mo=>{ if(v[mo]) nv[map[mo]||mo]=true; }); d.skippedM[k]=nv; }
+   });
+   d.months=fresh; d.monthData=nd;
+   d.period={start:NS,end:NE};
+   /* поточний тиждень старого циклу — в архів, нічого не втрачаємо, але новий цикл стартує без боргів */
+   if(d.week&&(d.week.tasks.length||d.week.focus||d.week.challenge)){
+    const wst=mondayOf(d.week.start);
+    const snap={id:uid(),start:wst,end:addDays(wst,6),focus:d.week.focus||"",challenge:d.week.challenge||"",
+     mode:d.week.mode||"normal",status:"done",
+     tasks:d.week.tasks.map(x=>{
+      const gg=d.goals.find(y=>y.id===x.goalId), mm2=gg&&x.metricId?(gg.metrics||[]).find(y=>y.id===x.metricId):null;
+      return Object.assign(JSON.parse(JSON.stringify(x)),{goalName:gg?gg.name:"",goalEmoji:gg?gg.emoji:"",metricName:mm2?mm2.name:"",metricUnit:mm2?(mm2.unit||""):"",
+       status:x.done?"done":(x.completed>0?"partial":"open")});}),
+     review:Object.assign({a1:"",a2:"",a3:""},d.week.review||{}),
+     reviewStatus:"pending"};
+    if(!d.weekArchive.some(w=>w.start===wst)) d.weekArchive.push(snap);
+   }
+   d.week={start:NS,focus:"",challenge:"",mode:"normal",review:{a1:"",a2:"",a3:""},tasks:[]};
+   d.missedWeeks=0; d.newWeekPending=false;
+   S=S0;
+  }
+  d.cycleResetSep2026=true;
+ }
  /* ——— переход на показатели результата ——— */
  d.goals.forEach(g=>{ g.results=g.results||[]; });
  /* legacy-результат превращается в полноценный показатель — даже если общий флаг уже поднят */
@@ -1134,7 +1193,12 @@ function factRelink(sourceId,goalId,metricId){
   if(!metricId) e.kind="note"; n++; } });
  jTouch(); return n;
 }
-function daysLeft(){ return Math.max(0,Math.round((new Date(S.period.end)-new Date())/864e5)); }
+function daysLeft(){ return Math.max(0,daysBetween(today(),S.period.end)); }
+/* «День X із 90», «Тиждень Y із 13» — рахуємо від реального періоду, а не від зашитої довжини циклу */
+function totalDaysInPeriod(){ return daysBetween(S.period.start,S.period.end)+1; }
+function dayOfPeriod(){ return Math.max(1,daysBetween(S.period.start,today())+1); }
+function totalWeeksInPeriod(){ return Math.ceil(totalDaysInPeriod()/7); }
+function weekOfPeriod(){ return Math.max(1,Math.floor(daysBetween(S.period.start,mondayOf(S.week.start))/7)+1); }
 function periodPct(){ const a=new Date(S.period.start),b=new Date(S.period.end),n=new Date(); return clamp(Math.round((n-a)/(b-a)*100),0,100); }
 function resultPct(g){
  if(g.type==="project") return g.milestones.length?Math.round(g.milestones.filter(x=>x.done).length/g.milestones.length*100):0;
