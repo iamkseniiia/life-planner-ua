@@ -109,7 +109,7 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .nbtab:hover{border-color:var(--ink3)}
 .nbtab.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .nbtab.cur::after{content:"";position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:5px;height:5px;border-radius:99px;background:var(--acc)}
-.nbtab.on.cur::after{background:#fff}
+.nbtab.on.cur::after{display:none}
 .rtable-wrap{overflow-x:auto;margin:0 -10px;padding:0 10px}
 .rtable{border-collapse:collapse;width:100%;min-width:620px}
 .rtable th{font-size:12px;color:var(--ink3);font-weight:500;padding:4px 3px 8px;text-align:center;line-height:1.3}
@@ -276,7 +276,6 @@ details.dd>div{padding-bottom:14px}
  <div class="top-in">
   <div class="logo"><span>🌿</span><span>Мій план життя</span></div>
   <div class="sp"></div>
-  <button class="rbtn" id="lvlBtn"><span>✨</span><span id="lvlTxt">0 / 100</span></button>
   <button class="rbtn" id="thBtn">🌙</button>
   <button class="rbtn" id="dtBtn">⚙️</button>
  </div>
@@ -1946,7 +1945,7 @@ function checkAch(){
 const NAVG=[
  {k:"notebook",e:"📓",l:"12 тижнів",tabs:["notebook"]},
  {k:"goals",e:"🎯",l:"Цілі",tabs:["goals"]},
- {k:"progress",e:"🔎",l:"Прогрес",tabs:["wrev","mrev","hyp","hist","path","ach"]}
+ {k:"progress",e:"🔎",l:"Прогрес",tabs:["wrev","mrev","hyp","hist","path"]}
 ];
 /* реальна довжина періоду замість зашитого «90 днів» — цикл може бути будь-якої довжини */
 function periodLenLabel(){ const d=daysBetween(S.period.start,S.period.end)+1; return `${d} дн. циклу`; }
@@ -1959,22 +1958,21 @@ function renderNav(){
  $("#bnav").innerHTML=NAVG.map(g=>`<button class="${cur===g.k?"on":""}" data-nav="${g.k}"><span class="e">${g.e}</span>${g.l}</button>`).join("");
  document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{
   const g=NAVG.find(x=>x.k===b.dataset.nav);
-  TAB=cur===g.k?TAB:g.tabs[0];             /* якщо вже в цій групі — лишаємось на поточній під-вкладці */
+  /* важливо: перевіряємо, чи TAB справді входить у tabs цієї групи, а не покладаємось на groupOf() —
+     для «сирітських» табів (напр. «week», куди веде посилання «Керувати завданнями тижня», але яких
+     більше немає в жодній групі NAVG) groupOf() підставляє групу-заглушку notebook, і порівняння ключів
+     групи хибно вважало б, що ми «вже тут», через що клік по пілюлі нічого не робив і застрягав */
+  TAB=g.tabs.includes(TAB)?TAB:g.tabs[0];
   render(); window.scrollTo({top:0});
  });
 }
-/* маленький перемикач під-вкладок усередині групи («Тиждень / Період», «Огляд / Досягнення» → «Тиждень / Місяць / Гіпотези / Історія») */
+/* маленький перемикач під-вкладок усередині групи («Тиждень / Період» тощо → «Тиждень / Місяць / Гіпотези / Історія / Мій шлях»).
+   Геймификацію (рівень + вкладка «Досягнення») прибрано за явним проханням користувачки — важко відслідковувати,
+   не потрібна. Дані рівня/XP і сама функція vAch() лишились у коді недоторканими, просто ніде більше не показуються. */
 function subNavHTML(tab){
  const g=groupOf(tab);
  if(g.k==="progress"){
-  const curSub=tab==="ach"?"ach":"overview";
-  const ovTarget=curSub==="overview"?TAB:"wrev";        /* залишаємось на поточній під-вкладці, якщо вже в Огляді */
-  const top=`<div class="seg">
-   <button class="${curSub==="overview"?"on":""}" data-subnav="${ovTarget}">Огляд</button>
-   <button class="${curSub==="ach"?"on":""}" data-subnav="ach">🏅 Досягнення</button>
-  </div>`;
-  const inner=curSub==="overview"?`<div class="seg" style="margin-top:8px">${["wrev","mrev","hyp","hist","path"].map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${SUBLBL[t]||t}</button>`).join("")}</div>`:"";
-  return top+inner;
+  return `<div class="seg">${["wrev","mrev","hyp","hist","path"].map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${SUBLBL[t]||t}</button>`).join("")}</div>`;
  }
  if(g.tabs.length<2) return "";
  return `<div class="seg">${g.tabs.map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${t==="path"?periodLenLabel():(SUBLBL[t]||t)}</button>`).join("")}</div>`;
@@ -1985,8 +1983,6 @@ function render(){
  jTouch();
  renderSaveWarn();
  document.documentElement.setAttribute("data-t",S.theme==="dark"?"dark":"light");
- $("#lvlTxt").textContent=`${lvlPct()} / 100`;
- $("#lvlBtn").title=`Рівень ${level()}`;
  $("#thBtn").textContent=S.theme==="dark"?"☀️":"🌙";
  renderNav();
  const v=viewFor(TAB);
@@ -2239,11 +2235,13 @@ function vNotebook(){
    </div>`:""}
   ${strainCard()}`;
 
+ /* «Ритм тижня» — головний робочий блок, тому має бути видно одразу, без прокрутки повз системні нагадування.
+    Тому bar/заголовок тижня/ритм ідуть першими, а нагадування (новий тиждень, підсумки на розгляді, гіпотези) — нижче. */
  return `<div class="stack">
-  ${sysCards}
   ${barHTML}
   ${weekHeadHTML}
   ${rtable}
+  ${sysCards}
   ${focusHTML}
   ${resultHTML}
  </div>`;
@@ -5538,7 +5536,6 @@ function dataModal(){
 }
 $("#dtBtn").onclick=dataModal;
 $("#thBtn").onclick=()=>{S.theme=S.theme==="dark"?"light":"dark";commit();};
-$("#lvlBtn").onclick=()=>{TAB="ach";render();window.scrollTo({top:0});};
 $("#fab").onclick=()=>{ if(TAB==="goals") goalNew(); else if(TAB==="hyp") hypModal(null); else taskModal(null); };
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
