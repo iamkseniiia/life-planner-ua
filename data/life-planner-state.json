@@ -1,7 +1,7 @@
 {
   "v": 4,
   "theme": "light",
-  "xp": 0,
+  "xp": 5,
   "name": "Ksenia",
   "period": {
     "start": "2026-08-25",
@@ -474,7 +474,7 @@
         "planned": 1,
         "completed": 0,
         "carried": 0,
-        "xpGiven": false,
+        "xpGiven": true,
         "easy": "Опубликовать один максимально простой материал без сложного монтажа",
         "day": "",
         "note": "",
@@ -582,7 +582,8 @@
   "monthReviews": {},
   "seenAch": [
     "half_g_f0z0xd7p",
-    "done_g_f0z0xd7p"
+    "done_g_f0z0xd7p",
+    "ch1"
   ],
   "lastSeenMonth": "m_202609",
   "newWeekPending": true,
