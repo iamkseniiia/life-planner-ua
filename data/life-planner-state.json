@@ -569,5 +569,6 @@
   },
   "rhythmOverride": {
     "hb_search": {}
-  }
+  },
+  "dayChecks": {}
 }
