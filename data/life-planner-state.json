@@ -1,7 +1,7 @@
 {
   "v": 4,
   "theme": "light",
-  "xp": 5,
+  "xp": 0,
   "name": "Ksenia",
   "period": {
     "start": "2026-09-21",
@@ -176,13 +176,13 @@
   "goals": [
     {
       "id": "g_z7uie412",
-      "emoji": "🎯",
-      "name": "Instagram / Tik-Tok / YouTube",
+      "emoji": "📱",
+      "name": "Стабильно вести lifestyle-блог",
       "sphereId": "s_s4dosnrk",
       "type": "count",
       "priority": 3,
       "status": "active",
-      "deadline": "2026-12-31",
+      "deadline": "2027-02-25",
       "results": [],
       "metrics": [
         {
@@ -201,23 +201,6 @@
           "regular": false,
           "perWeek": 0,
           "easyWeek": 0
-        },
-        {
-          "id": "me_g82x4uf1",
-          "name": "Reels",
-          "emoji": "✅",
-          "unit": "шт",
-          "total": 2,
-          "plan": {
-            "m_202609": 0,
-            "m_202610": 0,
-            "m_202611": 0,
-            "m_202612": 0
-          },
-          "valueType": "count",
-          "regular": true,
-          "perWeek": 2,
-          "easyWeek": 0
         }
       ],
       "milestones": [],
@@ -235,13 +218,13 @@
     },
     {
       "id": "g_x4iyuz3s",
-      "emoji": "🏃‍♀️",
-      "name": "Gym",
+      "emoji": "🏋️‍♀️",
+      "name": "Выстроить устойчивый спортивный режим",
       "sphereId": "s_3l75x9xh",
       "type": "count",
       "priority": 3,
       "status": "active",
-      "deadline": "2026-12-31",
+      "deadline": "2027-02-25",
       "results": [],
       "metrics": [
         {
@@ -277,24 +260,34 @@
     },
     {
       "id": "g_f0z0xd7p",
-      "emoji": "📚",
-      "name": "Work / Knowledge",
+      "emoji": "💼",
+      "name": "Провести поиск новой работы",
       "sphereId": "s_e4i15w2t",
       "type": "project",
       "priority": 2,
       "status": "active",
-      "deadline": "2026-12-31",
+      "deadline": "2026-10-31",
       "results": [],
       "metrics": [],
       "milestones": [
         {
-          "id": "t2g5aebz",
-          "title": "Решение по доступным вариантам и следующему шагу принято",
-          "done": true
+          "id": "aw5ha3um",
+          "title": "Критерии и материалы для поиска готовы",
+          "done": false
         },
         {
-          "id": "szaw2rl4",
-          "title": "Англійська або Книги кожен день розвивати мозок",
+          "id": "m9vrwa1h",
+          "title": "Активный поиск после отпуска запущен",
+          "done": false
+        },
+        {
+          "id": "4ac2xt6l",
+          "title": "Результаты поиска проанализированы и стратегия скорректирована",
+          "done": false
+        },
+        {
+          "id": "t2g5aebz",
+          "title": "Решение по доступным вариантам и следующему шагу принято",
           "done": false
         }
       ],
@@ -302,6 +295,48 @@
       "full": "После возвращения из отпуска регулярно двигать поиск и оценивать предложения по совокупности условий.",
       "easy": "В сложный день сделать один осмысленный шаг по поиску, не пытаясь обязательно заполнить все доступные часы.",
       "note": "Желаемый внешний результат — найти комфортную компанию примерно до 15 октября, допустимый срок поиска — до 31 октября. Ориентир по доходу — около 3500 долларов, но решение принимается по совокупности оплаты, нагрузки, свободы и атмосферы. Новая работа должна стать финансовой опорой и оставлять ресурс на блог, спорт, здоровье и личную жизнь.",
+      "resultLegacy": {
+        "from": 0,
+        "to": 0,
+        "current": 0,
+        "unit": ""
+      },
+      "completionMode": ""
+    },
+    {
+      "id": "g_iwhxouo0",
+      "emoji": "❤️",
+      "name": "Регулярно уделять время отношениям",
+      "sphereId": "s_r4d93r2h",
+      "type": "count",
+      "priority": 1,
+      "status": "active",
+      "deadline": "2027-02-25",
+      "results": [],
+      "metrics": [
+        {
+          "id": "me_f2y9xtur",
+          "name": "Осознанное время вдвоём",
+          "emoji": "❤️",
+          "unit": "часов",
+          "total": 129,
+          "plan": {
+            "m_202609": 20,
+            "m_202610": 22,
+            "m_202611": 21,
+            "m_202612": 22
+          },
+          "valueType": "volume",
+          "regular": true,
+          "perWeek": 5,
+          "easyWeek": 3
+        }
+      ],
+      "milestones": [],
+      "hypothesis": "",
+      "full": "Проводить 5 осознанных часов вдвоём в неделю в любом подходящем формате.",
+      "easy": "В тяжёлую неделю сохранить минимум 3 часа вдвоём.",
+      "note": "Это согласованная с партнёром договорённость. Желаемый эффект — больше близости и внимания, совместных впечатлений, лучшее общение и улучшение интимной стороны.",
       "resultLegacy": {
         "from": 0,
         "to": 0,
@@ -359,7 +394,7 @@
   "weekReviews": [],
   "weekArchive": [
     {
-      "id": "h9orv6z5",
+      "id": "t3y0t0d3",
       "start": "2026-08-24",
       "end": "2026-08-30",
       "focus": "Начать блог и спорт без перегруза, пока завершается работа в текущей компании.",
@@ -392,8 +427,8 @@
             "monthId": "m_202608",
             "goalId": "g_z7uie412"
           },
-          "goalName": "Instagram / Tik-Tok / YouTube",
-          "goalEmoji": "🎯",
+          "goalName": "Стабильно вести lifestyle-блог",
+          "goalEmoji": "📱",
           "metricName": "",
           "metricUnit": "",
           "status": "open"
@@ -403,7 +438,7 @@
           "planned": 1,
           "completed": 0,
           "carried": 0,
-          "xpGiven": true,
+          "xpGiven": false,
           "easy": "Опубликовать один максимально простой материал без сложного монтажа",
           "day": "",
           "note": "",
@@ -422,8 +457,8 @@
             "id": "me_mb37lk76",
             "goalId": "g_z7uie412"
           },
-          "goalName": "Instagram / Tik-Tok / YouTube",
-          "goalEmoji": "🎯",
+          "goalName": "Стабильно вести lifestyle-блог",
+          "goalEmoji": "📱",
           "metricName": "Содержательные публикации",
           "metricUnit": "публикаций",
           "status": "open"
@@ -452,8 +487,8 @@
             "id": "me_snfstee2",
             "goalId": "g_x4iyuz3s"
           },
-          "goalName": "Gym",
-          "goalEmoji": "🏃‍♀️",
+          "goalName": "Выстроить устойчивый спортивный режим",
+          "goalEmoji": "🏋️‍♀️",
           "metricName": "Силовые тренировки",
           "metricUnit": "тренировок",
           "status": "open"
@@ -471,19 +506,21 @@
           "reasons": [],
           "doneLevel": "",
           "id": "ymqg3g7r",
-          "goalId": "",
-          "metricId": "",
+          "goalId": "g_iwhxouo0",
+          "metricId": "me_f2y9xtur",
           "title": "Провести 4 часа вдвоём",
           "done": false,
           "imp": false,
           "challenge": false,
           "source": {
-            "kind": "manual"
+            "kind": "metric",
+            "id": "me_f2y9xtur",
+            "goalId": "g_iwhxouo0"
           },
-          "goalName": "",
-          "goalEmoji": "",
-          "metricName": "",
-          "metricUnit": "",
+          "goalName": "Регулярно уделять время отношениям",
+          "goalEmoji": "❤️",
+          "metricName": "Осознанное время вдвоём",
+          "metricUnit": "часов",
           "status": "open"
         }
       ],
@@ -496,11 +533,7 @@
     }
   ],
   "monthReviews": {},
-  "seenAch": [
-    "half_g_f0z0xd7p",
-    "done_g_f0z0xd7p",
-    "ch1"
-  ],
+  "seenAch": [],
   "lastSeenMonth": "m_202609",
   "newWeekPending": false,
   "monthPending": "",
@@ -515,6 +548,7 @@
   "initApplied": "2026-08-25T17:23:28.356Z",
   "declined": {},
   "missedWeeks": 0,
+  "cycleResetSep2026": true,
   "habits": [
     {
       "id": "hb_search",
@@ -554,7 +588,7 @@
       "hb_search": ""
     }
   },
-  "cycleResetSep2026": true,
+  "dayChecks": {},
   "weeksMeta": {
     "1": {
       "outcome": "",
@@ -569,6 +603,5 @@
   },
   "rhythmOverride": {
     "hb_search": {}
-  },
-  "dayChecks": {}
+  }
 }
