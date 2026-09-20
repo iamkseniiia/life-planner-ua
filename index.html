@@ -3,53 +3,60 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="author" content="Поліна Сахарова">
-<meta name="creator" content="Поліна Сахарова">
 <title>Мій план життя</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,420;9..144,500;9..144,560;9..144,650&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FAF7F1; --card:#FFFFFF; --soft:#F3ECDD;
-  --ink:#221E18; --ink2:#6E6555; --ink3:#A89C84;
-  --line:#EAE0CB;
-  --acc:#9C7A3C; --acc-soft:#F1E5C7;
-  --ok:#4F7D63; --ok-soft:#E7EFE7;
-  --warn:#AD7F27; --warn-soft:#F7EDD6;
-  --bad:#AC5A46;
-  --r:28px; --r2:20px; --r3:14px;
-  --sh:0 1px 2px rgba(40,32,20,.05), 0 24px 48px -24px rgba(40,32,20,.24);
+  --bg:#F5F5F7; --card:#FFFFFF; --soft:#F2F2F7;
+  --ink:#1D1D1F; --ink2:#6E6E73; --ink3:#75757A;
+  --line:#E5E5EA;
+  --acc:#0071E3; --acc-soft:#EAF3FF;
+  --ok:#2FA84F; --ok-soft:#E7F6EA;
+  --warn:#C77700; --warn-soft:#FFF3E0;
+  --bad:#D70015;
+  --missed-bg:#F1E8FF; --missed-fg:#7A3FB0;
+  /* сенйор-дизайн-ревізія: раніше --r=28px давало на мобільних картках непропорційно круглі кути,
+     а --sh/--line були надто важкими (жорсткий бордер + важка тінь одночасно) — «грязнить» інтерфейс.
+     Знижуємо радіуси до spacing-скейлу 20/14/10 і полегшуємо тінь+лінію, щоб глибина йшла переважно
+     від тіні, а не від контрастного бордера. */
+  --r:20px; --r2:14px; --r3:10px;
+  --sh:0 1px 2px rgba(0,0,0,.04), 0 14px 28px -18px rgba(0,0,0,.10);
   --f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --fd:"Fraunces",ui-serif,Georgia,"Times New Roman",serif;
+  /* раніше тут був окремий серифний Fraunces для заголовків («Ритм тижня» тощо) — саме він, а не «12 тижнів»,
+     виглядав чужорідно на власних скрінах користувачки, тож за її явним проханням прибираємо серифну пару
+     й рендеримо всі заголовки тим самим системним sans-serif, що й решту інтерфейсу (і це ж відповідає
+     Apple-inspired stack з її власного ТЗ, де serif ніде не згадувався). */
+  --fd:var(--f);
 }
 [data-t="dark"]{
-  --bg:#141210; --card:#1E1B15; --soft:#262119;
-  --ink:#F5EFE2; --ink2:#B7AB90; --ink3:#847858;
-  --line:#332C1F; --acc:#DDB86A; --acc-soft:#332912;
-  --ok:#8FC29F; --ok-soft:#1F2E20; --warn:#E2B563; --warn-soft:#332912; --bad:#E08D74;
-  --sh:0 1px 2px rgba(0,0,0,.35), 0 28px 56px -22px rgba(0,0,0,.6);
+  --bg:#000000; --card:#1C1C1E; --soft:#2C2C2E;
+  --ink:#F5F5F7; --ink2:#AEAEB2; --ink3:#8E8E93;
+  --line:#3A3A3C; --acc:#0A84FF; --acc-soft:#152230;
+  --ok:#30D158; --ok-soft:#13291A; --warn:#FF9F0A; --warn-soft:#332711; --bad:#FF453A;
+  --missed-bg:#2A2140; --missed-fg:#C9A6F0;
+  --sh:0 1px 2px rgba(0,0,0,.35), 0 16px 32px -16px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-style:normal!important}
 html,body{margin:0;padding:0}
-body{background:var(--bg);background-image:radial-gradient(circle at 12% -8%,color-mix(in srgb,var(--acc) 7%,transparent),transparent 42%);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font-family:inherit;font-size:16px;color:inherit}
 h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px 140px}
+.wrap{max-width:1360px;margin:0 auto;padding:0 20px 140px}
 
 /* header */
 .top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
-.top-in{max-width:1180px;margin:0 auto;padding:16px 20px 12px;display:flex;align-items:center;gap:12px}
+.top-in{max-width:1360px;margin:0 auto;padding:16px 20px 12px;display:flex;align-items:center;gap:12px}
 .logo{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:600;font-family:var(--fd);letter-spacing:-.01em}
 .sp{flex:1}
 .rbtn{background:var(--card);border:1px solid var(--line);border-radius:999px;height:42px;min-width:42px;padding:0 15px;cursor:pointer;color:var(--ink2);display:inline-flex;align-items:center;gap:7px;font-size:15px;transition:border-color .15s ease,color .15s ease}
 .rbtn:hover{color:var(--ink);border-color:var(--ink3)}
-.tabs{max-width:1180px;margin:0 auto;padding:2px 20px 14px;display:flex;gap:26px;overflow-x:auto;scrollbar-width:none}
+.tabs{max-width:1360px;margin:0 auto;padding:2px 20px 14px;display:flex;gap:26px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tabs button{background:transparent;border:0;border-radius:0;padding:8px 1px;cursor:pointer;color:var(--ink2);white-space:nowrap;font-size:15px;position:relative;transition:color .15s ease}
+.tabs button{background:transparent;border:0;border-radius:999px;padding:8px 16px;cursor:pointer;color:var(--ink2);white-space:nowrap;font-size:15px;position:relative;transition:color .15s ease,background .15s ease}
 .tabs button:hover{color:var(--ink)}
-.tabs button.on{color:var(--ink);font-weight:600}
-.tabs button.on::after{content:"";position:absolute;left:1px;right:1px;bottom:-7px;height:2px;border-radius:2px;background:var(--acc)}
+.tabs button.on{color:var(--acc);font-weight:600;background:var(--acc-soft)}
 @media(max-width:760px){.tabs{display:none}}
 
 /* bottom nav (mobile) */
@@ -62,8 +69,6 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
  .bnav button.on{color:var(--acc)}
  .bnav .e{font-size:21px;line-height:1}
  .wrap{padding-bottom:100px}
- /* нижнее меню фиксировано поверх страницы: подпись должна прокручиваться выше него */
- .cred{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 }
 
 /* предупреждение о том, что запись на устройство не проходит: в потоке страницы, ничего не перекрывает */
@@ -75,13 +80,6 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .swarn-s{font-size:13.5px;line-height:1.6;color:var(--ink2);margin-top:4px}
 .swarn-in .btn{flex:none}
 @media(max-width:760px){.swarn-in{margin:12px 14px 0}.swarn-in .btn{width:100%}}
-
-/* подпись автора: вторичная, ненавязчивая, живёт в потоке страницы */
-.cred{display:none!important;max-width:1100px;margin:26px auto 0;padding:18px 20px 28px;text-align:center;
-  font-size:12.5px;line-height:1.7;color:var(--ink3);border-top:1px solid var(--line)}
-.cred a{color:var(--ink3);text-decoration:none;border-bottom:1px solid var(--line)}
-.cred a:hover{color:var(--ink2)}
-.cred .sep{opacity:.5;padding:0 4px}
 
 /* blocks */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:26px}
@@ -98,6 +96,94 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .bar{height:9px;border-radius:99px;background:var(--soft);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:99px;background:var(--acc);transition:width .4s ease}
 .bar.thin{height:6px}
+/* max-width:100%+overflow-x:auto — на вузьких екранах 5 підвкладок («Тиждень…Мій шлях») не влазять в один
+   ряд і раніше вилазили за межі картки, розтягуючи всю сторінку в горизонтальний скрол; тепер сегмент
+   прокручується сам у себе, як .tabs вище, а сторінка більше не їде вбік */
+.seg{display:inline-flex;gap:2px;background:var(--soft);border-radius:12px;padding:3px;margin-bottom:16px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:14.5px;color:var(--ink2);cursor:pointer;white-space:nowrap;flex:0 0 auto}
+.seg button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:var(--sh)}
+/* ——— 12-тижневий блокнот: таби тижнів + ритм-таблиця ——— */
+.nbtabs{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
+.nbtabs::-webkit-scrollbar{display:none}
+.nbtab{flex:0 0 auto;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink2);font-size:14.5px;font-weight:600;cursor:pointer;position:relative;transition:background .15s ease,color .15s ease}
+.nbtab:hover{border-color:var(--ink3)}
+.nbtab.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.nbtab.cur::after{content:"";position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:5px;height:5px;border-radius:99px;background:var(--acc)}
+.nbtab.on.cur::after{display:none}
+.rtable-wrap{overflow-x:auto;margin:0 -10px;padding:0 10px}
+/* width:auto (не 100%) — щоб 7 колонок днів не розтягувались на всю ширину картки, а трималися
+   компактно біля своїх чекбоксів; зайве місце в рядку йде на розклад дня праворуч, а не на порожні
+   проміжки між днями */
+.rtable{border-collapse:collapse;width:auto;min-width:620px}
+.rtable th{padding:2px 2px 6px;text-align:center}
+/* заголовок дня — клікабельна кнопка: обраний для «Ритму дня» день підсвічено суцільним синім,
+   а «сьогодні» (коли це не той самий день) позначено маленькою крапкою під числом */
+.rdaybtn{display:block;width:100%;background:transparent;border:0;border-radius:10px;padding:5px 4px 7px;
+ font:inherit;font-size:12px;color:var(--ink3);font-weight:500;line-height:1.3;cursor:pointer;position:relative;
+ transition:background .15s ease,color .15s ease}
+.rdaybtn:hover{background:var(--soft)}
+.rdaybtn span{display:block;font-size:14.5px;color:var(--ink2);margin-top:1px}
+.rdaybtn.cur{color:var(--acc)}
+.rdaybtn.cur span{color:var(--acc)}
+.rdaybtn.cur::after{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:4px;height:4px;border-radius:99px;background:var(--acc)}
+.rdaybtn.sel{background:var(--acc);color:#fff}
+.rdaybtn.sel span{color:#fff}
+.rdaybtn.sel::after{background:#fff}
+.rtable .rrow-h{position:sticky;left:0;background:var(--card);text-align:left;font-size:14.5px;padding:0 10px 0 0;white-space:nowrap;z-index:1;width:1%;height:44px}
+/* justify-content:space-between так, щоб олівець завжди стояв у тій самій колонці незалежно від довжини
+   назви звички — інакше «Правильне харчування» (найдовша назва) відсуває свій олівець далеко праворуч,
+   і рядки виглядають «кривими» одне відносно одного */
+.rrow-h-in{display:flex;align-items:center;justify-content:space-between;gap:10px;height:44px;width:100%}
+.rtable td{text-align:center;padding:3px 8px;height:44px}
+.rtable td.rtoday{background:color-mix(in srgb,var(--acc) 6%,transparent)}
+.rcell{width:36px;height:36px;min-width:36px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink3);font-size:15px;cursor:pointer;transition:transform .15s ease}
+.rcell:active{transform:scale(.92)}
+.rcell.done{background:var(--completed,var(--acc));border-color:transparent;color:#fff;font-weight:700}
+.rcell.missed{background:var(--missed-bg);border-color:transparent;color:var(--missed-fg)}
+.rcell.none{background:var(--soft);border-color:transparent;color:var(--ink3)}
+.rsum-h,.rsum{font-size:13px;color:var(--ink2);white-space:nowrap;padding:0 10px}
+/* «Ритм тижня» + «Ритм дня» пліч-о-пліч на широких екранах: сам ряд завжди на всю ширину — так само,
+   як і всі інші картки нижче (щоб правий край збігався з «Фокус тижня» і т.д.). Ритм тижня бере рівно
+   стільки, скільки треба таблиці (не розтягується), а розклад дня росте й забирає весь залишок ширини —
+   тому він ширший на великих екранах. Розклад компактніший (менші відступи й шрифт), а його висота
+   підганяється JS-ом (syncSchedHeight) точно під висоту картки ритму тижня — незалежно від кількості
+   звичок; зайве ховається під внутрішній скрол. */
+.rhy-row{display:flex;gap:16px;align-items:flex-start}
+.rhy-row>.card:first-child{flex:0 1 auto;min-width:0}
+.rhy-row>.sched-card{flex:1 1 300px;min-width:280px;margin-top:0}
+@media(max-width:900px){.rhy-row{flex-direction:column}.rhy-row>.card:first-child{flex:1 1 auto;width:100%}.rhy-row>.sched-card{flex:1 1 auto;min-width:0;width:100%}}
+.sched-card{padding:16px 16px 14px;display:flex;flex-direction:column}
+.sched-list{display:flex;flex-direction:column;flex:1;min-height:0;overflow-y:auto}
+@media(max-width:900px){.sched-list{max-height:none}}
+.sched-row{display:flex;align-items:flex-start;gap:8px;padding:6px 4px;margin:0 -4px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:8px}
+.sched-row:hover{background:var(--soft)}
+.sched-row:last-child{border-bottom:0}
+.sched-row .chk{width:19px;height:19px;min-width:19px;border-radius:6px;margin-top:1px}
+.sched-row .chk:checked::after{left:6px;top:4px;width:5px;height:9px;border-width:0 2px 2px 0}
+.sched-t{flex:0 0 68px;font-size:11.5px;font-weight:600;color:var(--ink2);line-height:1.35;padding-top:1px;white-space:nowrap}
+.sched-a{flex:1;font-size:12.5px;color:var(--ink);line-height:1.4}
+.sched-row.done{background:color-mix(in srgb,var(--ok) 6%,transparent)}
+.sched-row.done .sched-t{color:var(--ink3)}
+.sched-row.done .sched-a{color:var(--ink3);text-decoration:line-through}
+/* компактна смуга «12 тижнів» + week tabs в один рядок (desktop); на вузьких екранах підпис лишається зверху */
+.nbbar{display:flex;align-items:center;gap:14px;margin:2px 0 16px;flex-wrap:wrap}
+.nbbar-label{font-size:19px;font-weight:600;white-space:nowrap;flex:0 0 auto}
+.nbbar .nbtabs{margin:0;padding:3px 2px;flex:1;min-width:120px}
+/* status-popover ритм-клітинки: явні 4 варіанти замість сліпого циклічного перемикання */
+.rpop-ovl{position:fixed;inset:0;z-index:60;background:transparent}
+.rpop{position:absolute;z-index:61;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:6px;min-width:220px}
+.rpop button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:9px 10px;cursor:pointer;font-size:14.5px;color:var(--ink)}
+.rpop button:hover,.rpop button:focus-visible{background:var(--soft);outline:none}
+.rpop button.cur{font-weight:600}
+.rpop .rpi{width:24px;height:24px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto}
+.rpop .rpi.planned{background:var(--card);border:1.5px solid var(--line);color:var(--ink3)}
+.rpop .rpi.done{background:var(--completed,var(--acc));color:#fff}
+.rpop .rpi.missed{background:var(--missed-bg);color:var(--missed-fg)}
+.rpop .rpi.none{background:var(--soft);color:var(--ink3)}
+.rpop .rpt{flex:1;min-width:0}
+.rpop .rps{display:block;font-size:12px;color:var(--ink3);margin-top:1px}
+.rpop .rpmark{font-size:12px;color:var(--acc);flex:0 0 auto}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;background:var(--soft);color:var(--ink2);font-size:13.5px;white-space:nowrap}
 .pill.acc{background:var(--acc-soft);color:var(--acc)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
@@ -137,18 +223,26 @@ textarea{resize:vertical;min-height:84px;line-height:1.5}
 .emo button{width:44px;height:44px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);font-size:21px;cursor:pointer}
 .emo button.on{border-color:var(--acc);background:var(--acc-soft)}
 
-/* goal cards — горизонтальна вітрина-полиця, а не сітка, що ламається на новий рядок */
-.gwrap{display:flex;gap:18px;overflow-x:auto;padding:6px 4px 20px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+/* goal cards — горизонтальна вітрина-полиця, а не сітка, що ламається на новий рядок.
+   Праве поле збільшено, щоб наступна картка завжди трохи "виглядала" з-за краю —
+   інакше користувачка не розуміє, що список можна прогорнути, і сприймає це як обрізання. */
+.gwrap{display:flex;gap:18px;overflow-x:auto;padding:6px 56px 20px 4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .gwrap::-webkit-scrollbar{height:7px}
 .gwrap::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
 .gwrap::-webkit-scrollbar-track{background:transparent}
-.gcard{flex:0 0 auto;width:min(380px,84vw);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:26px;display:flex;flex-direction:column;gap:16px;transition:transform .25s ease,box-shadow .25s ease}
+.gcard{flex:0 0 auto;width:min(360px,80vw);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:24px;display:flex;flex-direction:column;gap:16px;transition:transform .25s ease,box-shadow .25s ease}
 @media(hover:hover){.gcard:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(40,32,20,.06),0 32px 56px -22px rgba(40,32,20,.3)}}
+.gdots{display:flex;gap:6px;justify-content:center;margin-top:-8px}
+.gdots i{width:6px;height:6px;border-radius:99px;background:var(--line);transition:background .2s ease,width .2s ease}
+.gdots i.on{background:var(--acc);width:16px}
 .ghead{display:flex;gap:14px;align-items:flex-start}
 .gemo{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;font-size:25px;flex:none}
-.mrow{display:flex;align-items:center;gap:12px;padding:9px 0}
-.mrow .mn{flex:1;min-width:0;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mrow .mv{font-size:15px;font-weight:600;white-space:nowrap}
+/* метрика тепер займає два рядки: назва (може загортатись) зверху, шкала на всю ширину знизу —
+   так довгі назви дій ніколи не "обрізаються" трьома крапками */
+.mrow{padding:9px 0}
+.mrow-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:7px}
+.mrow .mn{flex:1;min-width:0;font-size:15px;line-height:1.35}
+.mrow .mv{font-size:14px;font-weight:600;color:var(--ink2);white-space:nowrap;flex:none}
 .mrow .mb{width:100px;flex:none}
 @media(max-width:420px){.mrow .mb{width:64px}}
 
@@ -194,7 +288,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.5}
 
 /* modal */
 .ovl{position:fixed;inset:0;background:rgba(28,22,15,.45);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow:auto}
-.mdl{background:var(--card);border-radius:28px;width:100%;max-width:620px;box-shadow:0 34px 84px rgba(20,15,8,.35);animation:up .18s ease}
+.mdl{background:var(--card);border-radius:var(--r);width:100%;max-width:620px;box-shadow:0 28px 64px rgba(20,15,8,.28);animation:up .18s ease}
 @keyframes up{from{transform:translateY(14px);opacity:0}}
 .mdl>header{padding:22px 26px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
 .mdl>header h3{flex:1;font-size:19px;font-family:var(--fd);font-weight:600}
@@ -203,7 +297,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.5}
 .xb{background:var(--soft);border:0;border-radius:12px;width:36px;height:36px;cursor:pointer;color:var(--ink2);font-size:19px;line-height:1}
 @media(max-width:620px){
  .ovl{padding:0;align-items:flex-end}
- .mdl{max-width:none;border-radius:28px 28px 0 0}
+ .mdl{max-width:none;border-radius:var(--r) var(--r) 0 0}
  .mdl .bd{max-height:70vh}
 }
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:13px 22px;border-radius:999px;font-size:15px;z-index:200;box-shadow:0 16px 40px rgba(20,15,8,.3);animation:up .2s ease;max-width:90vw;text-align:center}
@@ -223,14 +317,13 @@ details.dd>div{padding-bottom:14px}
 
 /* швидкі дії щодо терміну цілі */
 .gdeadline-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-</content>
+</style>
 </head>
 <body>
 <div class="top">
  <div class="top-in">
   <div class="logo"><span>🌿</span><span>Мій план життя</span></div>
   <div class="sp"></div>
-  <button class="rbtn" id="lvlBtn"><span>✨</span><span id="lvlTxt">0 / 100</span></button>
   <button class="rbtn" id="thBtn">🌙</button>
   <button class="rbtn" id="dtBtn">⚙️</button>
  </div>
@@ -238,45 +331,13 @@ details.dd>div{padding-bottom:14px}
 </div>
 <div class="swarn" id="swarn"></div>
 <div class="wrap"><div id="view"></div></div>
-<footer class="cred" id="cred"></footer>
 <button class="fab" id="fab">➕ Дія</button>
 <div class="bnav" id="bnav"></div>
 <div id="mroot"></div>
 <div id="troot"></div>
 
 <script>
-/*
- Life Planner
- Автор: Поліна Сахарова
- Telegram: @polyanoon
- https://t.me/polyanoon
- Instagram: @polyanoon
- https://www.instagram.com/polyanoon
- YouTube: @polyayou
- https://www.youtube.com/@polyayou
-*/
 "use strict";
-/* ═══════════ авторство ═══════════ */
-/* метаданные продукта, а не данные пользователя: в S, копии, INIT и UPDATE не попадают */
-const AUTHOR={
- name:"Поліна Сахарова",
- nameBy:"Поліною Сахаровою",      /* «создано …» */
- nameOf:"Поліни Сахарової",       /* «от …» */
- telegram:{label:"@polyanoon",url:"https://t.me/polyanoon"},
- instagram:{label:"@polyanoon",url:"https://www.instagram.com/polyanoon"},
- youtube:{label:"@polyayou",url:"https://www.youtube.com/@polyayou"}
-};
-const authorLinks=()=>[["Telegram",AUTHOR.telegram],["Instagram",AUTHOR.instagram],["YouTube",AUTHOR.youtube]]
- .filter(([,v])=>v&&v.url&&v.label);
-const extLink=(url,text,cls)=>`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer"${cls?` class="${cls}"`:""}>${esc(text)}</a>`;
-/* строка «Telegram @polyanoon · Instagram @polyanoon · YouTube @polyayou» */
-const authorLinksHTML=()=>authorLinks().map(([n,v])=>extLink(v.url,n+" "+v.label)).join('<span class="sep">·</span>');
-function renderCredits(){
- const el=document.getElementById("cred"); if(!el) return;
- const by=AUTHOR.nameBy||AUTHOR.name;
- const who=AUTHOR.telegram&&AUTHOR.telegram.url?extLink(AUTHOR.telegram.url,by):esc(by);
- el.innerHTML=`<div>Life Planner · создано ${who}</div>${authorLinks().length?`<div style="margin-top:4px">${authorLinksHTML()}</div>`:""}`;
-}
 
 /* ═══════════ утилиты ═══════════ */
 const $=s=>document.querySelector(s);
@@ -514,6 +575,77 @@ function seed(opts){
   workNote:"Стабильная работа маркетологом — около 10 часов в неделю. Проект Sims и бустинг — около 2 часов в месяц и примерно 25 000 ₽. Профессиональная работа — максимум около 30 часов в неделю и не больше 6 часов тяжёлой работы в день. Английский, спорт, люди и обычная жизнь в эти часы не входят."};
 }
 
+/* щоденні звички — компактний трекер на головній: пошук роботи по буднях, англійська/книга щодня, тренування, харчування */
+function defaultHabits(){
+ return [
+  {id:"hb_search",name:"Пошук роботи",emoji:"🔍",days:"weekdays",sphereId:"money",archived:false},
+  {id:"hb_eng",name:"Англійська / книга",emoji:"📚",days:"all",sphereId:"growth",archived:false},
+  {id:"hb_train",name:"Тренування",emoji:"🏋️",days:"all",sphereId:"body",archived:false},
+  {id:"hb_food",name:"Правильне харчування",emoji:"🥗",days:"all",sphereId:"body",archived:false}
+ ];
+}
+/* чи стоїть звичка на сьогодні (і на дату dateStr загалом) — weekdays = пн–пт, all = щодня, або власний список днів [0..6] */
+function habitDue(h,dateStr){
+ if(h.archived) return false;
+ const dw=D(dateStr).getDay();
+ if(h.days==="weekdays") return dw>=1&&dw<=5;
+ if(Array.isArray(h.days)) return h.days.includes(dw);
+ return true;
+}
+/* рівень виконання звички за день: "full" — повна версія, "min" — мінімальна (теж рахується, це не провал), null — не відмічено */
+function habitLevel(h,dateStr){ const v=((S.habitLog||{})[dateStr]||{})[h.id]; return v==="min"?"min":(v?"full":null); }
+function habitDone(h,dateStr){ return !!habitLevel(h,dateStr); }
+/* тап по тому самому рівню знімає відмітку — щоб можна було передумати без зайвих кроків */
+function setHabit(id,dateStr,level){
+ S.habitLog=S.habitLog||{};
+ S.habitLog[dateStr]=S.habitLog[dateStr]||{};
+ if(S.habitLog[dateStr][id]===level) delete S.habitLog[dateStr][id];
+ else S.habitLog[dateStr][id]=level;
+ if(!Object.keys(S.habitLog[dateStr]).length) delete S.habitLog[dateStr];
+}
+/* ——— «12 тижнів»: метадані конкретного тижня циклу (результат + фокуси), ключ — номер 1..12 ——— */
+function weekMeta(n){
+ S.weeksMeta=S.weeksMeta||{};
+ if(!S.weeksMeta[n]||typeof S.weeksMeta[n]!=="object") S.weeksMeta[n]={outcome:"",focus:[],target:"",reflection:{a1:"",a2:"",a3:""}};
+ const m=S.weeksMeta[n];
+ /* «Орієнтир тижня» — заздалегідь бажаний результат (коротко, поруч із датами); «Результат тижня» (outcome) —
+    що реально відбулося, заповнюється в кінці тижня внизу сторінки. Це свідомо різні поля (Doc: не змішувати план і факт) */
+ if(typeof m.target!=="string") m.target="";
+ if(typeof m.outcome!=="string") m.outcome="";
+ if(!Array.isArray(m.focus)) m.focus=[];
+ if(!m.reflection||typeof m.reflection!=="object") m.reflection={a1:"",a2:"",a3:""};
+ ["a1","a2","a3"].forEach(k=>{ if(typeof m.reflection[k]!=="string") m.reflection[k]=""; });
+ return m;
+}
+function weekNStart(n){ return addDays(S.period.start,(n-1)*7); }
+function weekNEnd(n){ return addDays(weekNStart(n),6); }
+/* стан клітинки ритм-таблиці для звички h на конкретну дату: none|planned|done|missed.
+   Виконано завжди визначається фактичним логом звички. Якщо клітинку явно перевизначили через
+   status-popover (S.rhythmOverride) — цей ручний стан має пріоритет над розкладом за замовчуванням
+   (наприклад, день відпочинку можна позначити «не заплановано», а позапланову дію — «заплановано»/«не виконано»). */
+function cellState(h,dateStr){
+ if(habitLevel(h,dateStr)) return "done";
+ const ov=S.rhythmOverride&&S.rhythmOverride[h.id]&&S.rhythmOverride[h.id][dateStr];
+ if(ov) return ov;
+ if(!habitDue(h,dateStr)) return "none";
+ return dateStr<today()?"missed":"planned";
+}
+/* застосувати вибір зі status-popover: виконано керується звичним логом звичок,
+   решта трьох станів — ручним перевизначенням дня, яке живе окремо від розкладу за замовчуванням */
+function setCellState(hid,dateStr,state){
+ if(state==="done"){
+  setHabit(hid,dateStr,"full");
+  if(S.rhythmOverride&&S.rhythmOverride[hid]) delete S.rhythmOverride[hid][dateStr];
+  return;
+ }
+ setHabit(hid,dateStr,"");
+ S.rhythmOverride=S.rhythmOverride||{};
+ S.rhythmOverride[hid]=S.rhythmOverride[hid]||{};
+ const h=S.habits.find(x=>x.id===hid);
+ const natural=!habitDue(h,dateStr)?"none":(dateStr<today()?"missed":"planned");
+ if(state===natural) delete S.rhythmOverride[hid][dateStr];   /* співпадає зі стандартним розкладом — override не потрібен */
+ else S.rhythmOverride[hid][dateStr]=state;
+}
 function emptySeed(){
  const start=today(), end=addDays(start,180);
  const st={v:4,theme:"light",xp:0,name:"друже",period:{start,end},
@@ -522,6 +654,7 @@ function emptySeed(){
   hyps:[],journal:[],appliedPackets:[],journalUpgrade:true,resultUpgrade:true,regUpgrade:true,
   weekReviews:[],weekArchive:[],monthReviews:{},seenAch:[],
   lastSeenMonth:"",newWeekPending:false,monthPending:"",monthQueue:[],catchUp:false,firstWeek:true,
+  habits:defaultHabits(),habitLog:{},weeksMeta:{},rhythmOverride:{},dayChecks:{},
   workNote:"Тут можна описати своє навантаження: скільки годин на тиждень іде на роботу і що в ці години не входить."};
  const S0=S; S=st; st.months=buildMonths(start,end);
  st.months.forEach(m=>st.monthData[m.id]={theme:"",outcome:"",review:"",steps:[]});
@@ -534,7 +667,7 @@ const BACKUP_KEY="life_planner_pre_reset_backup";
 const IMPORT_BACKUP_KEY="life_planner_pre_import_backup";
 const SYNC_KEY="life_planner_github_sync";
 const LEGACY_KEYS=["lifeplanner_clean_2026","lifeplanner_v4","lifeplanner_v3_polina"];
-let S=null, TAB="home", MSEL=null;
+let S=null, TAB="notebook", MSEL=null;
 
 function normalize(d){
  /* базовая структура берётся из универсального пустого состояния, а не из демо-данных */
@@ -588,8 +721,8 @@ function normalize(d){
   g.milestones=objs(g.milestones); g.result=Object.assign({from:0,to:0,current:0,unit:""},obj(g.result));
   g.type=g.type||"result"; g.priority=Number(g.priority)||2; g.status=g.status||"active"; g.emoji=g.emoji||"🎯";
   return g;});
- d.week=obj(d.week); if(!d.week.start) d.week=Object.assign({},b.week,d.week); d.week.tasks=objs(d.week.tasks).map(t=>Object.assign({type:"binary",planned:1,completed:0,carried:0,xpGiven:false,easy:"",day:"",note:"",reason:"",reasons:[]},t));
- d.week.tasks.forEach(t=>{ if(!t.source||!t.source.kind) t.source={kind:t.metricId?"metric":"manual",id:t.metricId||"",goalId:t.goalId||""}; if(!t.reasons) t.reasons=[]; });
+ d.week=obj(d.week); if(!d.week.start) d.week=Object.assign({},b.week,d.week); d.week.tasks=objs(d.week.tasks).map(t=>Object.assign({type:"binary",planned:1,completed:0,carried:0,xpGiven:false,easy:"",day:"",note:"",reason:"",reasons:[],doneLevel:""},t));
+ d.week.tasks.forEach(t=>{ if(!t.source||!t.source.kind) t.source={kind:t.metricId?"metric":"manual",id:t.metricId||"",goalId:t.goalId||""}; if(!t.reasons) t.reasons=[]; if(!t.doneLevel&&t.done) t.doneLevel="full"; });
  d.week.mode=d.week.mode||"normal";
  d.week.review=d.week.review||{a1:"",a2:"",a3:""};
  d.hyps=(d.hyps||[]).map(h=>Object.assign({nextTest:"",hist:[]},h));
@@ -675,6 +808,66 @@ function normalize(d){
   }
   d.calendarUpgrade=true;
  }
+ /* ——— разовий перехід на новий 12-тижневий цикл (21.09.2026–13.12.2026, точно 12 тижнів по 7 днів), за явним
+    запитом користувачки — «12-тижневий блокнот» замінює попередню концепцію. 14–19.12 свідомо лишаються поза
+    циклом — це вікно для окремого майбутнього екрана підсумку/перезавантаження, а не 13-й тиждень.
+    Спрацьовує рівно один раз. Стара ціль/метрики/історія не видаляються — лише перерозподіляються по нових місяцях,
+    так само, як штатний перехід на календарні місяці вище. Поточний незавершений тиждень зберігається в архіві. */
+ if(!d.cycleResetSep2026){
+  const NS="2026-09-21", NE="2026-12-13";
+  if(d.period.start!==NS||d.period.end!==NE){
+   const S0=S; S=d;
+   const fresh=buildMonths(NS,NE);
+   const map={};
+   d.months.forEach(om=>{ const t=fresh.find(x=>om.start>=x.start&&om.start<=x.end)||fresh.find(x=>x.start>=om.start&&x.start<=om.end); if(t) map[om.id]=t.id; });
+   const nd={}; fresh.forEach(m=>nd[m.id]={theme:"",outcome:"",review:"",steps:[]});
+   d.months.forEach(om=>{ const to=map[om.id], od=d.monthData[om.id]; if(!to||!od) return;
+    const t=nd[to];
+    const join=(a,b2)=>!a?b2:(!b2?a:(a===b2?a:a+" · "+b2));
+    t.theme=join(t.theme,od.theme||""); t.outcome=join(t.outcome,od.outcome||""); t.review=join(t.review,od.review||"");
+    t.steps=t.steps.concat(od.steps||[]);
+   });
+   d.goals.forEach(g=>(g.metrics||[]).forEach(m=>{
+    const np={}; fresh.forEach(x=>np[x.id]=0);
+    d.months.forEach(om=>{ const to=map[om.id]; if(to) np[to]=(np[to]||0)+(Number((m.plan||{})[om.id])||0); });
+    m.plan=np;
+   }));
+   const nr={};
+   Object.keys(d.monthReviews||{}).forEach(k=>{ const to=map[k]||k; const old=d.monthReviews[k];
+    if(!nr[to]) nr[to]=old; else { ["a1","a2","a3","a4"].forEach(f=>{ if(old[f]) nr[to][f]=nr[to][f]?nr[to][f]+" · "+old[f]:old[f]; }); if(old.status==="done") nr[to].status="done"; }
+   });
+   d.monthReviews=nr;
+   d.journal.forEach(e=>{ const byDate=fresh.find(x=>e.date>=x.start&&e.date<=x.end); e.monthId=byDate?byDate.id:e.monthId; });
+   d.monthQueue=(d.monthQueue||[]).map(x=>map[x]||x).filter(x=>fresh.some(m=>m.id===x));
+   d.monthPending=map[d.monthPending]||"";
+   d.lastSeenMonth=map[d.lastSeenMonth]||"";
+   if(d.lastAcknowledgedMonth) d.lastAcknowledgedMonth=map[d.lastAcknowledgedMonth]||"";
+   if(d.skippedM) Object.keys(d.skippedM).forEach(k=>{
+    const v=d.skippedM[k];
+    if(typeof v==="string"){ if(map[v]) d.skippedM[k]=map[v]; return; }
+    if(v&&typeof v==="object"){ const nv={}; Object.keys(v).forEach(mo=>{ if(v[mo]) nv[map[mo]||mo]=true; }); d.skippedM[k]=nv; }
+   });
+   d.months=fresh; d.monthData=nd;
+   d.period={start:NS,end:NE};
+   /* поточний тиждень старого циклу — в архів, нічого не втрачаємо, але новий цикл стартує без боргів */
+   if(d.week&&(d.week.tasks.length||d.week.focus||d.week.challenge)){
+    const wst=mondayOf(d.week.start);
+    const snap={id:uid(),start:wst,end:addDays(wst,6),focus:d.week.focus||"",challenge:d.week.challenge||"",
+     mode:d.week.mode||"normal",status:"done",
+     tasks:d.week.tasks.map(x=>{
+      const gg=d.goals.find(y=>y.id===x.goalId), mm2=gg&&x.metricId?(gg.metrics||[]).find(y=>y.id===x.metricId):null;
+      return Object.assign(JSON.parse(JSON.stringify(x)),{goalName:gg?gg.name:"",goalEmoji:gg?gg.emoji:"",metricName:mm2?mm2.name:"",metricUnit:mm2?(mm2.unit||""):"",
+       status:x.done?"done":(x.completed>0?"partial":"open")});}),
+     review:Object.assign({a1:"",a2:"",a3:""},d.week.review||{}),
+     reviewStatus:"pending"};
+    if(!d.weekArchive.some(w=>w.start===wst)) d.weekArchive.push(snap);
+   }
+   d.week={start:NS,focus:"",challenge:"",mode:"normal",review:{a1:"",a2:"",a3:""},tasks:[]};
+   d.missedWeeks=0; d.newWeekPending=false;
+   S=S0;
+  }
+  d.cycleResetSep2026=true;
+ }
  /* ——— переход на показатели результата ——— */
  d.goals.forEach(g=>{ g.results=g.results||[]; });
  /* legacy-результат превращается в полноценный показатель — даже если общий флаг уже поднят */
@@ -717,6 +910,14 @@ function normalize(d){
   }));
   d.regUpgrade=true;
  }
+ /* щоденні звички: якщо їх не було зовсім — заводимо стандартний набір один раз, далі не чіпаємо */
+ if(!Array.isArray(d.habits)) d.habits=defaultHabits();
+ d.habits=d.habits.filter(h=>h&&typeof h==="object").map(h=>Object.assign({id:uid(),name:"Звичка",emoji:"✅",days:"all",sphereId:"",archived:false},h));
+ d.habitLog=obj(d.habitLog);
+ Object.keys(d.habitLog).forEach(k=>{ d.habitLog[k]=obj(d.habitLog[k]); });
+ /* відмітки виконання «Ритму дня» — окремо по кожній даті, ключ дати -> {ідентифікатор пункту: true} */
+ d.dayChecks=obj(d.dayChecks);
+ Object.keys(d.dayChecks).forEach(k=>{ d.dayChecks[k]=obj(d.dayChecks[k]); });
  jTouch();                                    /* журнал могли изменить миграции — сбрасываем кэш фактов */
  return d;
 }
@@ -902,12 +1103,12 @@ function applyImportedState(parsed){
  const keep=S, keepTab=TAB, keepSel=MSEL;
  try{
   S=cand; MSEL=null;
-  ["home","week","goals","path","wrev","mrev","ach","hyp","hist"].forEach(t=>{TAB=t;viewFor(t)();});
+  ["notebook","home","week","goals","path","wrev","mrev","ach","hyp","hist"].forEach(t=>{TAB=t;viewFor(t)();});
  }catch(e){ S=keep; TAB=keepTab; MSEL=keepSel; return {ok:false,error:"файл не подошёл: планер не строится"}; }
  S=keep; TAB=keepTab; MSEL=keepSel;
  const bk=writePreImportBackup();
  if(!bk.ok) return {ok:false,error:"Не удалось создать резервную копию текущего планера. Импорт отменён."};
- S=cand; window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="home";
+ S=cand; window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="notebook";
  checkPeriods(); save(); render();
  return {ok:true};
 }
@@ -946,11 +1147,11 @@ function saveBackupNow(){
 function renderSaveWarn(){
  const el=document.getElementById("swarn"); if(!el) return;
  el.innerHTML=SAVE_FAILED?`<div class="swarn-in">
-  <div><div class="swarn-t">⚠️ Изменения сейчас не сохраняются на этом устройстве</div>
-   <div class="swarn-s">Планер работает, но записать данные в браузер не получается. Не закрывай вкладку: последние изменения могут потеряться. Сохрани копию файлом — она соберётся из того, что открыто прямо сейчас.</div></div>
-  <button class="btn" id="swarnBtn">💾 Зберегти резервную копию</button></div>`:"";
+  <div><div class="swarn-t">⚠️ Зміни зараз не зберігаються на цьому пристрої</div>
+   <div class="swarn-s">Планер працює, але записати дані в браузер не вдається. Не закривай вкладку: останні зміни можуть загубитися. Збережи копію файлом — вона збереться з того, що відкрито прямо зараз.</div></div>
+  <button class="btn" id="swarnBtn">💾 Зберегти резервну копію</button></div>`:"";
  const b=document.getElementById("swarnBtn");
- if(b) b.onclick=()=>{ saveBackupNow(); toast("Копия выгружена файлом"); };
+ if(b) b.onclick=()=>{ saveBackupNow(); toast("Копію вивантажено файлом"); };
 }
 function commit(msg){ jTouch(); const ok=save(); checkAch(); render();
  /* если записать не удалось, честное сообщение заменяет любое подтверждение, показанное раньше */
@@ -1097,7 +1298,12 @@ function factRelink(sourceId,goalId,metricId){
   if(!metricId) e.kind="note"; n++; } });
  jTouch(); return n;
 }
-function daysLeft(){ return Math.max(0,Math.round((new Date(S.period.end)-new Date())/864e5)); }
+function daysLeft(){ return Math.max(0,daysBetween(today(),S.period.end)); }
+/* «День X із 90», «Тиждень Y із 13» — рахуємо від реального періоду, а не від зашитої довжини циклу */
+function totalDaysInPeriod(){ return daysBetween(S.period.start,S.period.end)+1; }
+function dayOfPeriod(){ return Math.max(1,daysBetween(S.period.start,today())+1); }
+function totalWeeksInPeriod(){ return Math.ceil(totalDaysInPeriod()/7); }
+function weekOfPeriod(){ return Math.max(1,Math.floor(daysBetween(S.period.start,mondayOf(S.week.start))/7)+1); }
 function periodPct(){ const a=new Date(S.period.start),b=new Date(S.period.end),n=new Date(); return clamp(Math.round((n-a)/(b-a)*100),0,100); }
 function resultPct(g){
  if(g.type==="project") return g.milestones.length?Math.round(g.milestones.filter(x=>x.done).length/g.milestones.length*100):0;
@@ -1193,9 +1399,9 @@ function hist(o){ return jAdd(Object.assign({kind:"note"},o)); }
 
 /* ═══════════ ПОКАЗАТЕЛИ РЕЗУЛЬТАТА ═══════════
    Источник истины — журнал: события вида "result". Текущее значение нигде не дублируется. */
-const RTYPE={current_state:"📍 Есть число прямо сейчас",cumulative_period:"📈 Накапливается за период",period_value:"📊 Считается за каждый период"};
-const RRULE={higher_better:"Больше — лучше",lower_better:"Меньше — лучше",target_value:"Прийти к значению",range:"Держаться в диапазоне"};
-const RFREQ={weekly:"Каждую неделю",monthly:"Раз в месяц",manual:"Когда захочу"};
+const RTYPE={current_state:"📍 Є число прямо зараз",cumulative_period:"📈 Накопичується за період",period_value:"📊 Рахується за кожен період"};
+const RRULE={higher_better:"Більше — краще",lower_better:"Менше — краще",target_value:"Прийти до значення",range:"Триматись у діапазоні"};
+const RFREQ={weekly:"Щотижня",monthly:"Раз на місяць",manual:"Коли захочу"};
 /* показатель результата из «сейчас → хочу прийти к»: одна точка входа для всех ручных путей */
 function makePrimaryResult(g,from,to,unit,name){
  const f=Number(from)||0, t=Number(to)||0;
@@ -1481,6 +1687,31 @@ function undecline(kind,id){ if(S.declined) delete S.declined[kind+"|"+id]; }
 function sourceBusy(kind,id){ return S.week.tasks.some(t=>{const s2=taskSource(t);return s2.kind===kind&&s2.id===id&&!t.done;}); }
 function sourceDone(kind,id){ return S.week.tasks.some(t=>{const s2=taskSource(t);return s2.kind===kind&&s2.id===id&&t.done;}); }
 
+/* ——— full/minimum для дій тижня (як у звичок): не success/fail, а дві чесні версії ——— */
+function taskEffLevel(t){ if(!t.done) return ""; return t.doneLevel==="min"?"min":"full"; }
+function setTaskLevel(t,level){
+ if(!t) return;
+ const cur=taskEffLevel(t);
+ if(cur===level){                              // повторний тап знімає відмітку — можна передумати
+  t.done=false; t.doneLevel=""; t.completed=0;
+  if(t.metricId) factUndoBySource(t.id,t.metricId);
+  else { for(let i=S.journal.length-1;i>=0;i--){ if(S.journal[i].sourceId===t.id&&S.journal[i].kind==="note"){S.journal.splice(i,1);jTouch();break;} } }
+  closeSource(t,false);
+  return;
+ }
+ const wasDone=t.done;
+ t.doneLevel=level; t.done=true;
+ if(!wasDone){
+  t.completed=t.planned;
+  const xp=t.challenge?5:t.imp?3:1;
+  if(!t.xpGiven){ addXP(xp); t.xpGiven=true; }
+  if(t.metricId) factAdd(t.goalId,t.metricId,1,{type:"task",id:t.id},{title:t.title,xp});
+  else jAdd({goalId:t.goalId,title:t.title,xp,sourceType:"task",sourceId:t.id});
+  closeSource(t,true);
+ }
+ okToast(level==="min"?"🌱 Мінімум зараховано — це теж прогрес":(t.challenge?"🔥 Головний виклик зроблено!":"✨ Відмічено"));
+}
+
 /* ——— календарь: приложение само знает дату ——— */
 function periodState(){ const n=today();
  if(n<S.period.start) return "before";
@@ -1724,39 +1955,76 @@ function checkAch(){
 }
 
 /* ═══════════ навигация ═══════════ */
-const NAV=[["home","🏠","Головна"],["path","🗺","Мій шлях"],["goals","🎯","Цілі"],["week","📅","Цей тиждень"],
- ["hist","✨","Історія"],["hyp","🧪","Гіпотези"],["wrev","💭","Підсумки тижня"],["mrev","🔎","Підсумки місяця"],["ach","🏅","Досягнення"]];
-const BOT=["home","path","goals","week","more"];
+/* 5 розділів верхнього рівня замість 9: споріднені екрани згруповані, перемикаються сегментним контролом усередині сторінки */
+/* за явним запитом користувачки глобальна навігація звужена до 3 пунктів: 12 тижнів / Цілі / Прогрес.
+   «Сьогодні» і старий «Тиждень»-візард більше не є окремими вкладками — їхній функціонал переїхав
+   у сторінку «12 тижнів» (системні картки-нагадування) або лишився доступним по прямому посиланню
+   (керування завданнями тижня). «Мій шлях» (місячна матриця метрик) переїхав під-вкладкою в «Прогрес» —
+   дані нікуди не зникли, просто більше не займає окремий глобальний таб. */
+const NAVG=[
+ {k:"notebook",e:"📓",l:"12 тижнів",tabs:["notebook"]},
+ {k:"goals",e:"🎯",l:"Цілі",tabs:["goals"]},
+ {k:"progress",e:"🔎",l:"Прогрес",tabs:["wrev","mrev","hyp","hist","path"]}
+];
+/* реальна довжина періоду замість зашитого «90 днів» — цикл може бути будь-якої довжини */
+function periodLenLabel(){ const d=daysBetween(S.period.start,S.period.end)+1; return `${d} дн. циклу`; }
+const SUBLBL={week:"Тиждень",wrev:"Тиждень",mrev:"Місяць",hyp:"Гіпотези",hist:"Історія",path:"Мій шлях"};
+function groupOf(tab){ return NAVG.find(g=>g.tabs.includes(tab))||NAVG[0]; }
 function renderNav(){
- $("#tabs").innerHTML=NAV.map(([k,e,l])=>`<button class="${TAB===k?"on":""}" data-nav="${k}">${e} ${l}</button>`).join("");
- $("#bnav").innerHTML=BOT.map(k=>{
-  if(k==="more") return `<button class="${NAV.slice(4).some(n=>n[0]===TAB)?"on":""}" data-nav="more"><span class="e">⋯</span>Ще</button>`;
-  const n=NAV.find(x=>x[0]===k); return `<button class="${TAB===k?"on":""}" data-nav="${k}"><span class="e">${n[1]}</span>${n[2].replace("Цей ","")}</button>`;
- }).join("");
+ const cur=groupOf(TAB).k;
+ const html=NAVG.map(g=>`<button class="${cur===g.k?"on":""}" data-nav="${g.k}"><span class="e">${g.e}</span> ${g.l}</button>`).join("");
+ $("#tabs").innerHTML=html;
+ $("#bnav").innerHTML=NAVG.map(g=>`<button class="${cur===g.k?"on":""}" data-nav="${g.k}"><span class="e">${g.e}</span>${g.l}</button>`).join("");
  document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{
-  if(b.dataset.nav==="more"){ moreSheet(); return; }
-  TAB=b.dataset.nav; render(); window.scrollTo({top:0});
+  const g=NAVG.find(x=>x.k===b.dataset.nav);
+  /* важливо: перевіряємо, чи TAB справді входить у tabs цієї групи, а не покладаємось на groupOf() —
+     для «сирітських» табів (напр. «week», куди веде посилання «Керувати завданнями тижня», але яких
+     більше немає в жодній групі NAVG) groupOf() підставляє групу-заглушку notebook, і порівняння ключів
+     групи хибно вважало б, що ми «вже тут», через що клік по пілюлі нічого не робив і застрягав */
+  TAB=g.tabs.includes(TAB)?TAB:g.tabs[0];
+  render(); window.scrollTo({top:0});
  });
 }
-function moreSheet(){
- modal({title:"Усі розділи",body:NAV.map(([k,e,l])=>`<button class="btn o wide" style="justify-content:flex-start;margin-bottom:10px" data-go="${k}">${e} ${l}</button>`).join(""),
-  actions:[{t:"Закрити",c:"g",fn:closeModal}]});
- document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{TAB=b.dataset.go;closeModal();render();window.scrollTo({top:0});});
+/* маленький перемикач під-вкладок усередині групи («Тиждень / Період» тощо → «Тиждень / Місяць / Гіпотези / Історія / Мій шлях»).
+   Геймификацію (рівень + вкладка «Досягнення») прибрано за явним проханням користувачки — важко відслідковувати,
+   не потрібна. Дані рівня/XP і сама функція vAch() лишились у коді недоторканими, просто ніде більше не показуються. */
+function subNavHTML(tab){
+ const g=groupOf(tab);
+ if(g.k==="progress"){
+  return `<div class="seg">${["wrev","mrev","hyp","hist","path"].map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${SUBLBL[t]||t}</button>`).join("")}</div>`;
+ }
+ if(g.tabs.length<2) return "";
+ return `<div class="seg">${g.tabs.map(t=>`<button class="${TAB===t?"on":""}" data-subnav="${t}">${t==="path"?periodLenLabel():(SUBLBL[t]||t)}</button>`).join("")}</div>`;
 }
 /* яка функція малює екран — потрібна і для відмальовування, і для пробної збірки при імпорті */
-function viewFor(tab){ return {home:vHome,path:vPath,goals:vGoals,week:vWeek,hist:vHist,hyp:vHyp,wrev:vWRev,mrev:vMRev,ach:vAch}[tab]||vHome; }
+function viewFor(tab){ return {notebook:vNotebook,home:vHome,path:vPath,goals:vGoals,week:vWeek,hist:vHist,hyp:vHyp,wrev:vWRev,mrev:vMRev,ach:vAch}[tab]||vNotebook; }
 function render(){
  jTouch();
  renderSaveWarn();
  document.documentElement.setAttribute("data-t",S.theme==="dark"?"dark":"light");
- $("#lvlTxt").textContent=`${lvlPct()} / 100`;
- $("#lvlBtn").title=`Рівень ${level()}`;
  $("#thBtn").textContent=S.theme==="dark"?"☀️":"🌙";
  renderNav();
  const v=viewFor(TAB);
- $("#view").innerHTML=v();
+ $("#view").innerHTML=subNavHTML(TAB)+v();
+ document.querySelectorAll("[data-subnav]").forEach(b=>b.onclick=()=>{TAB=b.dataset.subnav;render();window.scrollTo({top:0});});
  bind($("#view"));
+ requestAnimationFrame(syncSchedHeight);
 }
+/* «Ритм дня» має бути рівно такої ж висоти, як «Ритм тижня» поруч — кількість звичок і, відповідно,
+   висота таблиці ритму можуть змінюватись, тому висоту підганяємо в JS після кожного рендера,
+   а не фіксованим числом у CSS (яке одразу розʼїжджається, щойно звичок стає більше чи менше). */
+function syncSchedHeight(){
+ document.querySelectorAll(".rhy-row").forEach(row=>{
+  const sc=row.querySelector(".sched-card");
+  const rt=row.querySelector(":scope>.card:first-child");
+  if(!sc||!rt||sc===rt) return;
+  sc.style.height="";
+  const stacked=getComputedStyle(row).flexDirection==="column";
+  if(stacked) return;
+  sc.style.height=rt.getBoundingClientRect().height+"px";
+ });
+}
+window.addEventListener("resize",()=>{ clearTimeout(window.__schedRT); window.__schedRT=setTimeout(syncSchedHeight,120); });
 
 /* ═══════════ 🏠 головна ═══════════ */
 /* спокійний спарклайн: тренд, а не аналітика */
@@ -1830,9 +2098,9 @@ function newWeekCard(){
  if(!S.newWeekPending) return "";
  const left=S.week.tasks.filter(t=>!t.done).length;
  return `<div class="card" style="background:var(--acc-soft)">
-  <div class="h-sec" style="margin-bottom:6px">✨ Почався новий тиждень</div>
-  <div class="sub">Минулий тиждень (${weekLabel(mondayOf(S.week.start))}) завершено. Я подивилась на план поточного місяця, на фактично виконаний обсяг, на те, що залишилось, на ${left} незавершених дій та на активні цілі — і зібрала пропозицію на новий тиждень.</div>
-  ${S.missedWeeks>0?`<div class="hint warn" style="margin-top:12px">Пропущено тижнів: ${S.missedWeeks}. Вони збережуться як «тиждень не вівся», старий хвіст переносити не буду.</div>`:""}
+  <div class="h-sec" style="margin-bottom:6px">✨ Новий тиждень</div>
+  <div class="sub">${weekLabel(mondayOf(S.week.start))} завершено${left?` · ${left} дій лишилось невиконаними`:""}. Готова пропозиція плану на цей тиждень.</div>
+  ${S.missedWeeks>0?`<div class="hint warn" style="margin-top:12px">Пропущено тижнів: ${S.missedWeeks} — рахую їх як «не вівся», старих хвостів не переношу.</div>`:""}
   <button class="btn" style="margin-top:16px" data-a="startweek">✨ Переглянути план тижня</button>
  </div>`;
 }
@@ -1870,43 +2138,247 @@ function strainCard(){
   </div>
  </div>`;
 }
+/* ——— «Спростити день»: без вини, без видалення, з можливістю Undo ——— */
+function simplifyCandidates(){
+ const td=today();
+ const habits=(S.habits||[]).filter(h=>habitDue(h,td)&&!habitLevel(h,td));
+ const tasks=S.week.tasks.filter(t=>t.type==="binary"&&t.easy&&!t.done);
+ return {habits,tasks};
+}
+function simplifyDay(){
+ const {habits,tasks}=simplifyCandidates();
+ if(!habits.length&&!tasks.length){ toast("Сьогодні і так усе просто 🌿"); return; }
+ const td=today();
+ modal({title:"🌿 Спростити день",body:`
+  <div class="sub" style="margin-bottom:14px">Замінимо ще не відмічені пункти на мінімальну версію. Нічого не видаляється — дію завжди можна повернути назад.</div>
+  ${habits.length?`<div class="small" style="margin-bottom:6px">Звички → мінімум</div>
+   ${habits.map(h=>`<div class="rowj" style="padding:5px 0"><span style="font-size:15px">${h.emoji} ${esc(h.name)}</span><span class="pill ok">🌱 мінімум</span></div>`).join("")}`:""}
+  ${tasks.length?`<div class="small" style="margin:${habits.length?"14px":"0"} 0 6px">Дії тижня → мінімум</div>
+   ${tasks.map(t=>`<div class="rowj" style="padding:5px 0"><span style="font-size:15px">${esc(t.title)}</span><span class="pill ok">🌱 ${esc(t.easy)}</span></div>`).join("")}`:""}`,
+  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Спростити день",fn:()=>{
+   closeModal();
+   habits.forEach(h=>setHabit(h.id,td,"min"));
+   tasks.forEach(t=>setTaskLevel(t,"min"));
+   save(); render();
+   toastUndo("День спрощено — залишились лише мінімуми",()=>{
+    habits.forEach(h=>setHabit(h.id,td,"min"));    // повторний виклик знімає позначку — чесний відкат
+    tasks.forEach(t=>setTaskLevel(t,"min"));
+    commit("Повернули");
+   });
+  }}]});
+}
+/* ═══════════ 📓 12 тижнів — цифровий блокнот ═══════════ */
+/* орієнтовний розпорядок дня — один шаблон на всі дні, але відмітки виконання («Ритм дня» справа
+   від «Ритму тижня») зберігаються окремо для кожної конкретної дати в S.dayChecks[дата][id] */
+const DAY_SCHEDULE=[
+ {id:"wake",t:"07:00",a:"Підйом"},
+ {id:"morning",t:"07:00–07:45",a:"Спокійний ранок: вода, кава, легкий перекус за потреби, збори"},
+ {id:"sport",t:"08:00–09:00",a:"🏋️ Спорт — головний обов'язковий блок дня"},
+ {id:"hygiene",t:"09:00–10:30",a:"Душ + догляд + сніданок + спокійно зібратись"},
+ {id:"work1",t:"10:30–13:00",a:"💻 Робота / пошук роботи / кар'єрні задачі"},
+ {id:"lunch",t:"13:00–13:30",a:"🍽 Обід + повна перерва від компʼютера"},
+ {id:"walk",t:"13:30–14:00",a:"Невелика прогулянка / кава / відпочинок / побутові дрібниці"},
+ {id:"work2",t:"14:00–17:30",a:"💻 Кар'єрні задачі + блог"},
+ {id:"dinner",t:"17:30–18:30",a:"🍽 Вечеря + відпочинок"},
+ {id:"personal",t:"18:30–20:30",a:"❤️ Особистий час / хлопець / прогулянка / свої справи"},
+ {id:"english",t:"20:30–21:00",a:"🇬🇧 Англійська"},
+ {id:"stretch",t:"21:00–21:20",a:"🤸 Легка розминка / розтяжка / mobility"},
+ {id:"book",t:"21:20–22:00",a:"📚 Книга"},
+ {id:"wind",t:"22:00+",a:"Спокійне завершення дня, без роботи"},
+];
+function dayCheckMap(dateStr){ return (S.dayChecks&&S.dayChecks[dateStr])||{}; }
+let NBWEEK=null, SCHEDDAY=null;
+function vNotebook(){
+ const curWeekN=Math.min(12,Math.max(1,weekOfPeriod()));
+ if(!NBWEEK) NBWEEK=curWeekN;
+ const n=NBWEEK;
+ const wStart=weekNStart(n);
+ const days=[0,1,2,3,4,5,6].map(i=>addDays(wStart,i));
+ const td=today();
+ /* обраний для «Ритму дня» день завжди має бути видимим стовпцем поточного тижня —
+    якщо його там немає (перший показ або перехід на інший тиждень), підставляємо сьогодні,
+    а якщо і сьогодні поза цим тижнем — понеділок обраного тижня */
+ if(!SCHEDDAY||!days.includes(SCHEDDAY)) SCHEDDAY=days.includes(td)?td:days[0];
+ const meta=weekMeta(n);
+ const rows=(S.habits||[]).filter(h=>!h.archived);
+ const alerts=S.goals.filter(needsHypothesis);
+
+ /* компактна смуга «12 тижнів» + всі 12 tabs в один рядок (замість великого заголовка й окремого ряду табів) */
+ const barHTML=`<div class="nbbar">
+  <div class="nbbar-label">📓 12 тижнів</div>
+  <div class="nbtabs" role="tablist" aria-label="Тижні циклу">
+   ${Array.from({length:12},(_,i)=>i+1).map(w=>{
+     const isCur=w===curWeekN, isSel=w===n;
+     return `<button role="tab" aria-selected="${isSel}" class="nbtab ${isSel?"on":""} ${isCur?"cur":""}" data-a="nbweek" data-id="${w}" title="${esc(weekLabel(weekNStart(w)))}">${w}</button>`;
+   }).join("")}
+  </div>
+  ${n!==curWeekN?`<button class="btn o s" data-a="nbweek" data-id="${curWeekN}">Поточний тиждень</button>`:""}
+ </div>`;
+
+ /* заголовок вибраного тижня + окремий компактний «Орієнтир» (план), який ніколи не плутається з фактичним «Результатом» внизу */
+ const weekHeadHTML=`<div class="rowj" style="margin:0 0 16px;flex-wrap:wrap;gap:10px 16px">
+  <div class="sub" style="margin:0">Тиждень ${n} · ${weekLabel(wStart)}${n===curWeekN?` <span class="pill acc">поточний</span>`:""}</div>
+  <button type="button" class="small" style="background:none;border:0;color:var(--acc);cursor:pointer;padding:0;font-size:13.5px" data-a="nbtarget" data-id="${n}">
+   ${meta.target?`Орієнтир: ${esc(meta.target)}`:"+ Додати орієнтир тижня"}
+  </button>
+ </div>`;
+
+ const STATE_ICON={done:"✓",missed:"×",none:"–",planned:""};
+ const rtable=`<div class="card" style="padding:18px 10px 20px 26px">
+  <div class="rowj" style="padding:0 8px 10px 0"><div class="h-sec" style="margin:0">Ритм тижня</div><button class="btn o s" data-a="habitnew">➕ Напрям</button></div>
+  <div class="rtable-wrap">
+   <table class="rtable">
+    <thead><tr>
+     <th class="rrow-h"></th>
+     ${days.map((d,i)=>`<th><button type="button" class="rdaybtn ${d===SCHEDDAY?"sel":""} ${d===td?"cur":""}" data-a="schedday" data-id="${d}" title="Показати розклад цього дня">${DAYS[i]}<span>${+d.split("-")[2]}</span></button></th>`).join("")}
+     <th class="rsum-h">За тиждень</th>
+    </tr></thead>
+    <tbody>
+     ${rows.map(h=>{
+       let doneN=0,dueN=0;
+       const cells=days.map(d=>{
+         const st=cellState(h,d);
+         if(st!=="none") dueN++; if(st==="done") doneN++;
+         const label=`${h.name}, ${dowOf(d)} ${dfmt(d)}, ${st==="none"?"не заплановано":st==="done"?"виконано":st==="missed"?"не виконано":"заплановано"}`;
+         return `<td class="${d===td?"rtoday":""}"><button class="rcell ${st}" data-a="rcell" data-id="${h.id}" data-d="${d}" aria-label="${esc(label)}" title="${esc(label)}">${STATE_ICON[st]}</button></td>`;
+       }).join("");
+       return `<tr><td class="rrow-h"><span class="rrow-h-in">${h.emoji} ${esc(h.name)}<button class="ico" data-a="habitedit" data-id="${h.id}" title="Змінити">✏️</button></span></td>
+        ${cells}
+        <td class="rsum">${dueN?`${doneN}/${dueN}`:`<span class="small">не заплановано</span>`}</td></tr>`;
+     }).join("")||`<tr><td colspan="9"><div class="emptyb">Напрямів ще немає — додай перший ➕</div></td></tr>`}
+    </tbody>
+   </table>
+  </div>
+ </div>`;
+
+ /* «Ритм дня» — розпорядок для конкретного обраного дня (SCHEDDAY), не для «сьогодні» взагалі:
+    клік на день у «Ритмі тижня» вище перемикає, який день тут показано. Відмітки виконання —
+    окремі для кожної дати (dayCheckMap), тож перемикання між днями їх не скидає. */
+ const schedChecks=dayCheckMap(SCHEDDAY);
+ const schedDoneN=DAY_SCHEDULE.filter(it=>schedChecks[it.id]).length;
+ const schedDayLabel=`${dowOf(SCHEDDAY).replace(/^./,c=>c.toUpperCase())}, ${dfmt(SCHEDDAY)}`;
+ const scheduleHTML=`<div class="card sched-card">
+  <div class="rowj" style="margin-bottom:2px">
+   <div class="h-sec" style="margin:0;font-size:16px">🕒 Ритм дня</div>
+   <span class="small" style="white-space:nowrap">${schedDoneN}/${DAY_SCHEDULE.length}</span>
+  </div>
+  <div class="small" style="margin-bottom:8px">${esc(schedDayLabel)}${SCHEDDAY===td?` <span class="pill acc" style="padding:2px 9px;font-size:11.5px">сьогодні</span>`:""}</div>
+  <div class="sched-list">
+   ${DAY_SCHEDULE.map(it=>{
+     const done=!!schedChecks[it.id];
+     return `<label class="sched-row ${done?"done":""}">
+      <input type="checkbox" class="chk" data-a="schedchk" data-id="${it.id}" ${done?"checked":""}>
+      <span class="sched-t">${esc(it.t)}</span>
+      <span class="sched-a">${esc(it.a)}</span>
+     </label>`;
+   }).join("")}
+  </div>
+ </div>`;
+
+ const rhyRowHTML=`<div class="rhy-row">${rtable}${scheduleHTML}</div>`;
+
+ const focusHTML=`<div class="card">
+  <div class="rowj"><div class="h-sec" style="margin:0">🎯 Фокус тижня</div><button class="ico" data-a="nbfocusnew" data-id="${n}" title="Додати фокус">➕</button></div>
+  <div style="margin-top:8px">
+   ${meta.focus.length?meta.focus.map(f=>`<label class="row" style="padding:8px 0;gap:10px;align-items:flex-start">
+     <input type="checkbox" class="chk" data-a="nbfocustoggle" data-id="${f.id}" data-w="${n}" ${f.done?"checked":""}>
+     <span style="flex:1;font-size:15.5px;${f.done?"color:var(--ink3);text-decoration:line-through":""}">${esc(f.text)}</span>
+     <button class="ico" data-a="nbfocusdel" data-id="${f.id}" data-w="${n}">🗑</button>
+    </label>`).join(""):`<div class="emptyb">На цей тиждень ще немає фокусів — додай ➕</div>`}
+  </div>
+  <button class="btn o s" style="margin-top:14px;width:100%" data-a="tab" data-id="week">📋 Керувати завданнями тижня →</button>
+ </div>`;
+
+ /* внизу — те, що склалось насправді: фактичний результат + короткий підсумок (3 питання), а не заздалегідь написаний план */
+ const r=meta.reflection;
+ const resultHTML=`<div class="card">
+  <div class="rowj"><div class="h-sec" style="margin:0">Результат тижня</div><button class="ico" data-a="nboutcome" data-id="${n}" title="Змінити">✏️</button></div>
+  <div style="margin-top:8px;font-size:16px;line-height:1.5">${meta.outcome?esc(meta.outcome):`<span class="small">Ще не заповнено — що реально вийшло цього тижня?</span>`}</div>
+  <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+   <div class="rowj"><span class="small" style="font-weight:600;color:var(--ink2)">Підсумок тижня</span><button class="ico" data-a="nbreflect" data-id="${n}" title="Заповнити">✏️</button></div>
+   ${r.a1||r.a2||r.a3?`<div class="small" style="margin-top:8px"><b>Спрацювало:</b> ${esc(r.a1)||"—"}</div>
+    <div class="small" style="margin-top:4px"><b>Заважало:</b> ${esc(r.a2)||"—"}</div>
+    <div class="small" style="margin-top:4px"><b>Змінити:</b> ${esc(r.a3)||"—"}</div>`
+   :`<div class="small" style="margin-top:6px">Що спрацювало, що заважало, що змінити наступного тижня</div>`}
+  </div>
+ </div>`;
+
+ /* системні нагадування (новий тиждень/місяць, підсумки на розгляді, гіпотези) — раніше жили на екрані «Сьогодні»,
+    якого більше немає окремим табом; показуємо їх зверху notebook-сторінки, щоб нічого не загубилось */
+ const sysCards=`${periodCard()}${newWeekCard()}${newMonthCard()}${pendingReviewCards()}
+  ${alerts.length?`<div class="card" style="background:var(--warn-soft)">
+    <div class="h-sec" style="margin-bottom:8px">🧪 Варто перевірити гіпотезу</div>
+    ${alerts.slice(0,2).map(g=>`<div style="margin-bottom:14px">
+      <div style="font-size:16px">${g.emoji} ${esc(g.name)}</div>
+      <div class="small" style="margin-top:4px">Схоже, справа може бути не в дисципліні. План за діями виконується (${actionPct(g)}%), а результат майже не змінюється (${resultPct(g)}%).</div>
+      <div class="row wr" style="gap:8px;margin-top:10px">
+       <button class="btn s" data-a="hypofgoal" data-id="${g.id}">🧪 Переглянути гіпотезу</button>
+       <button class="btn o s" data-a="aigoal" data-id="${g.id}">✨ Розібрати з ШІ</button>
+      </div>
+    </div>`).join("")}
+   </div>`:""}
+  ${strainCard()}`;
+
+ /* «Ритм тижня» — головний робочий блок, тому має бути видно одразу, без прокрутки повз системні нагадування.
+    Тому bar/заголовок тижня/ритм ідуть першими, а нагадування (новий тиждень, підсумки на розгляді, гіпотези) — нижче. */
+ return `<div class="stack">
+  ${barHTML}
+  ${weekHeadHTML}
+  ${rhyRowHTML}
+  ${focusHTML}
+  ${resultHTML}
+  ${sysCards}
+ </div>`;
+}
 function vHome(){
- const cm=curMonthId(), mm=S.months.find(m=>m.id===cm), md=S.monthData[cm];
  const ws=weekStats();
  /* на головній показуємо всі активні цілі: пріоритет задає порядок, а не видимість */
  const top=S.goals.filter(g=>g.status==="active").sort((a,b)=>b.priority-a.priority||resultPct(b)-resultPct(a));
- const wt=S.week.tasks.filter(t=>!t.done).slice(0,4);
  const alerts=S.goals.filter(needsHypothesis);
- /* фактичні досягнення */
- const facts=[];
- S.goals.filter(g=>g.status!=="paused").forEach(g=>{
-  const rp=resultPct(g);
-  if(rp>=50&&rp<100) facts.push(`${g.emoji} Вже ${rp}% цілі «${g.name}»`);
-  g.metrics.forEach(m=>{const f=mFact(m); if(f>=5) facts.push(`${m.emoji||"✅"} ${nfmt(f)} — ${m.name.toLowerCase()}`);});
-  if(g.type==="project"){const dn=g.milestones.filter(x=>x.done).length; if(dn) facts.push(`${g.emoji} Пройдено етапів: ${dn} з ${g.milestones.length}`);}
- });
- const got=achList().filter(a=>a.on).length;
  const td=today();
+ const dueHabits=(S.habits||[]).filter(h=>habitDue(h,td));
+ const doneHabits=dueHabits.filter(h=>habitDone(h,td)).length;
  return `
  <div class="stack">
+  <div class="card" style="padding:18px 20px">
+   <div class="rowj">
+    <div>
+     <div class="mid">👋 ${esc(S.name)}</div>
+     <div class="sub" style="margin-top:4px">📅 ${dfull(td).replace(" "+td.slice(0,4),"")} · ${dowOf(td)}</div>
+    </div>
+    <div style="text-align:right">
+     <span class="pill acc">✨ Рівень ${level()}</span>
+     <div class="small" style="margin-top:6px">${daysLeft()} дн. до фінішу</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="card" style="border:1.5px solid var(--acc)">
+   <div class="rowj">
+    <div class="h-sec" style="margin:0">🎯 Фокус на сьогодні</div>
+    <span class="row" style="gap:10px;align-items:center">
+     ${dueHabits.length?`<span class="small">${doneHabits} з ${dueHabits.length}</span>`:""}
+     <button class="ico" data-a="habitnew" title="Додати звичку">➕</button>
+    </span>
+   </div>
+   <div style="margin-top:10px">
+    ${dueHabits.length?dueHabits.map(h=>{const lvl=habitLevel(h,td);
+     return `<div class="task" style="padding:11px 14px;margin-bottom:8px">
+      <input type="checkbox" class="chk" data-a="habitfull" data-id="${h.id}" data-d="${td}" ${lvl==="full"?"checked":""}>
+      <div class="tb"><div class="tt" style="${lvl?"color:var(--ink3)":""}${lvl==="full"?";text-decoration:line-through":""}">${h.emoji} ${esc(h.name)}${lvl==="min"?` <span class="pill ok">🌱 мінімум</span>`:""}</div></div>
+      <span class="row" style="gap:2px">
+       <button class="ico" data-a="habitmin" data-id="${h.id}" data-d="${td}" title="Зробити мінімум — теж рахується">🌱</button>
+       <button class="ico" data-a="habitedit" data-id="${h.id}">✏️</button>
+      </span>
+     </div>`;}).join(""):`<div class="emptyb">На сьогодні звичок немає — додай ➕</div>`}
+   </div>
+   <button class="btn o s" style="margin-top:10px;width:100%" data-a="simplifyday">🌿 Спростити сьогоднішній день</button>
+  </div>
+
   ${periodCard()}
   ${newWeekCard()}
   ${newMonthCard()}
   ${pendingReviewCards()}
-  <div class="card">
-   <div class="mid">👋 Привіт, ${esc(S.name)}!</div>
-   <div class="sub" style="margin-top:6px">📅 ${dfull(td).replace(" "+td.slice(0,4),"")} · ${dowOf(td)}</div>
-   <div class="sub" style="margin-top:2px">Зараз ${esc(mm.label)} · ${esc(md.theme||"тему місяця не задано")}</div>
-   <div class="sub" style="margin-top:2px">У цьому місяці залишилося ${daysLeftInMonth()} днів · до кінця великого періоду ${daysLeft()}</div>
-   <div style="margin-top:18px">${barHTML(periodPct())}</div>
-   <div class="rowj" style="margin-top:8px"><span class="small">Шлях пройдено на ${periodPct()}%</span><span class="small">до ${dfull(S.period.end)}</span></div>
-  </div>
-
-  <div class="card">
-   <div class="rowj"><div class="h-sec" style="margin:0">✨ Рівень ${level()}</div><span class="pill acc">${lvlPct()} / 100</span></div>
-   <div style="margin-top:14px">${barHTML(lvlPct())}</div>
-   <div class="small" style="margin-top:10px">Отримано досягнень: ${got}</div>
-  </div>
 
   ${alerts.length?`<div class="card" style="background:var(--warn-soft)">
     <div class="h-sec" style="margin-bottom:8px">🧪 Варто перевірити гіпотезу</div>
@@ -1922,36 +2394,15 @@ function vHome(){
   ${strainCard()}
 
   <div class="card">
-   <div class="rowj"><div class="h-sec" style="margin:0">🎯 Головні цілі</div><button class="btn o s" data-a="tab" data-id="goals">Усі цілі →</button></div>
-   ${top.map(g=>{const s=sphereOf(g.sphereId),rp=resultPct(g);
-     return `<div style="margin-top:18px">
+   <div class="rowj"><div class="h-sec" style="margin:0">🎯 Цілі</div><button class="btn o s" data-a="tab" data-id="goals">Усі →</button></div>
+   ${top.slice(0,3).map(g=>{const s=sphereOf(g.sphereId),rp=resultPct(g);
+     return `<div style="margin-top:16px">
       <div class="rowj"><div style="font-size:16px">${g.emoji} ${esc(g.name)}</div><span class="num">${rp}%</span></div>
-      <div class="small" style="margin:6px 0 9px">${esc(goalLine(g))}</div>
+      <div class="small" style="margin:5px 0 8px">${esc(goalLine(g))}</div>
       ${barHTML(rp,s.color)}
      </div>`;}).join("")||`<div class="emptyb">Цілей поки немає</div>`}
+   <button class="btn o s" style="margin-top:16px;width:100%" data-a="tab" data-id="week">📅 ${ws.total?`${ws.done} з ${ws.total} дій цього тижня`:"Відкрити цей тиждень"} →</button>
   </div>
-
-  <div class="card">
-   <div class="rowj"><div class="h-sec" style="margin:0">📅 Цей тиждень</div><button class="btn o s" data-a="tab" data-id="week">Відкрити тиждень →</button></div>
-   <div class="rowj" style="margin:4px 0 12px"><span class="sub">${ws.done} з ${ws.total} дій виконано</span></div>
-   ${barHTML(ws.total?Math.round(ws.done/ws.total*100):0)}
-   <div style="margin-top:16px">
-    ${wt.map(t=>{const g=goalOf(t.goalId);
-      return `<div class="rowj" style="padding:9px 0"><span style="font-size:15.5px">${g?g.emoji:"•"} ${esc(t.title)}</span>
-      <span class="small">${t.type==="count"?`${t.completed} / ${t.planned}`:""}</span></div>`;}).join("")
-      ||`<div class="hint ok">Усі дії тижня виконані 🎉</div>`}
-   </div>
-  </div>
-
-  ${S.week.challenge?`<div class="card" style="background:var(--acc-soft)">
-    <div class="h-sec" style="margin-bottom:6px">🔥 Головний виклик тижня</div>
-    <div style="font-size:17px;line-height:1.45">${esc(S.week.challenge)}</div>
-   </div>`:""}
-
-  ${facts.length?`<div class="card">
-    <div class="h-sec">🎉 Прогрес</div>
-    ${facts.slice(0,4).map(f=>`<div style="padding:7px 0;font-size:15.5px">${esc(f)}</div>`).join("")}
-   </div>`:""}
  </div>`;
 }
 
@@ -1973,7 +2424,8 @@ function vPath(){
   </tr>`;
  }).join("");
  const proj=S.goals.filter(g=>g.type==="project");
- const mcards=S.months.map(x=>{
+ /* завершені місяці в цю сітку не виводимо — вони більше не потребують уваги тут, підсумок по них є в «Підсумках місяця» */
+ const mcards=S.months.filter(x=>x.id===cm||today()<=x.end).map(x=>{
   const d=S.monthData[x.id], st=x.id===cm?"cur":(today()>x.end?"past":"");
   const done=d.steps.filter(s=>s.done).length;
   const mline=rows.map(({m})=>`<div class="rowj mx-desk" style="padding:5px 0"><span class="small">${m.emoji||"✅"} ${esc(m.name)}</span><span class="num">${aFmt(fMonth(m,x.id),m.unit)} / ${aFmt(m.plan[x.id]||0,m.unit)}</span></div>`).join("");
@@ -2030,7 +2482,10 @@ function vPath(){
 
 /* ═══════════ 🎯 цели ═══════════ */
 function vGoals(){
- const cards=S.goals.map(g=>{
+ /* активні цілі — першими (за пріоритетом), потім призупинені, завершені — в самому кінці, щоб не заважали */
+ const order={active:0,paused:1,done:2};
+ const sorted=S.goals.slice().sort((a,b)=>(order[a.status]??1)-(order[b.status]??1)||b.priority-a.priority);
+ const cards=sorted.map(g=>{
   const s=sphereOf(g.sphereId), rp=resultPct(g), ap=actionPct(g);
   const tag=g.type==="project"?"✅ проєкт":g.type==="count"?"🔁 кількість":"🎯 результат";
   return `<div class="gcard">
@@ -2072,8 +2527,10 @@ function vGoals(){
      <div class="rowj" style="margin-bottom:2px"><span class="small">⚡ Мої дії</span>
       ${g.type!=="count"?`<span class="small">${ap}% плану дій</span>`:""}</div>
      ${g.metrics.map(m=>{const f=mFact(m),p=m.total?clamp(Math.round(f/m.total*100),0,100):0;
-       return `<div class="mrow"><span class="mn">${m.emoji||"✅"} ${esc(m.name)}${m.regular?` <span class="small">🔁 ${esc(uFmt(m.perWeek||1,m.unit))} на тиждень</span>`:""}</span>
-        <span class="mb">${barHTML(p,s.color,true)}</span><span class="mv">${aFmt(f,m.unit)} / ${aFmt(m.total,m.unit)}</span></div>`;}).join("")}
+       return `<div class="mrow">
+        <div class="mrow-top"><span class="mn">${m.emoji||"✅"} ${esc(m.name)}${m.regular?` <span class="small">🔁 ${esc(uFmt(m.perWeek||1,m.unit))} на тиждень</span>`:""}</span>
+         <span class="mv">${aFmt(f,m.unit)} / ${aFmt(m.total,m.unit)}</span></div>
+        ${barHTML(p,s.color,true)}</div>`;}).join("")}
     </div>`:""}
    ${g.type==="project"&&!g.milestones.length?`<div class="hint">Етапи ще не додані — саме за ними рахується прогрес проєкту.
      <div style="margin-top:10px"><button class="btn s" data-a="gedit" data-id="${g.id}">Додати етапи</button></div></div>`:""}
@@ -2126,7 +2583,8 @@ function vGoals(){
   <button class="btn" data-a="gnew">➕ Нова ціль</button>
   <button class="btn o" data-a="snew">🎨 Нова сфера</button>
  </div>
- <div class="gwrap">${cards||`<div class="emptyb">Цілей поки немає — додай першу</div>`}</div>`;
+ <div class="gwrap" id="ggwrap">${cards||`<div class="emptyb">Цілей поки немає — додай першу</div>`}</div>
+ ${sorted.length>1?`<div class="gdots" id="ggdots">${sorted.map((_,i)=>`<i class="${i===0?"on":""}"></i>`).join("")}</div>`:""}`;
 }
 
 /* ═══════════ 📅 цей тиждень ═══════════ */
@@ -2176,15 +2634,18 @@ function vWeek(){
 function taskHTML(t){
  const g=goalOf(t.goalId), s=g?sphereOf(g.sphereId):null;
  const m=g&&t.metricId?g.metrics.find(x=>x.id===t.metricId):null;
+ const lvl=t.type==="binary"?taskEffLevel(t):"";
+ const hasMin=t.type==="binary"&&!!t.easy;
  return `<div class="task ${t.done?"done":""}">
-  ${t.type==="binary"?`<input type="checkbox" class="chk" data-a="tdone" data-id="${t.id}" ${t.done?"checked":""}>`:`<div style="font-size:22px;padding-top:2px">${t.done?"✅":(m?m.emoji||"🔁":"🔁")}</div>`}
+  ${t.type==="binary"?(hasMin?`<input type="checkbox" class="chk" data-a="tfull" data-id="${t.id}" ${lvl==="full"?"checked":""} title="Повна версія">`
+    :`<input type="checkbox" class="chk" data-a="tdone" data-id="${t.id}" ${t.done?"checked":""}>`):`<div style="font-size:22px;padding-top:2px">${t.done?"✅":(m?m.emoji||"🔁":"🔁")}</div>`}
   <div class="tb">
-   <div class="tt">${esc(t.title)}</div>
+   <div class="tt">${esc(t.title)}${lvl==="min"?` <span class="pill ok">🌱 мінімум</span>`:""}</div>
    <div class="tmeta">
     ${g?`<span class="pill" style="background:${s.color}1f;color:${s.color}">${g.emoji} ${esc(g.name.length>24?g.name.slice(0,24)+"…":g.name)}</span>`:""}
     ${t.challenge?`<span class="pill acc">🔥 головний виклик</span>`:t.imp?`<span class="pill">важливе</span>`:""}
     ${t.day?`<span class="pill">${esc(t.day)}</span>`:""}
-    ${t.easy?`<span class="pill ok">🌱 ${esc(t.easy)}</span>`:""}
+    ${t.easy&&lvl!=="min"?`<span class="pill ok">🌱 мінімум: ${esc(t.easy)}</span>`:""}
     ${t.carried?`<span class="pill warn">перенесення ×${t.carried}</span>`:""}
    </div>
    ${t.type==="count"?`<div class="counter">
@@ -2200,6 +2661,7 @@ function taskHTML(t){
     </div>`:""}
   </div>
   <div style="display:flex;flex-direction:column;gap:2px">
+   ${hasMin?`<button class="ico" data-a="tmin" data-id="${t.id}" title="Мінімум — теж рахується">🌱</button>`:""}
    <button class="ico" data-a="tedit" data-id="${t.id}">✏️</button>
    <button class="ico" data-a="tdel" data-id="${t.id}">🗑</button>
   </div>
@@ -2413,17 +2875,18 @@ function vWRev(){
   <button class="btn" data-a="wrsave">Зберегти підсумки</button>
  </div>
  <div class="card" style="background:var(--acc-soft)">
-  <div class="h-sec" style="margin-bottom:6px">✨ Хочеш розібрати тиждень глибше?</div>
-  <div class="sub">Усередині застосунку моделі немає: я збираю готовий запит, ти вставляєш його в ChatGPT або Claude.</div>
-  <div class="small" style="margin-top:10px">✨ <b style="font-weight:600">Спланувати наступний тиждень</b> — розбір плюс спільне планування; після твого підтвердження ШІ видасть пакет, який можна повернути сюди кнопкою «Застосувати зміни».</div>
-  <div class="small" style="margin-top:6px">🔎 <b style="font-weight:600">Проаналізувати минулий тиждень</b> — тільки розбір, нічого повертати не потрібно.</div>
-  <div class="row wr" style="gap:8px;margin-top:16px">
-   <button class="btn" data-a="ainext">✨ Спланувати наступний тиждень з ШІ</button>
-   <button class="btn o" data-a="aiweek">🔎 Проаналізувати минулий тиждень</button>
-   <button class="btn o" data-a="aiimport">📥 Застосувати зміни з ШІ</button>
+  <div class="h-sec" style="margin-bottom:6px">✨ Розібрати тиждень з ШІ</div>
+  <div class="sub">Готую запит — вставляєш його в ChatGPT або Claude, модель усередині застосунку не потрібна.</div>
+  <div class="row wr" style="gap:8px;margin-top:14px">
+   <button class="btn" data-a="ainext">✨ Спланувати наступний тиждень</button>
+   <button class="btn o" data-a="aiweek">🔎 Проаналізувати минулий</button>
   </div>
+  <details class="dd"><summary>Застосувати готову відповідь від ШІ<span>▾</span></summary><div>
+   <div class="small" style="margin:8px 0 12px">Встав сюди пакет змін, який ШІ підготував за запитом вище.</div>
+   <button class="btn o s" data-a="aiimport">📥 Застосувати зміни з ШІ</button>
+  </div></details>
  </div>
- ${past?`<div class="card"><div class="h-sec">📅 Минулі тижні</div>${past}</div>`:""}`;
+ ${past?`<div class="card"><details class="dd"><summary>📅 Минулі тижні<span>▾</span></summary><div style="margin-top:8px">${past}</div></details></div>`:""}`;
 }
 
 /* ═══════════ 🔎 підсумки місяця ═══════════ */
@@ -2609,8 +3072,8 @@ function vMRev(){
      ${resLines.slice(1).map(x=>`<div class="small" style="color:var(--ink3)">${x}</div>`).join("")}
     </div>`;
    }).join("");
-   return rowsC?`<div class="card"><div class="h-sec">🔗 Дії та результат</div>
-    <div class="sub">Дивимось поруч: наскільки виконувався план дій і як змінювався результат. Це не означає, що одне обов'язково спричинило інше.</div>${rowsC}</div>`:"";
+   return rowsC?`<div class="card"><details class="dd"><summary>🔗 Дії та результат по кожній цілі<span>▾</span></summary><div>
+    <div class="sub" style="margin-top:8px">Дивимось поруч: наскільки виконувався план дій і як змінювався результат. Це не означає, що одне обов'язково спричинило інше.</div>${rowsC}</div></details></div>`:"";
  })()}
  ${steps.length?`<div class="card">
   <div class="rowj"><div class="h-sec" style="margin:0">📝 Пункти плану</div><span class="pill">${sd} з ${steps.length}</span></div>
@@ -2676,6 +3139,56 @@ function modal({title,body,actions,wide}){
 function closeModal(){$("#mroot").innerHTML="";document.body.style.overflow="";}
 const val=id=>{const e=$("#"+id);return e?e.value:"";};
 
+/* ═══════════ status-popover ритм-клітинки ═══════════
+   Клік по клітинці ритм-таблиці більше не перемикає стан по колу — відкриває невеликий anchored
+   popover із чотирма явними варіантами (Заплановано/Виконано/Не виконано/Не заплановано), як просить
+   останній промпт (розділ 0.5). Повторний клік по клітинці знову відкриває меню, а не перемикає наосліп. */
+let rpopKeyHandler=null;
+function closeCellPopover(){
+ const o=document.getElementById("rpopRoot"); if(o) o.remove();
+ if(rpopKeyHandler){ document.removeEventListener("keydown",rpopKeyHandler,true); rpopKeyHandler=null; }
+}
+function openCellPopover(triggerEl,hid,dateStr){
+ closeCellPopover();
+ const h=(S.habits||[]).find(x=>x.id===hid); if(!h) return;
+ const cur=cellState(h,dateStr);
+ const OPTS=[
+  {k:"planned",icon:"",label:"Заплановано",sub:"Ще попереду, не позначено"},
+  {k:"done",icon:"✓",label:"Виконано",sub:"Зараховано в підсумок тижня"},
+  {k:"missed",icon:"×",label:"Не виконано",sub:"Планувалось, але не зроблено"},
+  {k:"none",icon:"–",label:"Не заплановано",sub:"Не враховується в підсумку"}
+ ];
+ const rect=triggerEl.getBoundingClientRect();
+ const root=document.createElement("div");
+ root.id="rpopRoot";
+ root.innerHTML=`<div class="rpop-ovl" id="rpopOvl"></div>
+  <div class="rpop" id="rpopBody" role="menu" aria-label="Статус: ${esc(h.name)}, ${esc(dowOf(dateStr))} ${esc(dfmt(dateStr))}">
+   ${OPTS.map(o=>`<button type="button" role="menuitemradio" aria-checked="${o.k===cur}" class="${o.k===cur?"cur":""}" data-k="${o.k}">
+     <span class="rpi ${o.k}">${o.icon}</span><span class="rpt">${o.label}<span class="rps">${esc(o.sub)}</span></span>${o.k===cur?'<span class="rpmark">✓</span>':""}
+    </button>`).join("")}
+  </div>`;
+ document.body.appendChild(root);
+ const pop=root.querySelector("#rpopBody");
+ const pw=pop.offsetWidth||220, ph=pop.offsetHeight||190;
+ let top=rect.bottom+window.scrollY+6, left=rect.left+window.scrollX;
+ if(top-window.scrollY+ph>window.innerHeight) top=rect.top+window.scrollY-ph-6;
+ if(left-window.scrollX+pw>window.innerWidth-8) left=window.scrollX+window.innerWidth-pw-8;
+ if(left<window.scrollX+8) left=window.scrollX+8;
+ pop.style.top=top+"px"; pop.style.left=left+"px";
+ const btns=Array.from(pop.querySelectorAll("button[data-k]"));
+ btns.forEach(b=>{ b.onclick=()=>{ setCellState(hid,dateStr,b.dataset.k); closeCellPopover(); triggerEl.focus(); commit(); }; });
+ root.querySelector("#rpopOvl").onclick=()=>{ closeCellPopover(); };
+ const curIdx=Math.max(0,btns.findIndex(b=>b.dataset.k===cur));
+ (btns[curIdx]||btns[0]).focus();
+ rpopKeyHandler=(e)=>{
+  if(e.key==="Escape"){ e.preventDefault(); closeCellPopover(); triggerEl.focus(); return; }
+  const i=btns.indexOf(document.activeElement);
+  if(e.key==="ArrowDown"){ e.preventDefault(); btns[(i+1+btns.length)%btns.length].focus(); }
+  else if(e.key==="ArrowUp"){ e.preventDefault(); btns[(i-1+btns.length)%btns.length].focus(); }
+ };
+ document.addEventListener("keydown",rpopKeyHandler,true);
+}
+
 /* ═══════════ привязка ═══════════ */
 function bind(root){
  if(!root) return;
@@ -2687,12 +3200,27 @@ function bind(root){
  root.querySelectorAll(".emo button").forEach(b=>b.onclick=()=>{
   b.parentNode.querySelectorAll("button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
  });
+ /* дот-індикатор під каруселлю цілей — щоб було видно, що праворуч є ще картки */
+ const ggwrap=root.querySelector("#ggwrap");
+ if(ggwrap){
+  const dots=root.querySelectorAll("#ggdots i");
+  if(dots.length){
+   const upd=()=>{
+    const cards=ggwrap.querySelectorAll(".gcard");
+    if(!cards.length) return;
+    const step=cards[1]?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth;
+    const idx=Math.max(0,Math.min(dots.length-1,Math.round(ggwrap.scrollLeft/(step||1))));
+    dots.forEach((d,i)=>d.classList.toggle("on",i===idx));
+   };
+   ggwrap.onscroll=upd; upd();
+  }
+ }
 }
 const pickedEmo=sel=>{const b=document.querySelector(sel+" button.on");return (b&&b.textContent&&b.textContent.trim())||"🎯";};
 function emoPicker(id,cur,list){
  return `<div class="emo" id="${id}">${list.map(e=>`<button type="button" class="${e===cur?"on":""}">${e}</button>`).join("")}</div>`;
 }
-const EMOS=["🎯","💰","🎥","📺","🎬","🇬🇧","📚","🏃‍♀️","🧘‍♀️","✈️","🏠","👯","🎨","🧪","🌱","💡","🐶","🍀","⭐","🔥"];
+const EMOS=["🎯","💰","💻","📱","🎥","📸","🎬","📺","🎙","🇬🇧","📚","🎓","🏋️","💪","🏃‍♀️","🧘‍♀️","🥗","😴","✈️","🏠","👯","❤️","🎨","🧪","🌱","💡","📈","🛠","🎉","🏆","🐶","🍀","⭐","🔥"];
 const MEMOS=["✅","🎬","🔎","🧪","📖","🗣","🏋️‍♀️","🧘‍♀️","✉️","📞","🤝","💸","👋","🎪","📝","🎯"];
 
 /* ═══════════ действия ═══════════ */
@@ -2784,7 +3312,7 @@ function act(a,el){
     try{ st=normalize(JSON.parse(JSON.stringify(b.state))); }catch(e){ st=null; }
     if(!st||!st.goals){ toast("Копію пошкоджено — відновлення скасовано"); return; }
     S=st;
-    window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="home";
+    window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="notebook";
     checkPeriods(); save(); closeModal(); render();
     toast("Дані відновлено");}}]});
   break; }
@@ -2813,7 +3341,7 @@ function act(a,el){
     try{ st=normalize(JSON.parse(JSON.stringify(b.state))); }catch(e){ st=null; }
     if(!st||!validateState(st).ok){ toast("Копия повреждена — восстановление отменено"); return; }
     S=st;
-    window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="home";
+    window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="notebook";
     checkPeriods(); save(); closeModal(); render();
     toast("Планер до імпорту відновлено");}}]});
   break; }
@@ -2828,8 +3356,8 @@ function act(a,el){
    ${w.status==="skipped"?`<div class="hint">Цей тиждень не велась.</div>`:""}
    ${w.tasks.map(t=>`<div class="rowj" style="padding:7px 0;gap:10px">
      <span style="flex:1;font-size:15.5px">${t.done?"✅":t.completed>0?"🟡":"⬜"} ${esc(t.title)}
-      <span class="small">${t.goalEmoji||""} ${esc(t.goalName||"")}${t.metricName?" · "+esc(t.metricName):""}${t.challenge?" · 🔥":t.imp?" · важное":""}${t.carried?` · перенос ×${t.carried}`:""}${t.reason?" · "+esc(t.reason):""}</span></span>
-     <span class="small">${t.type==="binary"?(t.done?"сделано":"не сделано"):(isMinUnit(t.metricUnit)?`${formatMinutes(t.completed)} из ${formatMinutes(t.planned)}`:`${nfmt(t.completed)} из ${nfmt(t.planned)}${t.metricUnit?" "+esc(t.metricUnit):""}`)}</span></div>`).join("")||`<div class="small">Действий не было</div>`}
+      <span class="small">${t.goalEmoji||""} ${esc(t.goalName||"")}${t.metricName?" · "+esc(t.metricName):""}${t.challenge?" · 🔥":t.imp?" · важливе":""}${t.carried?` · перенос ×${t.carried}`:""}${t.reason?" · "+esc(t.reason):""}</span></span>
+     <span class="small">${t.type==="binary"?(t.done?"зроблено":"не зроблено"):(isMinUnit(t.metricUnit)?`${formatMinutes(t.completed)} з ${formatMinutes(t.planned)}`:`${nfmt(t.completed)} з ${nfmt(t.planned)}${t.metricUnit?" "+esc(t.metricUnit):""}`)}</span></div>`).join("")||`<div class="small">Дій не було</div>`}
    ${w.review&&(w.review.a1||w.review.a2||w.review.a3)?`<div class="divider"></div>
      <div class="small" style="margin-bottom:8px">${WEEK_Q[0].short}: ${esc(w.review.a1||"—")}</div>
      <div class="small" style="margin-bottom:8px">${WEEK_Q[1].short}: ${esc(w.review.a2||"—")}</div>
@@ -2847,7 +3375,7 @@ function act(a,el){
    if(t.metricId) factAdd(t.goalId,t.metricId,1,{type:"task",id:t.id},{title:t.title,xp});
    else jAdd({goalId:t.goalId,title:t.title,xp,sourceType:"task",sourceId:t.id});
    closeSource(t,true);
-   okToast(t.challenge?"🔥 Главный вызов сделан!":"✨ Отмечено");
+   okToast(t.challenge?"🔥 Головний виклик зроблено!":"✨ Позначено");
   }else{ t.completed=0;
    if(t.metricId) factUndoBySource(t.id,t.metricId);
    else { for(let i=S.journal.length-1;i>=0;i--){ if(S.journal[i].sourceId===t.id&&S.journal[i].kind==="note"){S.journal.splice(i,1);jTouch();break;} } }
@@ -2855,6 +3383,8 @@ function act(a,el){
   }
   commit(); break;
  }
+ case "tfull": setTaskLevel(S.week.tasks.find(x=>x.id===id),"full"); commit(); break;
+ case "tmin": setTaskLevel(S.week.tasks.find(x=>x.id===id),"min"); commit(); break;
  case "qp":{
   const t=S.week.tasks.find(x=>x.id===id);
   const g=goalOf(t.goalId), m=g&&t.metricId?g.metrics.find(x=>x.id===t.metricId):null;
@@ -2865,14 +3395,14 @@ function act(a,el){
   if(t.completed>=t.planned&&!t.done){ t.done=true;
    if(!t.xpGiven){const xp=t.challenge?5:t.imp?3:1;addXP(xp);t.xpGiven=true; if(ev) ev.xp=xp;}
    closeSource(t,true);
-   okToast(t.challenge?"🔥 Главный вызов сделан!":"🎉 Готово"); }
+   okToast(t.challenge?"🔥 Головний виклик зроблено!":"🎉 Готово"); }
   commit(); break;
  }
  case "qm":{
   const t=S.week.tasks.find(x=>x.id===id);
   if(t.completed<=0) break;
   const undone=t.metricId?factUndoBySource(t.id,t.metricId):null;
-  if(t.metricId&&!undone){ toast("Это выполнение записано раньше — сними его в истории"); break; }
+  if(t.metricId&&!undone){ toast("Це виконання вже записано раніше — зніми його в історії"); break; }
   if(!t.metricId){ for(let i=S.journal.length-1;i>=0;i--){ if(S.journal[i].sourceId===t.id){S.journal.splice(i,1);jTouch();break;} } }
   t.completed=Math.max(0,t.completed-(undone?Math.abs(Number(undone.qty)||1):1));
   if(t.completed<t.planned&&t.done){ t.done=false; closeSource(t,false); }
@@ -2888,52 +3418,52 @@ function act(a,el){
  case "wadd": taskModal(null); break;
  case "tedit": taskModal(S.week.tasks.find(x=>x.id===id)); break;
  case "wfocus":
-  modal({title:"Фокус недели",body:`
-   <label class="f"><span>📅 Начало недели</span><input type="date" id="wS" value="${esc(S.week.start)}"></label>
-   <label class="f"><span>🎯 Фокус недели — одним предложением</span><input type="text" id="wF" value="${esc(S.week.focus)}"></label>
-   <label class="f"><span>🔥 Главный вызов</span><input type="text" id="wC" value="${esc(S.week.challenge)}"></label>`,
+  modal({title:"Фокус тижня",body:`
+   <label class="f"><span>📅 Початок тижня</span><input type="date" id="wS" value="${esc(S.week.start)}"></label>
+   <label class="f"><span>🎯 Фокус тижня — одним реченням</span><input type="text" id="wF" value="${esc(S.week.focus)}"></label>
+   <label class="f"><span>🔥 Головний виклик</span><input type="text" id="wC" value="${esc(S.week.challenge)}"></label>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{S.week.start=val("wS");S.week.focus=val("wF");S.week.challenge=val("wC");closeModal();commit("Збережено");}}]});
   break;
  case "wnew":{
   const left=S.week.tasks.filter(t=>!t.done);
-  modal({title:"Новая неделя",body:`
-   <div class="sub" style="margin-bottom:16px">Всё выполненное уже записано в историю. Отметь, что переносим:</div>
-   ${left.map(t=>`<label class="row" style="padding:9px 0"><input type="checkbox" class="chk cw" data-id="${t.id}" checked><span style="font-size:15.5px">${esc(t.title)}${t.type==="count"?` · сделано ${t.completed} из ${t.planned}`:""}</span></label>`).join("")||`<div class="hint ok">Всё выполнено 🎉</div>`}
-   <label class="f" style="margin-top:18px"><span>📅 Начало новой недели</span><input type="date" id="nS" value="${nextWeek()}"></label>
-   <label class="f"><span>🎯 Фокус новой недели</span><input type="text" id="nF"></label>
-   <label class="f"><span>🔥 Главный вызов</span><input type="text" id="nC"></label>`,
-   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Начать",fn:()=>{
+  modal({title:"Новий тиждень",body:`
+   <div class="sub" style="margin-bottom:16px">Все виконане вже записано в історію. Познач, що переносимо:</div>
+   ${left.map(t=>`<label class="row" style="padding:9px 0"><input type="checkbox" class="chk cw" data-id="${t.id}" checked><span style="font-size:15.5px">${esc(t.title)}${t.type==="count"?` · зроблено ${t.completed} з ${t.planned}`:""}</span></label>`).join("")||`<div class="hint ok">Все виконано 🎉</div>`}
+   <label class="f" style="margin-top:18px"><span>📅 Початок нового тижня</span><input type="date" id="nS" value="${nextWeek()}"></label>
+   <label class="f"><span>🎯 Фокус нового тижня</span><input type="text" id="nF"></label>
+   <label class="f"><span>🔥 Головний виклик</span><input type="text" id="nC"></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Почати",fn:()=>{
     const keep=[...document.querySelectorAll(".cw:checked")].map(c=>c.dataset.id);
-    const tasks=S.week.tasks.filter(t=>keep.includes(t.id)).map(t=>({...t,id:uid(),done:false,completed:0,xpGiven:false,carried:(t.carried||0)+1}));
+    const tasks=S.week.tasks.filter(t=>keep.includes(t.id)).map(t=>({...t,id:uid(),done:false,doneLevel:"",completed:0,xpGiven:false,carried:(t.carried||0)+1}));
     S.week={start:val("nS"),focus:val("nF"),challenge:val("nC"),tasks};
-    closeModal();commit("Новая неделя началась");}}]});
+    closeModal();commit("Новий тиждень розпочато");}}]});
   break;
  }
  case "whystuck":{
   const t=S.week.tasks.find(x=>x.id===id);
-  const R=[["😰","Страшно"],["😴","Нет энергии"],["⏰","Нет времени"],["🧩","Слишком большая"],["❓","Непонятно, что делать"],["🙅‍♀️","Не хочу этот способ"],["🤔","Не верю, что это поможет"],["📝","Другое"]];
-  modal({title:"Что происходит с этой задачей?",body:`
+  const R=[["😰","Страшно"],["😴","Немає енергії"],["⏰","Немає часу"],["🧩","Занадто велика"],["❓","Незрозуміло, що робити"],["🙅‍♀️","Не хочу цей спосіб"],["🤔","Не вірю, що це допоможе"],["📝","Інше"]];
+  modal({title:"Що відбувається з цим завданням?",body:`
    <div class="sub" style="margin-bottom:16px">${esc(t.title)}</div>
    <label class="f"><span>Причина</span><select id="stR">${R.map(([e,n])=>`<option value="${n}" ${t.reason===n?"selected":""}>${e} ${n}</option>`).join("")}</select></label>
-   <div class="hint">Далі можно уменьшить задачу, заменить её, перенести или убрать. Это нормальный ход, а не провал.</div>
-   <label class="f" style="margin-top:16px"><span>🌱 Лёгкая версия — минимальный вариант</span><input type="text" id="stE" value="${esc(t.easy)}" placeholder="Например: написать хотя бы одному"></label>
-   <label class="f"><span>Уменьшить количество</span><input type="number" id="stQ" value="${t.planned}" min="1"></label>`,
-   actions:[{t:"Убрать задачу",c:"red",fn:()=>{
-     jAdd({goalId:t.goalId,title:`Отказалась от задачи: ${t.title}`,note:val("stR"),sourceType:"dropped",sourceId:t.id});
-     S.week.tasks=S.week.tasks.filter(x=>x.id!==t.id);closeModal();commit("Убрали — так тоже можно");}},
+   <div class="hint">Далі можна зменшити завдання, замінити його, перенести або прибрати. Це нормальний хід, а не провал.</div>
+   <label class="f" style="margin-top:16px"><span>🌱 Легка версія — мінімальний варіант</span><input type="text" id="stE" value="${esc(t.easy)}" placeholder="Наприклад: написати хоча б одному"></label>
+   <label class="f"><span>Зменшити кількість</span><input type="number" id="stQ" value="${t.planned}" min="1"></label>`,
+   actions:[{t:"Прибрати завдання",c:"red",fn:()=>{
+     jAdd({goalId:t.goalId,title:`Відмовилась від завдання: ${t.title}`,note:val("stR"),sourceType:"dropped",sourceId:t.id});
+     S.week.tasks=S.week.tasks.filter(x=>x.id!==t.id);closeModal();commit("Прибрали — так теж можна");}},
     {t:"Зберегти",fn:()=>{
      t.reason=val("stR"); t.reasons=(t.reasons||[]).concat([{date:today(),carried:t.carried||0,reason:val("stR")}]);
-     t.easy=val("stE"); t.planned=Number(val("stQ"))||1; t.reasonAt=t.carried||0;   // счётчик переносов сохраняем
+     t.easy=val("stE"); t.planned=Number(val("stQ"))||1; t.reasonAt=t.carried||0;   // лічильник переносів зберігаємо
      closeModal();commit("Записала причину");}}]});
   break;
  }
  case "unload":{
-  modal({title:"Разгрузить неделю",body:`<div class="sub" style="margin-bottom:16px">Сними галочки с того, что можно перенести или убрать. Остальное останется на этой неделе.</div>
+  modal({title:"Розвантажити тиждень",body:`<div class="sub" style="margin-bottom:16px">Зніми галочки з того, що можна перенести або прибрати. Решта залишиться на цьому тижні.</div>
    ${S.week.tasks.map(t=>`<label class="row" style="padding:9px 0"><input type="checkbox" class="chk kp" data-id="${t.id}" ${t.challenge||t.imp?"checked":""}><span style="font-size:15.5px">${t.challenge?"🔥 ":""}${esc(t.title)}</span></label>`).join("")}`,
-   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Оставить отмеченное",fn:()=>{
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Залишити позначене",fn:()=>{
     const keep=[...document.querySelectorAll(".kp:checked")].map(c=>c.dataset.id);
     S.week.tasks=S.week.tasks.filter(t=>keep.includes(t.id)||t.done);
-    closeModal();commit("🌿 Неделя стала спокойнее");}}]});
+    closeModal();commit("🌿 Тиждень став спокійнішим");}}]});
   break;
  }
 
@@ -2951,29 +3481,29 @@ function act(a,el){
  case "rsave":{
   const f=resultOf(id); if(!f) break;
   const el2=$("#ci_"+id), raw2=el2?String(el2.value).trim():"";
-  if(raw2===""){ toast("Впиши значение — пустое поле не записываю"); break; }
+  if(raw2===""){ toast("Впиши значення — порожнє поле не записую"); break; }
   const v=Number(raw2);
-  if(isNaN(v)){ toast("Нужно число"); break; }
+  if(isNaN(v)){ toast("Потрібне число"); break; }
   cumulativeGuard(f.g,f.r,v,today(),()=>{
    rAdd(f.g,f.r,v,today(),"weekly_review","");
    refreshAutoDone(f.g);
    const d=rDelta(f.r), gain=d?rGain(f.r,d.from,d.to):null;
-   commit(gain==null?"Результат записан":(gain>0?`↗ ${vfmt(Math.abs(d.to-d.from))}${f.r.unit?" "+f.r.unit:""} — записала`:"Записала"));});
+   commit(gain==null?"Результат записано":(gain>0?`↗ ${vfmt(Math.abs(d.to-d.from))}${f.r.unit?" "+f.r.unit:""} — записала`:"Записала"));});
   break; }
- case "rskip":{ S.skipped=S.skipped||{}; S.skipped[id]=mondayOf(today()); commit("Пропустили — вернусь к этому позже"); break; }
+ case "rskip":{ S.skipped=S.skipped||{}; S.skipped[id]=mondayOf(today()); commit("Пропустили — повернусь до цього пізніше"); break; }
  case "rsaveM":{
   const f=resultOf(id); if(!f) break;
   const moId=el.dataset.mo||curMonthId(), mo=S.months.find(x=>x.id===moId);
-  if(mo&&mo.start>today()){ toast("Этот месяц ещё не начался"); break; }   // фактов из будущего не бывает
+  if(mo&&mo.start>today()){ toast("Цей місяць ще не почався"); break; }   // фактів з майбутнього не буває
   const el2=$("#cim_"+id), raw2=el2?String(el2.value).trim():"";
-  if(raw2===""){ toast("Впиши значение — пустое поле не записываю"); break; }
+  if(raw2===""){ toast("Впиши значення — порожнє поле не записую"); break; }
   const v=Number(raw2);
-  if(isNaN(v)){ toast("Нужно число"); break; }
-  /* запись всегда попадает внутрь своего месяца: последний день месяца, если он уже прошёл */
+  if(isNaN(v)){ toast("Потрібне число"); break; }
+  /* запис завжди потрапляє всередину свого місяця: останній день місяця, якщо він вже минув */
   const when=mo?(mo.end<today()?mo.end:today()):today();
   cumulativeGuard(f.g,f.r,v,when,()=>{ rAdd(f.g,f.r,v,when,"monthly_review","");
    refreshAutoDone(f.g);
-   commit("Результат месяца записан"); });
+   commit("Результат місяця записано"); });
   break; }
  case "rskipM":{ mSkip(id,el.dataset.mo||MSEL||curMonthId()); commit("Пропустили"); break; }
  case "gnew": goalNew(); break;
@@ -2989,20 +3519,20 @@ function act(a,el){
   ms.done=!ms.done;
   const wt=S.week.tasks.find(t=>{const q=taskSource(t);return q.kind==="milestone"&&q.id===ms.id;});
   if(wt){ wt.done=ms.done; wt.completed=ms.done?wt.planned:0; }
-  if(ms.done){ if(!ms.xpGiven){addXP(3);ms.xpGiven=true;} hist({goalId:g.id,title:`Этап пройден: ${ms.title}`,xp:3,sourceType:"milestone",sourceId:ms.id}); okToast("✅ Этап пройден"); }
+  if(ms.done){ if(!ms.xpGiven){addXP(3);ms.xpGiven=true;} hist({goalId:g.id,title:`Етап пройдено: ${ms.title}`,xp:3,sourceType:"milestone",sourceId:ms.id}); okToast("✅ Етап пройдено"); }
   if(g.milestones.length&&g.milestones.every(x=>x.done)) g.status="done";
   else if(g.status==="done") g.status="active";
   commit(); break;
  }
  case "snew":
-  modal({title:"Новая сфера",body:`
-   <label class="f"><span>Название</span><input type="text" id="spN" placeholder="Например: Творчество"></label>
-   <label class="f"><span>Эмодзи</span>${emoPicker("spE","🎨",EMOS)}</label>
-   <label class="f"><span>Цвет</span><select id="spC">
+  modal({title:"Нова сфера",body:`
+   <label class="f"><span>Назва</span><input type="text" id="spN" placeholder="Наприклад: Творчість"></label>
+   <label class="f"><span>Емодзі</span>${emoPicker("spE","🎨",EMOS)}</label>
+   <label class="f"><span>Колір</span><select id="spC">
      ${["#E2A33C","#E1705B","#5B8DEF","#3FB183","#41B8CD","#DE7CAA","#A585E8","#7B8CA6"].map(c=>`<option value="${c}">${c}</option>`).join("")}</select></label>`,
-   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Создать",fn:()=>{
-    S.spheres.push({id:"s_"+uid(),name:val("spN")||"Новая сфера",emoji:pickedEmo("#spE"),color:val("spC")});
-    closeModal();commit("Сфера создана");}}]});
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Створити",fn:()=>{
+    S.spheres.push({id:"s_"+uid(),name:val("spN")||"Нова сфера",emoji:pickedEmo("#spE"),color:val("spC")});
+    closeModal();commit("Сферу створено");}}]});
   break;
 
  /* ——— путь ——— */
@@ -3013,16 +3543,16 @@ function act(a,el){
   modal({title:`${m.emoji||"✅"} ${m.name} · ${mm.label}`,body:`
    <div class="sub" style="margin-bottom:18px">${g.emoji} ${esc(g.name)}</div>
    <div class="g2">
-    <label class="f"><span>📅 План на месяц</span><input type="number" id="cP" value="${m.plan[mo]||0}"></label>
+    <label class="f"><span>📅 План на місяць</span><input type="number" id="cP" value="${m.plan[mo]||0}"></label>
     <label class="f"><span>✅ Факт</span><input type="number" id="cF" value="${fMonth(m,mo)}"></label>
    </div>
-   <div class="hint">Всего по метрике запланировано ${aFmt(mPlanSum(m),m.unit)} из ${aFmt(m.total,m.unit)}. Месяцы не обязаны быть одинаковыми — можно учесть поездки, отдых и сложные периоды.</div>`,
+   <div class="hint">Всього за метрикою заплановано ${aFmt(mPlanSum(m),m.unit)} з ${aFmt(m.total,m.unit)}. Місяці не зобов'язані бути однаковими — можна врахувати поїздки, відпочинок і складні періоди.</div>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{
     m.plan[mo]=Number(val("cP"))||0;
     const was=fMonth(m,mo), now=Math.max(0,Number(val("cF"))||0);
     if(now!==was){ const mm2=S.months.find(x=>x.id===mo);
      jAdd({kind:"fact",goalId:g.id,metricId:m.id,monthId:mo,date:(mm2&&today()>mm2.end)?mm2.end:today(),qty:now-was,unit:m.unit||"",
-      sourceType:"adjust",title:`Корректировка факта: ${m.name} — было ${nfmt(was)}, стало ${nfmt(now)}`}); }
+      sourceType:"adjust",title:`Коригування факту: ${m.name} — було ${nfmt(was)}, стало ${nfmt(now)}`}); }
     closeModal(); commit(now!==was?"Факт скорректирован, запись в истории":"Збережено");}}]});
   break;
  }
@@ -3031,6 +3561,76 @@ function act(a,el){
   metricModal(g,m); break;
  }
  case "month": monthModal(el.dataset.id); break;
+ case "habitfull": setHabit(id,el.dataset.d||today(),"full"); commit(); break;
+ case "habitmin": setHabit(id,el.dataset.d||today(),"min"); commit(); break;
+ case "habitnew": habitModal(null); break;
+ case "habitedit": habitModal(S.habits.find(x=>x.id===id)); break;
+ case "simplifyday": simplifyDay(); break;
+
+ /* ——— «12 тижнів» ——— */
+ case "nbweek": NBWEEK=Number(id); render(); window.scrollTo({top:0}); break;
+ case "schedday": SCHEDDAY=id; render(); break;
+ case "schedchk":{
+  S.dayChecks=S.dayChecks||{};
+  S.dayChecks[SCHEDDAY]=S.dayChecks[SCHEDDAY]||{};
+  if(S.dayChecks[SCHEDDAY][id]) delete S.dayChecks[SCHEDDAY][id];
+  else S.dayChecks[SCHEDDAY][id]=true;
+  commit();
+  break;
+ }
+ case "rcell":{
+  const h=(S.habits||[]).find(x=>x.id===id); if(!h) break;
+  openCellPopover(el,id,el.dataset.d);
+  break;
+ }
+ case "nbtarget":{
+  const n=Number(id), m=weekMeta(n);
+  modal({title:`Орієнтир тижня ${n}`,body:`
+   <label class="f"><span>Який результат бажаний до кінця тижня? (заздалегідь, план)</span>
+    <input type="text" id="nbT" value="${esc(m.target)}" placeholder="Наприклад: опублікувати 2 матеріали й провести 4 тренування"></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{ weekMeta(n).target=val("nbT").trim(); closeModal(); commit("Збережено"); }}]});
+  break;
+ }
+ case "nboutcome":{
+  const n=Number(id), m=weekMeta(n);
+  modal({title:`Результат тижня ${n}`,body:`
+   <label class="f"><span>Що реально отримано до кінця тижня?</span>
+    <textarea id="nbO" rows="3" placeholder="Що вдалося зробити насправді">${esc(m.outcome)}</textarea></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{ weekMeta(n).outcome=val("nbO").trim(); closeModal(); commit("Збережено"); }}]});
+  break;
+ }
+ case "nbreflect":{
+  const n=Number(id), m=weekMeta(n), r=m.reflection;
+  modal({title:`Підсумок тижня ${n}`,body:`
+   <label class="f"><span>Що спрацювало?</span><textarea id="nbR1" rows="2">${esc(r.a1)}</textarea></label>
+   <label class="f"><span>Що заважало?</span><textarea id="nbR2" rows="2">${esc(r.a2)}</textarea></label>
+   <label class="f"><span>Що змінити наступного тижня?</span><textarea id="nbR3" rows="2">${esc(r.a3)}</textarea></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{
+    r.a1=val("nbR1").trim(); r.a2=val("nbR2").trim(); r.a3=val("nbR3").trim();
+    closeModal(); commit("Збережено");
+   }}]});
+  break;
+ }
+ case "nbfocusnew":{
+  const n=Number(id);
+  modal({title:"➕ Новий фокус тижня",body:`
+   <label class="f"><span>Короткий пункт фокусу</span><input type="text" id="nbF" placeholder="Наприклад: визначити візуальний стиль блогу"></label>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Додати",fn:()=>{
+    const txt=val("nbF").trim();
+    if(txt) weekMeta(n).focus.push({id:uid(),text:txt,done:false});
+    closeModal();
+    if(txt) commit("Додано");
+   }}]});
+  break;
+ }
+ case "nbfocustoggle":{
+  const n=Number(el.dataset.w), f=weekMeta(n).focus.find(x=>x.id===id); if(f) f.done=el.checked;
+  commit(); break;
+ }
+ case "nbfocusdel":{
+  const n=Number(el.dataset.w), m=weekMeta(n);
+  m.focus=m.focus.filter(x=>x.id!==id); commit(); break;
+ }
  case "editwork":
   modal({title:"Про нагрузку",body:`<label class="f"><span>Как устроена моя нагрузка</span><textarea id="wn" style="min-height:180px">${esc(S.workNote)}</textarea></label>`,
    actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Зберегти",fn:()=>{S.workNote=val("wn");closeModal();commit("Збережено");}}]});
@@ -3066,22 +3666,22 @@ function act(a,el){
   break;
  }
  case "haddrec":{
-  modal({title:"Записать сделанное",body:`
-   <label class="f"><span>Цель</span><select id="rG">${["<option value=''>— без цели —</option>"].concat(S.goals.map(g=>`<option value="${g.id}">${g.emoji} ${esc(g.name)}</option>`)).join("")}</select></label>
-   <label class="f"><span>Метрика (необязательно)</span><select id="rM"><option value="">—</option></select></label>
-   <label class="f"><span>Что сделала</span><input type="text" id="rT"></label>
+  modal({title:"Записати зроблене",body:`
+   <label class="f"><span>Ціль</span><select id="rG">${["<option value=''>— без цілі —</option>"].concat(S.goals.map(g=>`<option value="${g.id}">${g.emoji} ${esc(g.name)}</option>`)).join("")}</select></label>
+   <label class="f"><span>Метрика (необов'язково)</span><select id="rM"><option value="">—</option></select></label>
+   <label class="f"><span>Що зробила</span><input type="text" id="rT"></label>
    <div class="g3">
-    <label class="f"><span>Сколько</span><input type="number" id="rQ" value="1" min="1"></label>
+    <label class="f"><span>Скільки</span><input type="number" id="rQ" value="1" min="1"></label>
     <label class="f"><span>Дата</span><input type="date" id="rD" value="${today()}"></label>
-    <label class="f"><span>Важность</span><select id="rI"><option value="1">Обычное</option><option value="3">Важное</option><option value="5">🔥 Главный вызов</option></select></label>
+    <label class="f"><span>Важливість</span><select id="rI"><option value="1">Звичайне</option><option value="3">Важливе</option><option value="5">🔥 Головний виклик</option></select></label>
    </div>`,
-   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Записать",fn:()=>{
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Записати",fn:()=>{
     const gid=val("rG"),mid=val("rM"),q=Number(val("rQ"))||1,xp=Number(val("rI"))||1,dt=val("rD")||today();
     const g=goalOf(gid), m=g&&mid?g.metrics.find(x=>x.id===mid):null;
     if(m) jAdd({kind:"fact",date:dt,goalId:gid,metricId:mid,qty:q,unit:m.unit||"",sourceType:"manual",
       title:val("rT")||`+${nfmt(q)} · ${m.name.toLowerCase()}`,xp});
     else jAdd({date:dt,goalId:gid,title:val("rT")||"Дія",qty:0,sourceType:"manual",xp});
-    addXP(xp); closeModal(); commit(monthIdOfDate(dt)?"Записано":"Записано (дата вне периода — в месяцы не попадёт)");}}]});
+    addXP(xp); closeModal(); commit(monthIdOfDate(dt)?"Записано":"Записано (дата поза періодом — у місяці не потрапить)");}}]});
   syncMetricSelect("rG","rM"); break;
  }
 
@@ -3094,13 +3694,13 @@ function act(a,el){
   const ex=S.weekReviews.find(x=>x.date===st);
   if(ex) Object.assign(ex,sum,rv); else S.weekReviews.push({id:uid(),date:st,...sum,...rv});
   const ar=S.weekArchive.find(w=>w.start===st); if(ar){ ar.review=rv; ar.reviewStatus="done"; }
-  commit("💭 Итоги недели сохранены"); break;
+  commit("💭 Підсумки тижня збережено"); break;
  }
  case "mrsave":{
   S.monthReviews[id]={a1:val("mr1"),a2:val("mr2"),a3:val("mr3"),a4:val("mr4"),status:"done"};
   S.monthQueue=(S.monthQueue||[]).filter(x=>x!==id);
   if(S.monthPending===id) S.monthPending=S.monthQueue[0]||"";
-  commit("🔎 Итоги месяца сохранены"); break;
+  commit("🔎 Підсумки місяця збережено"); break;
  }
  }
 }
@@ -3108,7 +3708,7 @@ function nextWeek(){const d=new Date(S.week.start||today());d.setDate(d.getDate(
 function syncMetricSelect(gSel,mSel,cur){
  const g=$("#"+gSel), m=$("#"+mSel); if(!g||!m) return;
  const fill=()=>{const go=goalOf(g.value);
-  m.innerHTML=`<option value="">не учитывать</option>`+(go?go.metrics.map(x=>`<option value="${x.id}" ${cur===x.id?"selected":""}>${x.emoji||"✅"} ${esc(x.name)}${x.regular?" · 🔁":""}</option>`).join(""):"");};
+  m.innerHTML=`<option value="">не враховувати</option>`+(go?go.metrics.map(x=>`<option value="${x.id}" ${cur===x.id?"selected":""}>${x.emoji||"✅"} ${esc(x.name)}${x.regular?" · 🔁":""}</option>`).join(""):"");};
  fill(); g.onchange=fill;
 }
 
@@ -3154,55 +3754,55 @@ function newWeekFlow(rebuild,draft){
  const sug=suggestWeek(S.catchUp,D.easy);
  const mid=curMonthId();
  window.__rebuild=!!rebuild;
- modal({title:rebuild?"✨ Пересобрать текущую неделю":"✨ Новая неделя",wide:true,body:`
-  <div class="sub" style="margin-bottom:16px">Неделя ${weekLabel(mondayOf(today()))} · в ${esc(monthMeta().label)} осталось ${daysLeftInMonth()} дней и примерно ${weeksLeftInMonth()} недель.</div>
-  ${S.missedWeeks>0?`<div class="hint warn" style="margin-bottom:16px">Пропущено недель: ${S.missedWeeks}. Они сохранятся в истории как «неделя не велась». Хвосты старого плана не переношу — начнём с чистого листа.</div>`:""}
-  ${left.length?`<div style="font-size:16px;margin-bottom:10px">Осталось с прошлой недели</div>
+ modal({title:rebuild?"✨ Перезібрати поточний тиждень":"✨ Новий тиждень",wide:true,body:`
+  <div class="sub" style="margin-bottom:16px">Тиждень ${weekLabel(mondayOf(today()))} · у ${esc(monthMeta().label)} лишилось ${daysLeftInMonth()} днів і приблизно ${weeksLeftInMonth()} тижнів.</div>
+  ${S.missedWeeks>0?`<div class="hint warn" style="margin-bottom:16px">Пропущено тижнів: ${S.missedWeeks}. Вони збережуться в історії як «тиждень не вівся». Хвости старого плану не переношу — почнемо з чистого аркуша.</div>`:""}
+  ${left.length?`<div style="font-size:16px;margin-bottom:10px">Залишилось з минулого тижня</div>
    ${left.map(t=>`<div class="rowj" style="padding:9px 0;gap:10px;flex-wrap:wrap">
-     <span style="flex:1;min-width:150px;font-size:15.5px">⬜ ${esc(t.title)}${t.type==="count"?` <span class="small">${t.completed} из ${t.planned}</span>`:""}</span>
+     <span style="flex:1;min-width:150px;font-size:15.5px">⬜ ${esc(t.title)}${t.type==="count"?` <span class="small">${t.completed} з ${t.planned}</span>`:""}</span>
      <select class="lf" data-id="${t.id}" style="max-width:190px">
-      <option value="drop" selected>оставить в прошлой неделе</option>
+      <option value="drop" selected>залишити в минулому тижні</option>
       <option value="move">→ перенести</option>
-      <option value="old">✅ больше не актуально</option>
+      <option value="old">✅ більше не актуально</option>
      </select></div>`).join("")}
-   <div class="small" style="margin-top:6px">По умолчанию ничего не переносится — выбери сама, что действительно нужно.</div>
+   <div class="small" style="margin-top:6px">За замовчуванням нічого не переноситься — обери сама, що дійсно потрібно.</div>
    <div class="divider"></div>`:""}
-  <div class="rowj" style="margin-bottom:10px"><span style="font-size:16px">✨ Предлагаю на эту неделю</span>
-   <span class="pill">${S.catchUp?"режим догнать":"обычный темп"}</span></div>
-  <div class="small" style="margin-bottom:12px">Собираю из трёх источников: регулярный ритм, остаток месячного плана и ближайшие шаги. Долг за прошлые недели не набрасываю.</div>
+  <div class="rowj" style="margin-bottom:10px"><span style="font-size:16px">✨ Пропоную на цей тиждень</span>
+   <span class="pill">${S.catchUp?"режим наздогнати":"звичайний темп"}</span></div>
+  <div class="small" style="margin-bottom:12px">Збираю з трьох джерел: регулярний ритм, залишок місячного плану та найближчі кроки. Борг за минулі тижні не накидаю.</div>
   ${["reg","plan","step"].map(gr=>{
    const items=sug.map((s,i)=>({s,i})).filter(x=>x.s.group===gr);
    if(!items.length) return "";
-   const ttl=gr==="reg"?"🔁 Регулярный ритм":gr==="plan"?"📊 Из плана месяца":"✅ Ближайшие шаги";
+   const ttl=gr==="reg"?"🔁 Регулярний ритм":gr==="plan"?"📊 З плану місяця":"✅ Найближчі кроки";
    return `<div style="margin-top:14px"><div class="small" style="margin-bottom:4px">${ttl}</div>
    ${items.map(({s,i},k)=>s.full
     ?`<div class="rowj" style="padding:9px 0;gap:10px;flex-wrap:wrap">
        <label class="row" style="flex:1;min-width:160px"><input type="checkbox" class="chk sg" data-i="${i}">
         <span style="font-size:15.5px">${s.emoji} ${esc(s.title)} <span class="small">${s.gemoji} ${esc(s.goalName)}</span></span></label>
        <span class="row" style="flex:none;gap:8px"><input type="number" class="sq" data-i="${i}" value="${s.per}" min="1" style="width:84px">
-        <span class="small">🎉 план месяца выполнен</span></span></div>`
+        <span class="small">🎉 план місяця виконано</span></span></div>`
     :`<div class="rowj" style="padding:9px 0;gap:10px;flex-wrap:wrap">
        <label class="row" style="flex:1;min-width:160px"><input type="checkbox" class="chk sg" data-i="${i}" ${s.pick?"checked":""}>
         <span style="font-size:15.5px">${s.emoji} ${esc(s.title)} <span class="small">${s.gemoji} ${esc(s.goalName)}</span></span></label>
        <span class="row" style="flex:none;gap:8px">
-        ${s.kind==="binary"?`<span class="pill">одно действие</span>`:`<input type="number" class="sq" data-i="${i}" value="${s.planned}" min="1" style="width:${s.kind==="volume"?110:84}px">`}
-        <span class="small">${s.kind==="volume"?(isMinUnit(s.unit)?"минут за неделю":esc(s.unit||"")+" за неделю"):s.group==="reg"?`обычно ${esc(uFmt(s.per,s.unit))} в неделю`:`осталось ${aFmt(s.left,s.unit)}`}</span></span></div>`
+        ${s.kind==="binary"?`<span class="pill">одна дія</span>`:`<input type="number" class="sq" data-i="${i}" value="${s.planned}" min="1" style="width:${s.kind==="volume"?110:84}px">`}
+        <span class="small">${s.kind==="volume"?(isMinUnit(s.unit)?"хвилин за тиждень":esc(s.unit||"")+" за тиждень"):s.group==="reg"?`зазвичай ${esc(uFmt(s.per,s.unit))} на тиждень`:`залишилось ${aFmt(s.left,s.unit)}`}</span></span></div>`
    ).join("")}</div>`;
-  }).join("")||`<div class="hint ok">По активным целям на этот месяц ничего не запланировано. Можно добавить свои задачи.</div>`}
+  }).join("")||`<div class="hint ok">За активними цілями на цей місяць нічого не заплановано. Можна додати свої завдання.</div>`}
   <div class="divider"></div>
-  <label class="f"><span>🎯 Фокус недели</span><input type="text" id="nwF" value="${esc(S.week.focus||"")}"></label>
-  <label class="f"><span>🔥 Главный вызов</span><input type="text" id="nwC" placeholder="Одна важная или психологически сложная задача"></label>
-  ${D.own.length?`<div style="margin-top:14px"><div class="small" style="margin-bottom:4px">➕ Мои задачи</div>
+  <label class="f"><span>🎯 Фокус тижня</span><input type="text" id="nwF" value="${esc(S.week.focus||"")}"></label>
+  <label class="f"><span>🔥 Головний виклик</span><input type="text" id="nwC" placeholder="Одне важливе або психологічно складне завдання"></label>
+  ${D.own.length?`<div style="margin-top:14px"><div class="small" style="margin-bottom:4px">➕ Мої завдання</div>
    ${D.own.map((t,i)=>`<div class="rowj" style="padding:9px 0"><span style="font-size:15.5px">${esc(t.title)}${t.type!=="binary"?` <span class="small">×${t.planned}</span>`:""}</span>
     <button class="ico" data-a="ownDel" data-id="${i}">🗑</button></div>`).join("")}</div>`:""}
   <div class="divider"></div>
-  <label class="row" style="margin-bottom:10px"><input type="checkbox" class="chk" id="nwEasy" ${D.easy?"checked":""}><span style="font-size:15.5px">🌱 Лёгкая неделя</span></label>
-  <div class="small" style="margin:-4px 0 12px">Регулярные действия берут облегчённый объём, необязательного меньше. Это режим, а не долг: следующая неделя снова обычная.</div>
-  <label class="row" style="margin-bottom:6px"><input type="checkbox" class="chk" id="nwCatch" ${S.catchUp?"checked":""}><span style="font-size:15.5px">Хочу догнать план месяца</span></label>
-  <div class="hint" style="margin-top:10px">Спокойный объём недели — 5–8 действий. Если получится больше, я предупрежу до применения.</div>`,
+  <label class="row" style="margin-bottom:10px"><input type="checkbox" class="chk" id="nwEasy" ${D.easy?"checked":""}><span style="font-size:15.5px">🌱 Легкий тиждень</span></label>
+  <div class="small" style="margin:-4px 0 12px">Регулярні дії беруть полегшений обсяг, необов'язкового менше. Це режим, а не борг: наступний тиждень знову звичайний.</div>
+  <label class="row" style="margin-bottom:6px"><input type="checkbox" class="chk" id="nwCatch" ${S.catchUp?"checked":""}><span style="font-size:15.5px">Хочу наздогнати план місяця</span></label>
+  <div class="hint" style="margin-top:10px">Спокійний обсяг тижня — 5–8 дій. Якщо вийде більше, я попереджу до застосування.</div>`,
   actions:[{t:"Скасувати",c:"o",fn:()=>{window.__draft=null;closeModal();}},
-   {t:"➕ Добавить своё",c:"o",fn:()=>{saveDraft(sug);taskModal(null,null,{draft:true,back:()=>newWeekFlow(rebuild)});}},
-   {t:"✅ Принять план",fn:()=>{saveDraft(sug);applyWeek(sug,false);}}]});
+   {t:"➕ Додати своє",c:"o",fn:()=>{saveDraft(sug);taskModal(null,null,{draft:true,back:()=>newWeekFlow(rebuild)});}},
+   {t:"✅ Прийняти план",fn:()=>{saveDraft(sug);applyWeek(sug,false);}}]});
  const cb=$("#nwCatch"); if(cb) cb.onchange=()=>{saveDraft(sug);S.catchUp=cb.checked;save();newWeekFlow(rebuild);};
  const eb=$("#nwEasy"); if(eb) eb.onchange=()=>{saveDraft(sug);D.easy=eb.checked;newWeekFlow(rebuild);};
  if(D.picked) document.querySelectorAll(".sg").forEach(c=>{ c.checked=D.picked.includes(c.dataset.i); });
@@ -3217,7 +3817,7 @@ function collectWeek(sug){
   if(sel.value==="move"){
    /* переносится только остаток: сделанное уже записано в журнал и факт метрики */
    const left=(t.type==="binary")?1:Math.max(1,(Number(t.planned)||1)-(Number(t.completed)||0));
-   carried.push({...t,id:uid(),done:false,completed:0,planned:left,xpGiven:false,carried:(t.carried||0)+1});
+   carried.push({...t,id:uid(),done:false,doneLevel:"",completed:0,planned:left,xpGiven:false,carried:(t.carried||0)+1});
   }
   else if(sel.value==="old") dropped.push(t);
  });
@@ -3229,7 +3829,7 @@ function collectWeek(sug){
   picked.push({id:uid(),goalId:s.goalId,metricId:s.metricId||"",title:s.title,
    type:s.kind==="binary"?"binary":(s.kind==="volume"?"volume":"count"),
    planned:q,completed:0,done:false,imp:!!s.imp,challenge:!!s.challenge,
-   easy:s.group==="reg"&&s.easyWeek?`Лёгкая версия: ${uFmt(s.easyWeek,s.unit)}`:"",day:"",note:"",carried:0,reason:"",reasons:[],
+   easy:s.group==="reg"&&s.easyWeek?`Легка версія: ${uFmt(s.easyWeek,s.unit)}`:"",day:"",note:"",carried:0,reason:"",reasons:[],
    xpGiven:false,source:s.source||{kind:"manual"}});
  });
  return {carried,picked,dropped};
@@ -3247,10 +3847,10 @@ function applyWeek(sug,thenAdd,force){
  (D.own||[]).forEach(t=>picked.push(Object.assign({},t,{id:uid()})));
  const total=carried.length+picked.length;
  if(total>LIMITS.week&&!force){
-  modal({title:"🌿 Многовато на одну неделю",body:`<div class="sub">Получается ${total} действий. Обычно спокойно проходит 5–8.</div>
-   <div class="hint" style="margin-top:14px">Можно вернуться и снять лишнее — или оставить как есть, если это осознанно.</div>`,
-   actions:[{t:"Вернуться и убрать",c:"o",fn:()=>{closeModal();setTimeout(()=>newWeekFlow(window.__rebuild),60);}},
-            {t:"Оставить как есть",fn:()=>{closeModal();setTimeout(()=>applyWeekNow(carried,picked,dropped,thenAdd),40);}}]});
+  modal({title:"🌿 Забагато на один тиждень",body:`<div class="sub">Виходить ${total} дій. Зазвичай спокійно проходить 5–8.</div>
+   <div class="hint" style="margin-top:14px">Можна повернутися і зняти зайве — або залишити як є, якщо це усвідомлено.</div>`,
+   actions:[{t:"Повернутися і прибрати",c:"o",fn:()=>{closeModal();setTimeout(()=>newWeekFlow(window.__rebuild),60);}},
+            {t:"Залишити як є",fn:()=>{closeModal();setTimeout(()=>applyWeekNow(carried,picked,dropped,thenAdd),40);}}]});
   return;
  }
  applyWeekNow(carried,picked,dropped,thenAdd);
@@ -3297,7 +3897,7 @@ function aiTimeContext(){
   : `Неделя, сохранённая в Life Planner: ${weekLabel(sw)} (начинается ${sw}). Это НЕ текущая календарная неделя — план в приложении отстал на ${Math.max(0,Math.round(daysBetween(sw,cw)/7))} нед. Текущая календарная неделя: ${weekLabel(cw)}.`);
  return L.join("\n");
 }
-const PRIO={3:"ключевая",2:"важная",1:"поддерживающая"};
+const PRIO={3:"ключова",2:"важлива",1:"допоміжна"};
 const xfmt=n=>(Math.round(Number(n)||0)).toLocaleString("ru-RU");
 function goalsBlock(list){
  return list.map(g=>{
@@ -3702,7 +4302,7 @@ function aiPlan(t){
 }
 function aiFact(t){
  const u=aiUnit(t);
- if(t.type==="binary") return t.done?"выполнено":"не выполнено";
+ if(t.type==="binary") return t.done?"виконано":"не виконано";
  /* единицу пишем один раз в конце; для минут обе части в человеческом виде */
  return isMinUnit(u)
   ? `сделано ${formatMinutes(t.completed)} из ${formatMinutes(t.planned)}`
@@ -4057,118 +4657,118 @@ function checkUpdate(p){
  }
  const any=r.week||r.goalUpdates.length||r.metricUpdates.length||r.hypothesisUpdates.length||r.monthPlanUpdates.length||r.newGoals.length||r.pauseGoals.length
   ||r.newMetrics.length||r.resultEntries.length||r.resultMetricUpdates.length||r.newResultMetrics.length||r.newHypotheses.length;
- if(!any) return {fatal:"В пакете нет изменений, которые можно применить.",warns:r.warns};
+ if(!any) return {fatal:"У пакеті немає змін, які можна застосувати.",warns:r.warns};
  try{ const js=JSON.stringify(p); r.packetKey="upd1_"+strHash(js)+"_"+js.length; }catch(e){}
  if(r.packetKey&&(S.appliedPackets||[]).some(x=>x.key===r.packetKey)){
   r.alreadyApplied=true;
-  r.warns.unshift("⚠️ Этот пакет уже применялся раньше. Повторное применение может создать дубли.");
+  r.warns.unshift("⚠️ Цей пакет вже застосовувався раніше. Повторне застосування може створити дублі.");
  }
  return r;
 }
 function previewUpdate(r){
  const B=[];
  if(r.week){
-  B.push(`<div class="h-sec" style="margin-bottom:6px">📅 Новая неделя: ${weekLabel(r.week.start)}</div>`);
+  B.push(`<div class="h-sec" style="margin-bottom:6px">📅 Новий тиждень: ${weekLabel(r.week.start)}</div>`);
   const undone=S.week.tasks.filter(t=>!t.done).length;
   const sameW=mondayOf(S.week.start)===r.week.start, doneN=S.week.tasks.filter(t=>t.done).length;
   B.push(sameW
-   ? `<div class="hint warn" style="margin-bottom:12px">Это та же неделя, что открыта сейчас.${doneN?` Уже выполнено: ${doneN} — эти действия останутся в текущей неделе.`:""} Новый план заменит только оставшуюся часть недели${undone?` (${undone} невыполненных)`:""}.${r.week.tasks.length?"":" В пакете нет задач."}</div>`
-   : `<div class="hint warn" style="margin-bottom:12px">Текущий план недели (${S.week.tasks.length} действий${undone?`, из них ${undone} не выполнено`:""}) будет заменён этим. Выполненное останется в истории и в фактах.${r.week.tasks.length?"":" В пакете нет задач — неделя окажется пустой."}</div>`);
+   ? `<div class="hint warn" style="margin-bottom:12px">Це той самий тиждень, що відкритий зараз.${doneN?` Вже виконано: ${doneN} — ці дії залишаться в поточному тижні.`:""} Новий план замінить лише частину тижня, що залишилась${undone?` (${undone} невиконаних)`:""}.${r.week.tasks.length?"":" У пакеті немає завдань."}</div>`
+   : `<div class="hint warn" style="margin-bottom:12px">Поточний план тижня (${S.week.tasks.length} дій${undone?`, з них ${undone} не виконано`:""}) буде замінено цим. Виконане залишиться в історії та у фактах.${r.week.tasks.length?"":" У пакеті немає завдань — тиждень буде порожнім."}</div>`);
   if(r.week.focus) B.push(`<div class="sub" style="margin-bottom:6px">🎯 Фокус: ${esc(r.week.focus)}</div>`);
-  if(r.week.challenge) B.push(`<div class="sub" style="margin-bottom:10px">🔥 Главный вызов: ${esc(r.week.challenge)}</div>`);
-  B.push(`<div class="small" style="margin-bottom:4px">Задачи</div>`);
+  if(r.week.challenge) B.push(`<div class="sub" style="margin-bottom:10px">🔥 Головний виклик: ${esc(r.week.challenge)}</div>`);
+  B.push(`<div class="small" style="margin-bottom:4px">Завдання</div>`);
   B.push(r.week.tasks.map(t=>{const g=goalOf(t.goalId);
    return `<div class="rowj" style="padding:6px 0"><span style="font-size:15.5px">➕ ${g?g.emoji:"📝"} ${esc(t.title)}</span>
-    <span class="small">${t.type==="binary"?"одно действие":esc(aiVal(t.planned,aiUnit(t)))}${t.metricId?" · 🔗 метрика":""}${t.challenge?" · 🔥":t.imp?" · важное":""}</span></div>`;}).join("")||`<div class="small">Задач нет</div>`);
+    <span class="small">${t.type==="binary"?"одна дія":esc(aiVal(t.planned,aiUnit(t)))}${t.metricId?" · 🔗 метрика":""}${t.challenge?" · 🔥":t.imp?" · важливе":""}</span></div>`;}).join("")||`<div class="small">Завдань немає</div>`);
  }
- if(r.goalUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🎯 Цели</div>`);
+ if(r.goalUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🎯 Цілі</div>`);
   r.goalUpdates.forEach(o=>{const g=goalOf(o.id);
-   const f=[]; if(o.fields.name) f.push(`название → ${o.fields.name}`);
-   if(o.fields.deadline) f.push(`срок → ${dfull(o.fields.deadline)}`);
-   if(o.fields.priority) f.push(`приоритет → ${PRIO[o.fields.priority]}`);
-   if(o.fields.status) f.push(`статус → ${o.fields.status==="done"?"завершена":o.fields.status==="paused"?"на паузе":"активна"}`);
-   if(o.fields.hypothesis) f.push("новая формулировка гипотезы");
-   if(o.fields.note) f.push("обновлённая заметка");
+   const f=[]; if(o.fields.name) f.push(`назва → ${o.fields.name}`);
+   if(o.fields.deadline) f.push(`термін → ${dfull(o.fields.deadline)}`);
+   if(o.fields.priority) f.push(`пріоритет → ${PRIO[o.fields.priority]}`);
+   if(o.fields.status) f.push(`статус → ${o.fields.status==="done"?"завершена":o.fields.status==="paused"?"на паузі":"активна"}`);
+   if(o.fields.hypothesis) f.push("нове формулювання гіпотези");
+   if(o.fields.note) f.push("оновлена нотатка");
    B.push(`<div style="padding:6px 0;font-size:15.5px">${g.emoji} ${esc(g.name)}: ${esc(f.join(", "))}</div>`);});
  }
  if(r.metricUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">⚡ Метрики</div>`);
   r.metricUpdates.forEach(o=>{const g=goalOf(o.goalId),m=g.metrics.find(x=>x.id===o.metricId);
-   const f=[]; if(o.fields.name) f.push(`название → ${o.fields.name}`);
+   const f=[]; if(o.fields.name) f.push(`назва → ${o.fields.name}`);
    const mu=o.fields.unit!=null?String(o.fields.unit):(m.unit||"");
-   if(o.fields.total!=null) f.push(`всего ${aiVal(m.total,m.unit||"")} → ${aiVal(o.fields.total,mu)}`);
-   if(o.fields.regular!=null) f.push(o.fields.regular?"станет регулярной":"перестанет быть регулярной");
-   if(o.fields.valueType) f.push(o.fields.valueType==="volume"?"станет объёмной":"станет счётной");
-   if(o.fields.perWeek!=null) f.push(`ритм → ${aiVal(o.fields.perWeek,mu)} в неделю`);
-   if(o.fields.easyWeek!=null) f.push(`лёгкая версия → ${aiVal(o.fields.easyWeek,mu)}`);
+   if(o.fields.total!=null) f.push(`всього ${aiVal(m.total,m.unit||"")} → ${aiVal(o.fields.total,mu)}`);
+   if(o.fields.regular!=null) f.push(o.fields.regular?"стане регулярною":"перестане бути регулярною");
+   if(o.fields.valueType) f.push(o.fields.valueType==="volume"?"стане обсяговою":"стане лічильною");
+   if(o.fields.perWeek!=null) f.push(`ритм → ${aiVal(o.fields.perWeek,mu)} на тиждень`);
+   if(o.fields.easyWeek!=null) f.push(`легка версія → ${aiVal(o.fields.easyWeek,mu)}`);
    B.push(`<div style="padding:6px 0;font-size:15.5px">${m.emoji||"✅"} ${esc(m.name)} (${g.emoji}): ${esc(f.join(", "))}</div>`);});
  }
- if(r.resultEntries.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🎯 Записи результата</div>`);
+ if(r.resultEntries.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🎯 Записи результату</div>`);
   r.resultEntries.forEach(o=>{
    const d=o.prev==null?null:o.value-o.prev;
    B.push(`<div class="rowj" style="padding:6px 0"><span style="font-size:15.5px">${o.rEmoji} ${esc(o.rName)} <span class="small">${o.gEmoji} ${esc(o.gName)}</span></span>
-    <span class="row" style="gap:8px"><span class="small">${dfmt(o.date)}${o.type==="cumulative_period"?" · накоплено":""}</span>
+    <span class="row" style="gap:8px"><span class="small">${dfmt(o.date)}${o.type==="cumulative_period"?" · накопичено":""}</span>
     <span class="num">${o.prev==null?"":vfmt(o.prev)+" → "}${vfmt(o.value)}${o.unit?" "+esc(o.unit):""}</span>
     ${d?`<span class="pill">${d>0?"+":"−"}${vfmt(Math.abs(d))}</span>`:""}</span></div>`);});
  }
- if(r.resultMetricUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🎯 Настройка показателей</div>`);
+ if(r.resultMetricUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🎯 Налаштування показників</div>`);
   r.resultMetricUpdates.forEach(o=>{
    const f=[]; const F=o.fields;
-   if(F.name) f.push(`название → ${F.name}`);
-   if(F.type) f.push(`способ измерения → ${RTYPE[F.type].replace(/^\S+\s/,"")}`);
+   if(F.name) f.push(`назва → ${F.name}`);
+   if(F.type) f.push(`спосіб вимірювання → ${RTYPE[F.type].replace(/^\S+\s/,"")}`);
    if(F.successRule) f.push(`правило → ${RRULE[F.successRule].toLowerCase()}`);
    if(F.baseline!=null) f.push(`старт → ${vfmt(F.baseline)}`);
-   if(F.target!=null) f.push(`цель → ${vfmt(F.target)}`);
-   if(F.accumulationPeriod) f.push(`период → ${F.accumulationPeriod==="week"?"неделя":F.accumulationPeriod==="month"?"месяц":"весь период"}`);
-   if(F.checkFrequency) f.push(`проверка → ${RFREQ[F.checkFrequency].toLowerCase()}`);
-   if(F.status) f.push(F.status==="paused"?"на паузу":"активен");
-   if(F.primary!=null) f.push(F.primary?"станет основным":"перестанет быть основным");
-   if(F.unit!=null) f.push(`единица → ${F.unit||"без единицы"}`);
+   if(F.target!=null) f.push(`ціль → ${vfmt(F.target)}`);
+   if(F.accumulationPeriod) f.push(`період → ${F.accumulationPeriod==="week"?"тиждень":F.accumulationPeriod==="month"?"місяць":"весь період"}`);
+   if(F.checkFrequency) f.push(`перевірка → ${RFREQ[F.checkFrequency].toLowerCase()}`);
+   if(F.status) f.push(F.status==="paused"?"на паузу":"активний");
+   if(F.primary!=null) f.push(F.primary?"стане основним":"перестане бути основним");
+   if(F.unit!=null) f.push(`одиниця → ${F.unit||"без одиниці"}`);
    B.push(`<div style="padding:6px 0;font-size:15.5px">${esc(o.rName)} (${esc(o.gName)}): ${esc(f.join(", "))}</div>`);});
  }
- if(r.newResultMetrics.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">➕ Новые показатели результата</div>`);
+ if(r.newResultMetrics.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">➕ Нові показники результату</div>`);
   r.newResultMetrics.forEach(o=>B.push(`<div style="padding:6px 0;font-size:15.5px">${o.emoji} ${esc(o.name)} для «${esc(o.gName)}» · ${esc(RTYPE[o.type].replace(/^\S+\s/,""))} · ${esc(RRULE[o.successRule].toLowerCase())} · ${vfmt(o.baseline)} → ${vfmt(o.target)}${o.unit?" "+esc(o.unit):""}</div>`));
  }
- if(r.newMetrics.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">➕ Новые метрики действий</div>`);
-  r.newMetrics.forEach(o=>B.push(`<div style="padding:6px 0;font-size:15.5px">${o.emoji} ${esc(o.name)} для «${esc(o.goalName)}» · всего ${aFmtU(o.total,o.unit)}${o.regular?` · регулярная, ${aFmtU(o.perWeek,o.unit)} в неделю`:""}</div>`));
+ if(r.newMetrics.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">➕ Нові метрики дій</div>`);
+  r.newMetrics.forEach(o=>B.push(`<div style="padding:6px 0;font-size:15.5px">${o.emoji} ${esc(o.name)} для «${esc(o.goalName)}» · всього ${aFmtU(o.total,o.unit)}${o.regular?` · регулярна, ${aFmtU(o.perWeek,o.unit)} на тиждень`:""}</div>`));
  }
- if(r.hypothesisUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🧪 Гипотезы</div>`);
+ if(r.hypothesisUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🧪 Гіпотези</div>`);
   r.hypothesisUpdates.forEach(o=>{const h=S.hyps.find(x=>x.id===o.id);
    const st=o.fields.status?(HST[o.fields.status]||HST.testing).t:"";
-   B.push(`<div style="padding:6px 0;font-size:15.5px">«${esc(h.name)}»${st?` → ${st}`:""}${o.fields.conclusion?`<div class="small">Вывод: ${esc(o.fields.conclusion)}</div>`:""}${o.fields.nextTest?`<div class="small">Следующий тест: ${esc(o.fields.nextTest)}</div>`:""}</div>`);});
+   B.push(`<div style="padding:6px 0;font-size:15.5px">«${esc(h.name)}»${st?` → ${st}`:""}${o.fields.conclusion?`<div class="small">Висновок: ${esc(o.fields.conclusion)}</div>`:""}${o.fields.nextTest?`<div class="small">Наступний тест: ${esc(o.fields.nextTest)}</div>`:""}</div>`);});
  }
- if(r.monthPlanUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">📊 План месяца</div>`);
+ if(r.monthPlanUpdates.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">📊 План місяця</div>`);
   r.monthPlanUpdates.forEach(o=>B.push(`<div class="rowj" style="padding:6px 0"><span style="font-size:15.5px">${o.emoji} ${esc(o.name)} ${o.gemoji} · ${esc(o.month)}</span><span class="num">${aFmt(o.was,o.unit)} → ${aFmt(o.planned,o.unit)}</span></div>`));
-  B.push(`<div class="small">Факт не трогаю — меняется только план.</div>`);
+  B.push(`<div class="small">Факт не чіпаю — змінюється лише план.</div>`);
  }
- if(r.newGoals.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">➕ Новые цели</div>`);
+ if(r.newGoals.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">➕ Нові цілі</div>`);
   r.newGoals.forEach(g=>B.push(`<div style="padding:8px 0${g.metrics&&g.metrics.length?";border-top:1px solid var(--line)":""}">
-   <div style="font-size:15.5px">${g.emoji} ${esc(g.name)} · ${g.type==="project"?"проект":g.type==="count"?"количество":"результат"}</div>
-   ${(g.metrics||[]).map(m=>`<div class="small" style="color:var(--ink3);margin-top:4px">${m.emoji} ${esc(m.name)}${m.regular?` · регулярно ${esc(aFmtU(m.perWeek,m.unit))} в неделю`:""}${m.total>0?` · всего ${esc(aFmtU(m.total,m.unit))}`:""}</div>`).join("")}
-   ${g.type==="project"&&g.steps.length?`<div class="small" style="color:var(--ink3);margin-top:4px">📍 Этапы: ${esc(g.steps.join(", "))}</div>`:""}</div>`));
+   <div style="font-size:15.5px">${g.emoji} ${esc(g.name)} · ${g.type==="project"?"проєкт":g.type==="count"?"кількість":"результат"}</div>
+   ${(g.metrics||[]).map(m=>`<div class="small" style="color:var(--ink3);margin-top:4px">${m.emoji} ${esc(m.name)}${m.regular?` · регулярно ${esc(aFmtU(m.perWeek,m.unit))} на тиждень`:""}${m.total>0?` · всього ${esc(aFmtU(m.total,m.unit))}`:""}</div>`).join("")}
+   ${g.type==="project"&&g.steps.length?`<div class="small" style="color:var(--ink3);margin-top:4px">📍 Етапи: ${esc(g.steps.join(", "))}</div>`:""}</div>`));
  }
- if(r.newHypotheses.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🧪 Новые гипотезы</div>`);
+ if(r.newHypotheses.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">🧪 Нові гіпотези</div>`);
   r.newHypotheses.forEach(o=>B.push(`<div style="padding:8px 0;border-top:1px solid var(--line)">
    <div style="font-size:15.5px">➕ ${esc(o.name)}</div>
-   <div class="small">Цель: ${o.gEmoji} ${esc(o.gName)} · с ${dfull(o.start)} · ${esc((HST[o.status]||HST.testing).t.replace(/^\S+\s/,""))}${o.primary?" · главная гипотеза цели":""}</div>
-   ${o.assume?`<div class="small" style="color:var(--ink3)">Предположение: ${esc(o.assume)}</div>`:""}
+   <div class="small">Ціль: ${o.gEmoji} ${esc(o.gName)} · з ${dfull(o.start)} · ${esc((HST[o.status]||HST.testing).t.replace(/^\S+\s/,""))}${o.primary?" · головна гіпотеза цілі":""}</div>
+   ${o.assume?`<div class="small" style="color:var(--ink3)">Припущення: ${esc(o.assume)}</div>`:""}
    ${o.test?`<div class="small" style="color:var(--ink3)">Тест: ${esc(o.test)}</div>`:""}</div>`));
  }
  if(r.pauseGoals.length){ B.push(`<div class="divider"></div><div class="h-sec" style="margin-bottom:6px">⏸ На паузу</div>`);
   r.pauseGoals.forEach(id=>{const g=goalOf(id);B.push(`<div style="padding:6px 0;font-size:15.5px">${g.emoji} ${esc(g.name)}</div>`);});
  }
  const newRegBlock=(r.newRegWeek||[]).length?`<div class="hint" style="margin-top:16px">
-  <div style="font-size:15.5px">⚡ В текущую неделю</div>
+  <div style="font-size:15.5px">⚡ У поточний тиждень</div>
   ${r.newRegWeek.map(o=>`<label class="row" style="margin-top:10px"><input type="checkbox" class="chk nmw" data-k="${esc(o.key)}" checked>
-   <span style="font-size:15.5px">Добавить «${esc(o.name)}» — ${esc(aiVal(o.planned,o.unit||""))}${o.goalName?` <span class="small">${esc(o.goalName)}</span>`:""}</span></label>`).join("")}
-  <div class="small" style="margin-top:8px">Текущая неделя не пересобирается: действие просто добавится к уже запланированным.</div></div>`:"";
- const missBlock=r.missReg.length?`<div class="hint warn" style="margin-top:16px">⚠️ В новой неделе нет регулярных действий:
-  ${r.missReg.map(m=>`<div style="margin-top:6px">${m.emoji} ${esc(m.name)} (${m.gemoji} ${esc(m.gname)}) — обычно ${esc(aiVal(m.per,m.unit||""))} в неделю</div>`).join("")}
-  <label class="row" style="margin-top:12px"><input type="checkbox" class="chk" id="addReg" checked><span style="font-size:15.5px">➕ Добавить автоматически</span></label></div>`:"";
- const dupBlock=r.alreadyApplied?`<div class="hint warn" style="margin-top:16px"><b style="font-weight:600">⚠️ Этот пакет уже применялся раньше.</b> Повторное применение может создать дубли.</div>`:"";
+   <span style="font-size:15.5px">Додати «${esc(o.name)}» — ${esc(aiVal(o.planned,o.unit||""))}${o.goalName?` <span class="small">${esc(o.goalName)}</span>`:""}</span></label>`).join("")}
+  <div class="small" style="margin-top:8px">Поточний тиждень не перезбирається: дія просто додасться до вже запланованих.</div></div>`:"";
+ const missBlock=r.missReg.length?`<div class="hint warn" style="margin-top:16px">⚠️ У новому тижні немає регулярних дій:
+  ${r.missReg.map(m=>`<div style="margin-top:6px">${m.emoji} ${esc(m.name)} (${m.gemoji} ${esc(m.gname)}) — зазвичай ${esc(aiVal(m.per,m.unit||""))} на тиждень</div>`).join("")}
+  <label class="row" style="margin-top:12px"><input type="checkbox" class="chk" id="addReg" checked><span style="font-size:15.5px">➕ Додати автоматично</span></label></div>`:"";
+ const dupBlock=r.alreadyApplied?`<div class="hint warn" style="margin-top:16px"><b style="font-weight:600">⚠️ Цей пакет вже застосовувався раніше.</b> Повторне застосування може створити дублі.</div>`:"";
  const warnBlock=r.warns.length?`<div class="hint warn" style="margin-top:16px">${r.warns.map(w=>`<div style="margin-bottom:6px">${esc(w)}</div>`).join("")}</div>`:"";
- modal({title:"✨ ИИ предлагает изменить",wide:true,body:dupBlock+B.join("")+newRegBlock+missBlock+warnBlock+
-   `<div class="small" style="margin-top:16px">История, прошлые недели, факты и прогресс сохранятся — меняется только то, что показано выше.</div>`,
-  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"✅ Применить изменения",fn:()=>{
+ modal({title:"✨ ШІ пропонує змінити",wide:true,body:dupBlock+B.join("")+newRegBlock+missBlock+warnBlock+
+   `<div class="small" style="margin-top:16px">Історія, минулі тижні, факти й прогрес збережуться — змінюється лише те, що показано вище.</div>`,
+  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"✅ Застосувати зміни",fn:()=>{
    const ar=$("#addReg");
    const pick=[]; document.querySelectorAll(".nmw").forEach(c=>{ if(c.checked) pick.push(c.dataset.k); });
    applyUpdate(r,ar?ar.checked:false,false,pick);}}]});
@@ -4293,17 +4893,17 @@ function mutateUpdateState(r,addReg,addNew){
 /* безопасное применение: подтверждение → копия → работа на кандидате → проверка → один финальный commit */
 function applyUpdate(r,addReg,confirmed,addNew){
  if(r.alreadyApplied&&!confirmed){
-  modal({title:"Этот пакет уже применялся",body:`
-   <div class="sub">Повторное применение может создать дубли или повторно изменить данные.</div>
-   <div class="hint warn" style="margin-top:14px">Если это тот же самый пакет из ИИ, лучше отменить.</div>`,
-   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Применить повторно",c:"red",fn:()=>applyUpdate(r,addReg,true,addNew)}]});
+  modal({title:"Цей пакет вже застосовувався",body:`
+   <div class="sub">Повторне застосування може створити дублі або повторно змінити дані.</div>
+   <div class="hint warn" style="margin-top:14px">Якщо це той самий пакет від ШІ, краще скасувати.</div>`,
+   actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Застосувати повторно",c:"red",fn:()=>applyUpdate(r,addReg,true,addNew)}]});
   return {ok:false,pending:true};
  }
  const bk=writePreImportBackup();
- if(!bk.ok){ toast("Не удалось создать резервную копию. Изменения из ИИ не применены."); return {ok:false,error:"backup"}; }
+ if(!bk.ok){ toast("Не вдалося створити резервну копію. Зміни від ШІ не застосовано."); return {ok:false,error:"backup"}; }
  const keep=S, keepTab=TAB, keepSel=MSEL;
  let cand=null;
- try{ cand=JSON.parse(JSON.stringify(S)); }catch(e){ toast("Изменения из ИИ не применены. Планер остался без изменений."); return {ok:false,error:"copy"}; }
+ try{ cand=JSON.parse(JSON.stringify(S)); }catch(e){ toast("Зміни від ШІ не застосовано. Планер лишився без змін."); return {ok:false,error:"copy"}; }
  let cnt=0;
  try{
   S=cand;
@@ -4313,25 +4913,25 @@ function applyUpdate(r,addReg,confirmed,addNew){
   const v=validateState(S);
   if(!v.ok) throw new Error(v.error);
   MSEL=null;
-  ["home","week","goals","path","wrev","mrev","ach","hyp","hist"].forEach(t=>{TAB=t;viewFor(t)();});
+  ["notebook","home","week","goals","path","wrev","mrev","ach","hyp","hist"].forEach(t=>{TAB=t;viewFor(t)();});
  }catch(e){
   S=keep; TAB=keepTab; MSEL=keepSel; jTouch();
-  toast("Изменения из ИИ не применены. Планер остался без изменений.");
+  toast("Зміни від ШІ не застосовано. Планер лишився без змін.");
   return {ok:false,error:(e&&e.message)||"apply"};
  }
  S=cand; TAB=r.week?"week":"goals"; MSEL=keepSel;
- closeModal(); commit(`✅ Изменения применены (${cnt})`);
+ closeModal(); commit(`✅ Зміни застосовано (${cnt})`);
  return {ok:true,n:cnt};
 }
 function importModal(){
  modal({title:"📥 Застосувати зміни з ШІ",wide:true,body:`
-  <div class="sub" style="margin-bottom:14px">Вставь сюда блок LIFE_PLANNER_UPDATE, который дал ChatGPT или Claude. Можно вставить весь ответ целиком — я найду нужную часть.</div>
+  <div class="sub" style="margin-bottom:14px">Встав сюди блок LIFE_PLANNER_UPDATE, який дав ChatGPT або Claude. Можна вставити всю відповідь цілком — я знайду потрібну частину.</div>
   <textarea id="impT" style="min-height:260px;font-size:15px" placeholder='{ "type": "LIFE_PLANNER_UPDATE", "version": 1, ... }'></textarea>
-  <div class="small" style="margin-top:12px">Ничего не применится сразу — сначала покажу, что именно изменится.</div>`,
-  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Проверить изменения",fn:()=>{
+  <div class="small" style="margin-top:12px">Нічого не застосується одразу — спочатку покажу, що саме зміниться.</div>`,
+  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Перевірити зміни",fn:()=>{
    const p=extractJSON(val("impT"),"LIFE_PLANNER_UPDATE");
-   if(p&&p.__wrongType){ toast(p.__wrongType==="LIFE_PLANNER_INIT"?"Это пакет первоначального плана — его применяют через «Створити новий план із розпакування»":"Это не пакет LIFE_PLANNER_UPDATE"); return; }
-   if(!p){ toast("Не нашла LIFE_PLANNER_UPDATE в этом тексте"); return; }
+   if(p&&p.__wrongType){ toast(p.__wrongType==="LIFE_PLANNER_INIT"?"Це пакет початкового плану — його застосовують через «Створити новий план із розпакування»":"Це не пакет LIFE_PLANNER_UPDATE"); return; }
+   if(!p){ toast("Не знайшла LIFE_PLANNER_UPDATE у цьому тексті"); return; }
    const r=checkUpdate(p);
    if(r.fatal){ toast("⚠️ "+r.fatal); return; }
    closeModal(); setTimeout(()=>previewUpdate(r),80);
@@ -4455,11 +5055,11 @@ function resultEntryModal(g,rm,opts){
 /* фактический результат нельзя записать будущей датой */
 function futureGuard(date,onOk,onFix){
  if(date<=today()){ onOk(); return; }
- modal({title:"Дата ещё не наступила",body:`<div class="sub">${dfull(date)} — это будущее. Показатель результата фиксирует то, что уже измерено, поэтому такую запись сохранить нельзя.</div>
-  <div class="hint" style="margin-top:14px">Поставь сегодняшнюю дату или дату, когда измерение действительно было.</div>`,
-  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Изменить дату",fn:()=>{ closeModal(); if(onFix) setTimeout(onFix,60); }}]});
+ modal({title:"Дата ще не настала",body:`<div class="sub">${dfull(date)} — це майбутнє. Показник результату фіксує те, що вже виміряно, тому такий запис зберегти не можна.</div>
+  <div class="hint" style="margin-top:14px">Постав сьогоднішню дату або дату, коли вимірювання справді було.</div>`,
+  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Змінити дату",fn:()=>{ closeModal(); if(onFix) setTimeout(onFix,60); }}]});
 }
-/* уменьшение накопленного внутри одного периода — почти всегда ошибка ввода */
+/* зменшення накопиченого всередині одного періоду — майже завжди помилка вводу */
 function cumulativeGuard(g,rm,value,date,onOk){
  if(rm.type!=="cumulative_period"){ onOk(); return; }
  const b=bucketOf(rm,date);
@@ -4467,26 +5067,26 @@ function cumulativeGuard(g,rm,value,date,onOk){
  if(!inB.length){ onOk(); return; }
  const prev=Number(inB[inB.length-1].value);
  if(value>=prev){ onOk(); return; }
- modal({title:"Значение меньше предыдущего",body:`
-  <div class="sub">В периоде «${esc(bucketLabel(rm,b))}» уже записано ${vfmt(prev)}${rm.unit?" "+esc(rm.unit):""}, а сейчас введено ${vfmt(value)}${rm.unit?" "+esc(rm.unit):""}.</div>
-  <div class="hint" style="margin-top:14px">Для накопительного показателя вводится общая сумма с начала периода, а не прибавка. Что это?</div>`,
+ modal({title:"Значення менше за попереднє",body:`
+  <div class="sub">У періоді «${esc(bucketLabel(rm,b))}» вже записано ${vfmt(prev)}${rm.unit?" "+esc(rm.unit):""}, а зараз введено ${vfmt(value)}${rm.unit?" "+esc(rm.unit):""}.</div>
+  <div class="hint" style="margin-top:14px">Для накопичувального показника вводиться загальна сума з початку періоду, а не надбавка. Що це?</div>`,
   actions:[
    {t:"Скасувати",c:"o",fn:closeModal},
-   {t:"Это прибавка",c:"o",fn:()=>{ closeModal(); rAdd(g,rm,prev+value,date,"manual","введена прибавка "+vfmt(value)); commit(`Записано ${vfmt(prev+value)}`); }},
-   {t:"Исправить прошлую запись",c:"o",fn:()=>{ const i=S.journal.findIndex(x=>x.id===inB[inB.length-1].id);
-     if(i>=0) S.journal.splice(i,1); jTouch(); closeModal(); rAdd(g,rm,value,date,"manual","исправление прошлой записи"); commit("Запись исправлена"); }},
-   {t:"Да, накоплено столько",fn:()=>{ closeModal(); onOk(); }}]});
+   {t:"Це надбавка",c:"o",fn:()=>{ closeModal(); rAdd(g,rm,prev+value,date,"manual","введено надбавку "+vfmt(value)); commit(`Записано ${vfmt(prev+value)}`); }},
+   {t:"Виправити минулий запис",c:"o",fn:()=>{ const i=S.journal.findIndex(x=>x.id===inB[inB.length-1].id);
+     if(i>=0) S.journal.splice(i,1); jTouch(); closeModal(); rAdd(g,rm,value,date,"manual","виправлення минулого запису"); commit("Запис виправлено"); }},
+   {t:"Так, накопичено стільки",fn:()=>{ closeModal(); onOk(); }}]});
 }
-/* дата вне периода: спросить, а не молча принять */
+/* дата поза періодом: запитати, а не мовчки прийняти */
 function outOfPeriodGuard(date,onOk){
  if(date>=S.period.start&&date<=S.period.end){ onOk(); return; }
- modal({title:"Дата вне периода",body:`<div class="sub">${dfull(date)} находится за пределами периода ${dfull(S.period.start)} — ${dfull(S.period.end)}.</div>
-  <div class="hint" style="margin-top:14px">Такая запись не попадёт ни в один месяц и не будет видна в помесячной таблице.</div>`,
+ modal({title:"Дата поза періодом",body:`<div class="sub">${dfull(date)} перебуває за межами періоду ${dfull(S.period.start)} — ${dfull(S.period.end)}.</div>
+  <div class="hint" style="margin-top:14px">Такий запис не потрапить у жоден місяць і не буде видно в помісячній таблиці.</div>`,
   actions:[{t:"Скасувати",c:"o",fn:closeModal},
-   {t:"Расширить период",c:"o",fn:()=>{
+   {t:"Розширити період",c:"o",fn:()=>{
     const a=date<S.period.start?date:S.period.start, b=date>S.period.end?date:S.period.end;
-    rebuildMonths(a,b); checkPeriods(); closeModal(); onOk(); toast("Период расширен");}},
-   {t:"Всё равно записать",fn:()=>{ closeModal(); onOk(); }}]});
+    rebuildMonths(a,b); checkPeriods(); closeModal(); onOk(); toast("Період розширено");}},
+   {t:"Все одно записати",fn:()=>{ closeModal(); onOk(); }}]});
 }
 
 /* ═══════════ объёмная метрика: ввод значения ═══════════ */
@@ -4852,6 +5452,32 @@ function stepModal(mid,s){
    if(isNew) d.steps.push(s); save(); monthModal(mid);}}]});
 }
 
+/* ═══════════ модалка: щоденна звичка ═══════════ */
+function habitModal(h){
+ const isNew=!h;
+ h=h||{id:"",name:"",emoji:"✅",days:"all"};
+ modal({title:isNew?"Нова щоденна звичка":"Змінити звичку",body:`
+  <label class="f"><span>Назва</span><input id="hbN" value="${esc(h.name)}" placeholder="Напр. Тренування"></label>
+  <label class="f"><span>Емодзі</span>${emoPicker("hbE",h.emoji||"✅",EMOS)}</label>
+  <label class="f"><span>Коли відмічати</span>
+   <select id="hbD">
+    <option value="all" ${h.days==="all"?"selected":""}>Щодня</option>
+    <option value="weekdays" ${h.days==="weekdays"?"selected":""}>Тільки будні (пн–пт)</option>
+   </select>
+  </label>`,
+  actions:[
+   ...(isNew?[]:[{t:"Видалити",c:"o",fn:()=>{S.habits=S.habits.filter(x=>x.id!==h.id);closeModal();commit("Звичку видалено");}}]),
+   {t:"Скасувати",c:"o",fn:closeModal},
+   {t:"Зберегти",fn:()=>{
+     const name=val("hbN").trim(); if(!name) return;
+     const emoji=pickedEmo("#hbE"), days=val("hbD");
+     if(isNew) S.habits.push({id:"hb_"+uid(),name,emoji,days,sphereId:"",archived:false});
+     else { h.name=name; h.emoji=emoji; h.days=days; }
+     closeModal(); commit(isNew?"Звичку додано":"Збережено");
+   }}
+  ]});
+}
+
 /* ═══════════ модалки: гіпотеза ═══════════ */
 function hypModal(h,presetGoal){
  const isNew=!h;
@@ -4939,13 +5565,6 @@ function dataModal(){
      </div>`;})()}
   <div class="divider"></div>
   <div class="hint">
-   <div style="font-size:15.5px">🌿 Про Life Planner</div>
-   <div class="small" style="margin-top:4px">Life Planner створено ${esc(AUTHOR.nameBy||AUTHOR.name)}.</div>
-   <div class="row wr" style="gap:8px;margin-top:10px">
-    ${authorLinks().map(([n2,v])=>`<a class="btn o s" href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">${esc(n2)} · ${esc(v.label)}</a>`).join("")}
-   </div></div>
-  <div class="divider"></div>
-  <div class="hint">
    <div style="font-size:15.5px">✨ Створити новий план із розпакування</div>
    <div class="small" style="margin-top:4px">Готовий пакет LIFE_PLANNER_INIT з ChatGPT або Claude. Це не оновлення поточного плану — планер буде створено заново.</div>
    <button class="btn o s" style="margin-top:10px" data-a="initNew">Створити новий план</button></div>
@@ -4979,18 +5598,18 @@ function dataModal(){
   };
   r.readAsText(f);};
  $("#exC").onclick=()=>{
-  const rows=[["Раздел","Цель","Название","План","Факт","Единица","Примечание"]];
+  const rows=[["Розділ","Ціль","Назва","План","Факт","Одиниця","Примітка"]];
   S.goals.forEach(g=>{
    const pr=primaryResult(g), pc=pr?rCurrent(pr):null;
-   rows.push(["Цель",g.name,pr?`${pr.baseline} → ${pr.target}`:g.type,"",pr?(pc==null?"":pc):resultPct(g)+"%",pr?pr.unit:"",g.status]);
+   rows.push(["Ціль",g.name,pr?`${pr.baseline} → ${pr.target}`:g.type,"",pr?(pc==null?"":pc):resultPct(g)+"%",pr?pr.unit:"",g.status]);
    (g.results||[]).forEach(r2=>rEntries(r2.id).forEach(e2=>rows.push(["Результат",g.name,r2.name,"",e2.value,r2.unit,e2.date])));
    g.metrics.forEach(m=>rows.push(["Метрика",g.name,m.name,m.total,mFact(m),m.unit,S.months.map(x=>`${x.short}: ${m.plan[x.id]||0}/${fMonth(m,x.id)}`).join(" · ")]));
-   g.milestones.forEach(ms=>rows.push(["Этап",g.name,ms.title,"",ms.done?"пройден":"","",""]));
+   g.milestones.forEach(ms=>rows.push(["Етап",g.name,ms.title,"",ms.done?"пройдено":"","",""]));
   });
-  S.months.forEach(x=>((S.monthData[x.id]||{steps:[]}).steps||[]).forEach(s=>rows.push(["Пункт плана",(goalOf(s.goalId)||{}).name||"",s.title,"",s.done?"сделано":"","",x.label])));
-  S.week.tasks.forEach(t=>rows.push(["Неделя",(goalOf(t.goalId)||{}).name||"",t.title,t.planned,t.completed,"",S.week.start]));
-  S.journal.filter(e=>!e.cancelled).forEach(h=>rows.push([h.kind==="fact"?"Факт":"Событие",h.goalName||(goalOf(h.goalId)||{}).name||"",h.title,h.metricName||"",h.qty,h.unit,h.date]));
-  S.hyps.forEach(h=>rows.push(["Гипотеза",(goalOf(h.goalId)||{}).name||"",h.name,"","","",`${h.status} · ${h.conclusion}`]));
+  S.months.forEach(x=>((S.monthData[x.id]||{steps:[]}).steps||[]).forEach(s=>rows.push(["Пункт плану",(goalOf(s.goalId)||{}).name||"",s.title,"",s.done?"зроблено":"","",x.label])));
+  S.week.tasks.forEach(t=>rows.push(["Тиждень",(goalOf(t.goalId)||{}).name||"",t.title,t.planned,t.completed,"",S.week.start]));
+  S.journal.filter(e=>!e.cancelled).forEach(h=>rows.push([h.kind==="fact"?"Факт":"Подія",h.goalName||(goalOf(h.goalId)||{}).name||"",h.title,h.metricName||"",h.qty,h.unit,h.date]));
+  S.hyps.forEach(h=>rows.push(["Гіпотеза",(goalOf(h.goalId)||{}).name||"",h.name,"","","",`${h.status} · ${h.conclusion}`]));
   dl(`moy-plan-${today()}.csv`,"﻿"+rows.map(r=>r.map(c=>`"${String(c==null?"":c).replace(/"/g,'""')}"`).join(";")).join("\n"),"text/csv");
  };
  $("#ghSave").onclick=()=>{
@@ -5003,25 +5622,24 @@ function dataModal(){
  $("#ghPush").onclick=()=>{ $("#ghSave").onclick(); githubPush(false); };
  $("#ghPull").onclick=()=>modal({title:"Завантажити з GitHub?",body:`<div class="sub">Поточний планер буде замінений даними з GitHub. Перед заміною автоматично створиться локальна резервна копія.</div>`,
   actions:[{t:"Скасувати",c:"o",fn:()=>dataModal()},{t:"Завантажити",fn:githubPull}]});
- $("#rst").onclick=()=>modal({title:"Точно скинути все?",body:`<div class="sub">Введи слово СБРОС, чтобы подтвердить.</div>
-  <div class="hint" style="margin-top:14px">Перед удалением Life Planner автоматически сохранит локальную аварийную копию текущего состояния. Её можно будет восстановить в настройках.</div>
-  <div class="small" style="margin-top:10px">Для дополнительной надёжности можно заранее сохранить JSON-копию.</div>
-  <input type="text" id="cf" placeholder="СБРОС" style="margin-top:14px">`,
-  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Удалить всё",c:"red",fn:()=>{
-   if((val("cf")||"").trim().toUpperCase()!=="СБРОС"){toast("Слово не совпало");return;}
+ $("#rst").onclick=()=>modal({title:"Точно скинути все?",body:`<div class="sub">Введи слово СКИНУТИ, щоб підтвердити.</div>
+  <div class="hint" style="margin-top:14px">Перед видаленням Life Planner автоматично збереже локальну аварійну копію поточного стану. Її можна буде відновити в налаштуваннях.</div>
+  <div class="small" style="margin-top:10px">Для додаткової надійності можна заздалегідь зберегти JSON-копію.</div>
+  <input type="text" id="cf" placeholder="СКИНУТИ" style="margin-top:14px">`,
+  actions:[{t:"Скасувати",c:"o",fn:closeModal},{t:"Видалити все",c:"red",fn:()=>{
+   if((val("cf")||"").trim().toUpperCase()!=="СКИНУТИ"){toast("Слово не збіглося");return;}
    const res=writePreResetBackup();
-   if(!res.ok){ toast("Не удалось создать резервную копию. Сброс отменён."); return; }   // данные важнее сброса
+   if(!res.ok){ toast("Не вдалося створити резервну копію. Скидання скасовано."); return; }   // дані важливіші за скидання
    try{ localStorage.removeItem(KEY); }catch(e){}
    LEGACY_KEYS.forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });   // иначе старые данные вернутся при следующем запуске
    S=seed({empty:true});                                                       // пустой планер, а не демонстрационный набор
-   window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="home";
+   window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="notebook";
    checkPeriods(); save(); closeModal(); render();
    setTimeout(startChoice,150);
    toast("Сброшено. Аварийная копия сохранена в настройках");}}]});
 }
 $("#dtBtn").onclick=dataModal;
 $("#thBtn").onclick=()=>{S.theme=S.theme==="dark"?"light":"dark";commit();};
-$("#lvlBtn").onclick=()=>{TAB="ach";render();window.scrollTo({top:0});};
 $("#fab").onclick=()=>{ if(TAB==="goals") goalNew(); else if(TAB==="hyp") hypModal(null); else taskModal(null); };
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
@@ -5395,14 +6013,14 @@ function applyInitState(candidate){
  const keep=S, keepTab=TAB, keepSel=MSEL;
  try{
   S=st; MSEL=null;
-  ["home","week","goals","path","wrev","mrev","ach","hyp","hist"].forEach(t=>{TAB=t;viewFor(t)();});
+  ["notebook","home","week","goals","path","wrev","mrev","ach","hyp","hist"].forEach(t=>{TAB=t;viewFor(t)();});
  }catch(e){ S=keep; TAB=keepTab; MSEL=keepSel; return {ok:false,error:"Планер не строится — ничего не менял"}; }
  S=keep; TAB=keepTab; MSEL=keepSel;
  if(meaningfulState(S)){
   const bk=writePreImportBackup();
   if(!bk.ok) return {ok:false,error:"Не удалось создать резервную копию текущего планера. Создание отменено."};
  }
- S=st; window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="home";
+ S=st; window.__draft=null; window.__fillWeek=null; MSEL=null; TAB="notebook";
  checkPeriods(); save(); render();
  return {ok:true};
 }
@@ -5451,10 +6069,7 @@ function startChoice(){
   <div class="hint">
    <div style="font-size:15.5px">♻️ Відновити резервну копію</div>
    <div class="small" style="margin-top:4px">Якщо Life Planner у тебе вже був і є файл із даними.</div>
-   <button class="btn o s" style="margin-top:10px" data-a="startRestore">Відновити копію</button></div>
-  <div class="small" style="text-align:center;margin-top:18px;color:var(--ink3);line-height:1.7">
-   <div>Life Planner від ${esc(AUTHOR.nameOf||AUTHOR.name)}</div>
-   ${authorLinks().length?`<div style="margin-top:4px">${authorLinksHTML()}</div>`:""}</div>`,
+   <button class="btn o s" style="margin-top:10px" data-a="startRestore">Відновити копію</button></div>`,
   actions:[]});
 }
 
@@ -5580,7 +6195,7 @@ S=load();
 const FIRST_RUN=!S;
 if(FIRST_RUN) S=seed({empty:true});
 if(!S.seenAch.length) S.seenAch=achList().filter(a=>a.on).map(a=>a.id);
-checkPeriods(); save(); render(); renderCredits();
+checkPeriods(); save(); render();
 if(FIRST_RUN) setTimeout(()=>autoGithubPullFirstRun().then(ok=>{ if(!ok) startChoice(); }),150);
 else if(S.migratedFrom){ const k=S.migratedFrom; delete S.migratedFrom; save();
  setTimeout(()=>toast("Дані перенесено в загальне сховище застосунку"),400); }
