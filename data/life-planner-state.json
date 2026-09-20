@@ -554,7 +554,13 @@
   "weeksMeta": {
     "1": {
       "outcome": "",
-      "focus": []
+      "focus": [],
+      "target": "",
+      "reflection": {
+        "a1": "",
+        "a2": "",
+        "a3": ""
+      }
     }
   }
 }
