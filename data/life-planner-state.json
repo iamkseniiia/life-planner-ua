@@ -554,13 +554,7 @@
   "weeksMeta": {
     "1": {
       "outcome": "",
-      "focus": [
-        {
-          "id": "ndovgmef",
-          "text": "fffff",
-          "done": false
-        }
-      ]
+      "focus": []
     }
   }
 }
