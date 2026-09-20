@@ -549,7 +549,11 @@
       "archived": false
     }
   ],
-  "habitLog": {},
+  "habitLog": {
+    "2026-09-21": {
+      "hb_search": ""
+    }
+  },
   "cycleResetSep2026": true,
   "weeksMeta": {
     "1": {
@@ -561,6 +565,11 @@
         "a2": "",
         "a3": ""
       }
+    }
+  },
+  "rhythmOverride": {
+    "hb_search": {
+      "2026-09-21": "none"
     }
   }
 }
