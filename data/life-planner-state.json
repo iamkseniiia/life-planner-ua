@@ -607,7 +607,18 @@
   "weeksMeta": {
     "1": {
       "outcome": "",
-      "focus": [],
+      "focus": [
+        {
+          "id": "rnz2pn1m",
+          "text": "Податись на всі вакансіїї що на LinkedIn",
+          "done": false
+        },
+        {
+          "id": "dli4o988",
+          "text": "Змонтувати мінімум 2 відео",
+          "done": false
+        }
+      ],
       "target": "",
       "reflection": {
         "a1": "",
