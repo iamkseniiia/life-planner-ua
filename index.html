@@ -117,24 +117,25 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
    проміжки між днями */
 .rtable{border-collapse:collapse;width:auto;min-width:620px}
 .rtable th{padding:2px 2px 6px;text-align:center}
-/* заголовок дня — клікабельна кнопка: обраний для «Ритму дня» день підсвічено суцільним синім,
-   а «сьогодні» (коли це не той самий день) позначено маленькою крапкою під числом */
-.rdaybtn{display:block;width:100%;background:transparent;border:0;border-radius:10px;padding:5px 4px 7px;
- font:inherit;font-size:12px;color:var(--ink3);font-weight:500;line-height:1.3;cursor:pointer;position:relative;
- transition:background .15s ease,color .15s ease}
-.rdaybtn:hover{background:var(--soft)}
-.rdaybtn span{display:block;font-size:14.5px;color:var(--ink2);margin-top:1px}
-.rdaybtn.cur{color:var(--acc)}
-.rdaybtn.cur span{color:var(--acc)}
-.rdaybtn.cur::after{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:4px;height:4px;border-radius:99px;background:var(--acc)}
-.rdaybtn.sel{background:var(--acc);color:#fff}
-.rdaybtn.sel span{color:#fff}
-.rdaybtn.sel::after{background:#fff}
+/* заголовок дня — «сьогодні» позначено маленькою крапкою під числом */
+.rdaylbl{display:block;width:100%;border-radius:10px;padding:5px 4px 7px;
+ font:inherit;font-size:12px;color:var(--ink3);font-weight:500;line-height:1.3;position:relative}
+.rdaylbl span{display:block;font-size:14.5px;color:var(--ink2);margin-top:1px}
+.rdaylbl.cur{color:var(--acc)}
+.rdaylbl.cur span{color:var(--acc)}
+.rdaylbl.cur::after{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:4px;height:4px;border-radius:99px;background:var(--acc)}
 .rtable .rrow-h{position:sticky;left:0;background:var(--card);text-align:left;font-size:14.5px;padding:0 10px 0 0;white-space:nowrap;z-index:1;width:1%;height:44px}
 /* justify-content:space-between так, щоб олівець завжди стояв у тій самій колонці незалежно від довжини
    назви звички — інакше «Правильне харчування» (найдовша назва) відсуває свій олівець далеко праворуч,
    і рядки виглядають «кривими» одне відносно одного */
 .rrow-h-in{display:flex;align-items:center;justify-content:space-between;gap:10px;height:44px;width:100%}
+.rrow-h-name{display:flex;align-items:center;gap:2px}
+.ridea-toggle{font-size:13px;padding:4px 6px;transition:transform .15s ease}
+.ridea-toggle.open{transform:rotate(180deg)}
+tr.ridea-row td{padding:0 8px 10px;height:auto;text-align:left}
+.ridea-list{background:var(--soft);border-radius:var(--r2);padding:10px 14px;margin:0 0 4px}
+.ridea-item{font-size:13.5px;line-height:1.6;color:var(--ink2);padding:3px 0}
+.ridea-item:not(:last-child){border-bottom:1px dashed var(--line)}
 .rtable td{text-align:center;padding:3px 8px;height:44px}
 .rtable td.rtoday{background:color-mix(in srgb,var(--acc) 6%,transparent)}
 .rcell{width:36px;height:36px;min-width:36px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink3);font-size:15px;cursor:pointer;transition:transform .15s ease}
@@ -143,29 +144,6 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
 .rcell.missed{background:var(--missed-bg);border-color:transparent;color:var(--missed-fg)}
 .rcell.none{background:var(--soft);border-color:transparent;color:var(--ink3)}
 .rsum-h,.rsum{font-size:13px;color:var(--ink2);white-space:nowrap;padding:0 10px}
-/* «Ритм тижня» + «Ритм дня» пліч-о-пліч на широких екранах: сам ряд завжди на всю ширину — так само,
-   як і всі інші картки нижче (щоб правий край збігався з «Фокус тижня» і т.д.). Ритм тижня бере рівно
-   стільки, скільки треба таблиці (не розтягується), а розклад дня росте й забирає весь залишок ширини —
-   тому він ширший на великих екранах. Розклад компактніший (менші відступи й шрифт), а його висота
-   підганяється JS-ом (syncSchedHeight) точно під висоту картки ритму тижня — незалежно від кількості
-   звичок; зайве ховається під внутрішній скрол. */
-.rhy-row{display:flex;gap:16px;align-items:flex-start}
-.rhy-row>.card:first-child{flex:0 1 auto;min-width:0}
-.rhy-row>.sched-card{flex:1 1 300px;min-width:280px;margin-top:0}
-@media(max-width:900px){.rhy-row{flex-direction:column}.rhy-row>.card:first-child{flex:1 1 auto;width:100%}.rhy-row>.sched-card{flex:1 1 auto;min-width:0;width:100%}}
-.sched-card{padding:16px 16px 14px;display:flex;flex-direction:column}
-.sched-list{display:flex;flex-direction:column;flex:1;min-height:0;overflow-y:auto}
-@media(max-width:900px){.sched-list{max-height:none}}
-.sched-row{display:flex;align-items:flex-start;gap:8px;padding:6px 4px;margin:0 -4px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:8px}
-.sched-row:hover{background:var(--soft)}
-.sched-row:last-child{border-bottom:0}
-.sched-row .chk{width:19px;height:19px;min-width:19px;border-radius:6px;margin-top:1px}
-.sched-row .chk:checked::after{left:6px;top:4px;width:5px;height:9px;border-width:0 2px 2px 0}
-.sched-t{flex:0 0 68px;font-size:11.5px;font-weight:600;color:var(--ink2);line-height:1.35;padding-top:1px;white-space:nowrap}
-.sched-a{flex:1;font-size:12.5px;color:var(--ink);line-height:1.4}
-.sched-row.done{background:color-mix(in srgb,var(--ok) 6%,transparent)}
-.sched-row.done .sched-t{color:var(--ink3)}
-.sched-row.done .sched-a{color:var(--ink3);text-decoration:line-through}
 /* компактна смуга «12 тижнів» + week tabs в один рядок (desktop); на вузьких екранах підпис лишається зверху */
 .nbbar{display:flex;align-items:center;gap:14px;margin:2px 0 16px;flex-wrap:wrap}
 .nbbar-label{font-size:19px;font-weight:600;white-space:nowrap;flex:0 0 auto}
@@ -912,7 +890,8 @@ function normalize(d){
  }
  /* щоденні звички: якщо їх не було зовсім — заводимо стандартний набір один раз, далі не чіпаємо */
  if(!Array.isArray(d.habits)) d.habits=defaultHabits();
- d.habits=d.habits.filter(h=>h&&typeof h==="object").map(h=>Object.assign({id:uid(),name:"Звичка",emoji:"✅",days:"all",sphereId:"",archived:false},h));
+ d.habits=d.habits.filter(h=>h&&typeof h==="object").map(h=>Object.assign({id:uid(),name:"Звичка",emoji:"✅",days:"all",sphereId:"",archived:false,ideas:[]},h));
+ d.habits.forEach(h=>{ if(!Array.isArray(h.ideas)) h.ideas=[]; });
  d.habitLog=obj(d.habitLog);
  Object.keys(d.habitLog).forEach(k=>{ d.habitLog[k]=obj(d.habitLog[k]); });
  /* відмітки виконання «Ритму дня» — окремо по кожній даті, ключ дати -> {ідентифікатор пункту: true} */
@@ -2008,23 +1987,7 @@ function render(){
  $("#view").innerHTML=subNavHTML(TAB)+v();
  document.querySelectorAll("[data-subnav]").forEach(b=>b.onclick=()=>{TAB=b.dataset.subnav;render();window.scrollTo({top:0});});
  bind($("#view"));
- requestAnimationFrame(syncSchedHeight);
 }
-/* «Ритм дня» має бути рівно такої ж висоти, як «Ритм тижня» поруч — кількість звичок і, відповідно,
-   висота таблиці ритму можуть змінюватись, тому висоту підганяємо в JS після кожного рендера,
-   а не фіксованим числом у CSS (яке одразу розʼїжджається, щойно звичок стає більше чи менше). */
-function syncSchedHeight(){
- document.querySelectorAll(".rhy-row").forEach(row=>{
-  const sc=row.querySelector(".sched-card");
-  const rt=row.querySelector(":scope>.card:first-child");
-  if(!sc||!rt||sc===rt) return;
-  sc.style.height="";
-  const stacked=getComputedStyle(row).flexDirection==="column";
-  if(stacked) return;
-  sc.style.height=rt.getBoundingClientRect().height+"px";
- });
-}
-window.addEventListener("resize",()=>{ clearTimeout(window.__schedRT); window.__schedRT=setTimeout(syncSchedHeight,120); });
 
 /* ═══════════ 🏠 головна ═══════════ */
 /* спокійний спарклайн: тренд, а не аналітика */
@@ -2168,26 +2131,9 @@ function simplifyDay(){
   }}]});
 }
 /* ═══════════ 📓 12 тижнів — цифровий блокнот ═══════════ */
-/* орієнтовний розпорядок дня — один шаблон на всі дні, але відмітки виконання («Ритм дня» справа
-   від «Ритму тижня») зберігаються окремо для кожної конкретної дати в S.dayChecks[дата][id] */
-const DAY_SCHEDULE=[
- {id:"wake",t:"07:00",a:"Підйом"},
- {id:"morning",t:"07:00–07:45",a:"Спокійний ранок: вода, кава, легкий перекус за потреби, збори"},
- {id:"sport",t:"08:00–09:00",a:"🏋️ Спорт — головний обов'язковий блок дня"},
- {id:"hygiene",t:"09:00–10:30",a:"Душ + догляд + сніданок + спокійно зібратись"},
- {id:"work1",t:"10:30–13:00",a:"💻 Робота / пошук роботи / кар'єрні задачі"},
- {id:"lunch",t:"13:00–13:30",a:"🍽 Обід + повна перерва від компʼютера"},
- {id:"walk",t:"13:30–14:00",a:"Невелика прогулянка / кава / відпочинок / побутові дрібниці"},
- {id:"work2",t:"14:00–17:30",a:"💻 Кар'єрні задачі + блог"},
- {id:"dinner",t:"17:30–18:30",a:"🍽 Вечеря + відпочинок"},
- {id:"personal",t:"18:30–20:30",a:"❤️ Особистий час / хлопець / прогулянка / свої справи"},
- {id:"english",t:"20:30–21:00",a:"🇬🇧 Англійська"},
- {id:"stretch",t:"21:00–21:20",a:"🤸 Легка розминка / розтяжка / mobility"},
- {id:"book",t:"21:20–22:00",a:"📚 Книга"},
- {id:"wind",t:"22:00+",a:"Спокійне завершення дня, без роботи"},
-];
-function dayCheckMap(dateStr){ return (S.dayChecks&&S.dayChecks[dateStr])||{}; }
-let NBWEEK=null, SCHEDDAY=null;
+let NBWEEK=null;
+/* чи розгорнутий список ідей для звички (тимчасовий UI-стан, не зберігається) */
+let EXPANDED_IDEAS={};
 function vNotebook(){
  const curWeekN=Math.min(12,Math.max(1,weekOfPeriod()));
  if(!NBWEEK) NBWEEK=curWeekN;
@@ -2195,10 +2141,6 @@ function vNotebook(){
  const wStart=weekNStart(n);
  const days=[0,1,2,3,4,5,6].map(i=>addDays(wStart,i));
  const td=today();
- /* обраний для «Ритму дня» день завжди має бути видимим стовпцем поточного тижня —
-    якщо його там немає (перший показ або перехід на інший тиждень), підставляємо сьогодні,
-    а якщо і сьогодні поза цим тижнем — понеділок обраного тижня */
- if(!SCHEDDAY||!days.includes(SCHEDDAY)) SCHEDDAY=days.includes(td)?td:days[0];
  const meta=weekMeta(n);
  const rows=(S.habits||[]).filter(h=>!h.archived);
  const alerts=S.goals.filter(needsHypothesis);
@@ -2230,7 +2172,7 @@ function vNotebook(){
    <table class="rtable">
     <thead><tr>
      <th class="rrow-h"></th>
-     ${days.map((d,i)=>`<th><button type="button" class="rdaybtn ${d===SCHEDDAY?"sel":""} ${d===td?"cur":""}" data-a="schedday" data-id="${d}" title="Показати розклад цього дня">${DAYS[i]}<span>${+d.split("-")[2]}</span></button></th>`).join("")}
+     ${days.map((d,i)=>`<th><span class="rdaylbl ${d===td?"cur":""}">${DAYS[i]}<span>${+d.split("-")[2]}</span></span></th>`).join("")}
      <th class="rsum-h">За тиждень</th>
     </tr></thead>
     <tbody>
@@ -2242,40 +2184,25 @@ function vNotebook(){
          const label=`${h.name}, ${dowOf(d)} ${dfmt(d)}, ${st==="none"?"не заплановано":st==="done"?"виконано":st==="missed"?"не виконано":"заплановано"}`;
          return `<td class="${d===td?"rtoday":""}"><button class="rcell ${st}" data-a="rcell" data-id="${h.id}" data-d="${d}" aria-label="${esc(label)}" title="${esc(label)}">${STATE_ICON[st]}</button></td>`;
        }).join("");
-       return `<tr><td class="rrow-h"><span class="rrow-h-in">${h.emoji} ${esc(h.name)}<button class="ico" data-a="habitedit" data-id="${h.id}" title="Змінити">✏️</button></span></td>
+       const hasIdeas=h.ideas&&h.ideas.length;
+       const open=hasIdeas&&!!EXPANDED_IDEAS[h.id];
+       const ideasRow=hasIdeas?`<tr class="ridea-row"><td colspan="${days.length+2}">
+         <div class="ridea-list" style="display:${open?"block":"none"}">
+          ${h.ideas.map(x=>`<div class="ridea-item">${esc(x)}</div>`).join("")}
+         </div>
+        </td></tr>`:"";
+       return `<tr><td class="rrow-h"><span class="rrow-h-in">
+         <span class="rrow-h-name">${h.emoji} ${esc(h.name)}${hasIdeas?`<button class="ico ridea-toggle ${open?"open":""}" data-a="habitideas" data-id="${h.id}" title="Ідеї">⌄</button>`:""}</span>
+         <button class="ico" data-a="habitedit" data-id="${h.id}" title="Змінити">✏️</button></span></td>
         ${cells}
-        <td class="rsum">${dueN?`${doneN}/${dueN}`:`<span class="small">не заплановано</span>`}</td></tr>`;
+        <td class="rsum">${dueN?`${doneN}/${dueN}`:`<span class="small">не заплановано</span>`}</td></tr>${ideasRow}`;
      }).join("")||`<tr><td colspan="9"><div class="emptyb">Напрямів ще немає — додай перший ➕</div></td></tr>`}
     </tbody>
    </table>
   </div>
  </div>`;
 
- /* «Ритм дня» — розпорядок для конкретного обраного дня (SCHEDDAY), не для «сьогодні» взагалі:
-    клік на день у «Ритмі тижня» вище перемикає, який день тут показано. Відмітки виконання —
-    окремі для кожної дати (dayCheckMap), тож перемикання між днями їх не скидає. */
- const schedChecks=dayCheckMap(SCHEDDAY);
- const schedDoneN=DAY_SCHEDULE.filter(it=>schedChecks[it.id]).length;
- const schedDayLabel=`${dowOf(SCHEDDAY).replace(/^./,c=>c.toUpperCase())}, ${dfmt(SCHEDDAY)}`;
- const scheduleHTML=`<div class="card sched-card">
-  <div class="rowj" style="margin-bottom:2px">
-   <div class="h-sec" style="margin:0;font-size:16px">🕒 Ритм дня</div>
-   <span class="small" style="white-space:nowrap">${schedDoneN}/${DAY_SCHEDULE.length}</span>
-  </div>
-  <div class="small" style="margin-bottom:8px">${esc(schedDayLabel)}${SCHEDDAY===td?` <span class="pill acc" style="padding:2px 9px;font-size:11.5px">сьогодні</span>`:""}</div>
-  <div class="sched-list">
-   ${DAY_SCHEDULE.map(it=>{
-     const done=!!schedChecks[it.id];
-     return `<label class="sched-row ${done?"done":""}">
-      <input type="checkbox" class="chk" data-a="schedchk" data-id="${it.id}" ${done?"checked":""}>
-      <span class="sched-t">${esc(it.t)}</span>
-      <span class="sched-a">${esc(it.a)}</span>
-     </label>`;
-   }).join("")}
-  </div>
- </div>`;
-
- const rhyRowHTML=`<div class="rhy-row">${rtable}${scheduleHTML}</div>`;
+ const rhyRowHTML=rtable;
 
  const focusHTML=`<div class="card">
   <div class="rowj"><div class="h-sec" style="margin:0">🎯 Фокус тижня</div><button class="ico" data-a="nbfocusnew" data-id="${n}" title="Додати фокус">➕</button></div>
@@ -3565,19 +3492,11 @@ function act(a,el){
  case "habitmin": setHabit(id,el.dataset.d||today(),"min"); commit(); break;
  case "habitnew": habitModal(null); break;
  case "habitedit": habitModal(S.habits.find(x=>x.id===id)); break;
+ case "habitideas": EXPANDED_IDEAS[id]=!EXPANDED_IDEAS[id]; render(); break;
  case "simplifyday": simplifyDay(); break;
 
  /* ——— «12 тижнів» ——— */
  case "nbweek": NBWEEK=Number(id); render(); window.scrollTo({top:0}); break;
- case "schedday": SCHEDDAY=id; render(); break;
- case "schedchk":{
-  S.dayChecks=S.dayChecks||{};
-  S.dayChecks[SCHEDDAY]=S.dayChecks[SCHEDDAY]||{};
-  if(S.dayChecks[SCHEDDAY][id]) delete S.dayChecks[SCHEDDAY][id];
-  else S.dayChecks[SCHEDDAY][id]=true;
-  commit();
-  break;
- }
  case "rcell":{
   const h=(S.habits||[]).find(x=>x.id===id); if(!h) break;
   openCellPopover(el,id,el.dataset.d);
@@ -5455,7 +5374,7 @@ function stepModal(mid,s){
 /* ═══════════ модалка: щоденна звичка ═══════════ */
 function habitModal(h){
  const isNew=!h;
- h=h||{id:"",name:"",emoji:"✅",days:"all"};
+ h=h||{id:"",name:"",emoji:"✅",days:"all",ideas:[]};
  modal({title:isNew?"Нова щоденна звичка":"Змінити звичку",body:`
   <label class="f"><span>Назва</span><input id="hbN" value="${esc(h.name)}" placeholder="Напр. Тренування"></label>
   <label class="f"><span>Емодзі</span>${emoPicker("hbE",h.emoji||"✅",EMOS)}</label>
@@ -5464,15 +5383,19 @@ function habitModal(h){
     <option value="all" ${h.days==="all"?"selected":""}>Щодня</option>
     <option value="weekdays" ${h.days==="weekdays"?"selected":""}>Тільки будні (пн–пт)</option>
    </select>
-  </label>`,
+  </label>
+  <label class="f"><span>Список ідей (необов'язково)</span>
+   <textarea id="hbI" rows="5" placeholder="По одному варіанту на рядок — з'явиться шевроном біля назви, який розгортає список">${esc((h.ideas||[]).join("\n"))}</textarea></label>
+  <div class="small">Якщо заповнено — біля назви напряму зʼявиться стрілочка ⌄, яка розгортає й згортає цей список.</div>`,
   actions:[
    ...(isNew?[]:[{t:"Видалити",c:"o",fn:()=>{S.habits=S.habits.filter(x=>x.id!==h.id);closeModal();commit("Звичку видалено");}}]),
    {t:"Скасувати",c:"o",fn:closeModal},
    {t:"Зберегти",fn:()=>{
      const name=val("hbN").trim(); if(!name) return;
      const emoji=pickedEmo("#hbE"), days=val("hbD");
-     if(isNew) S.habits.push({id:"hb_"+uid(),name,emoji,days,sphereId:"",archived:false});
-     else { h.name=name; h.emoji=emoji; h.days=days; }
+     const ideas=val("hbI").split("\n").map(x=>x.trim()).filter(Boolean);
+     if(isNew) S.habits.push({id:"hb_"+uid(),name,emoji,days,ideas,sphereId:"",archived:false});
+     else { h.name=name; h.emoji=emoji; h.days=days; h.ideas=ideas; }
      closeModal(); commit(isNew?"Звичку додано":"Збережено");
    }}
   ]});
