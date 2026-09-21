@@ -129,9 +129,22 @@ h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em;font-family:var(--fd)}
    назви звички — інакше «Правильне харчування» (найдовша назва) відсуває свій олівець далеко праворуч,
    і рядки виглядають «кривими» одне відносно одного */
 .rrow-h-in{display:flex;align-items:center;justify-content:space-between;gap:10px;height:44px;width:100%}
-.rrow-h-name{display:flex;align-items:center;gap:2px}
-.ridea-toggle{font-size:13px;padding:4px 6px;transition:transform .15s ease}
-.ridea-toggle.open{transform:rotate(180deg)}
+.rrow-h-name{display:flex;align-items:center;gap:4px}
+/* маленька квадратна кнопка-шеврон: сама стрілка намальована рамкою (border-трюк), а не символом шрифту —
+   так вона завжди рівно по центру квадрата незалежно від шрифту/платформи */
+.ridea-toggle{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;min-width:22px;
+ padding:0;margin-left:2px;background:var(--soft);border:0;border-radius:7px;cursor:pointer;
+ transition:background .15s ease}
+.ridea-toggle:hover{background:var(--line)}
+.ridea-chevron{width:7px;height:7px;border-right:1.6px solid var(--ink2);border-bottom:1.6px solid var(--ink2);
+ transform:rotate(45deg);margin-top:-3px;transition:transform .15s ease}
+.ridea-toggle.open .ridea-chevron{transform:rotate(225deg);margin-top:3px}
+/* «ручка» для перетягування рядка звички — тягнути можна тільки за неї, а не за весь рядок,
+   щоб випадковий клік по чекбоксу чи олівцю не заважав */
+.rdrag{cursor:grab;color:var(--ink3);font-size:13px;padding:0 2px;user-select:none;touch-action:none}
+.rdrag:active{cursor:grabbing}
+tr.rhab.dragging{opacity:.4}
+tr.rhab.drag-over{box-shadow:inset 0 2px 0 var(--acc)}
 tr.ridea-row td{padding:0 8px 10px;height:auto;text-align:left}
 .ridea-list{background:var(--soft);border-radius:var(--r2);padding:10px 14px;margin:0 0 4px}
 .ridea-item{font-size:13.5px;line-height:1.6;color:var(--ink2);padding:3px 0}
@@ -2186,13 +2199,15 @@ function vNotebook(){
        }).join("");
        const hasIdeas=h.ideas&&h.ideas.length;
        const open=hasIdeas&&!!EXPANDED_IDEAS[h.id];
-       const ideasRow=hasIdeas?`<tr class="ridea-row"><td colspan="${days.length+2}">
-         <div class="ridea-list" style="display:${open?"block":"none"}">
+       const ideasRow=open?`<tr class="ridea-row"><td colspan="${days.length+2}">
+         <div class="ridea-list">
           ${h.ideas.map(x=>`<div class="ridea-item">${esc(x)}</div>`).join("")}
          </div>
         </td></tr>`:"";
-       return `<tr><td class="rrow-h"><span class="rrow-h-in">
-         <span class="rrow-h-name">${h.emoji} ${esc(h.name)}${hasIdeas?`<button class="ico ridea-toggle ${open?"open":""}" data-a="habitideas" data-id="${h.id}" title="Ідеї">⌄</button>`:""}</span>
+       return `<tr class="rhab" data-hid="${h.id}"><td class="rrow-h"><span class="rrow-h-in">
+         <span class="rrow-h-name">
+          <span class="rdrag" title="Перетягнути, щоб змінити порядок">⠿</span>
+          ${h.emoji} ${esc(h.name)}${hasIdeas?`<button class="ridea-toggle ${open?"open":""}" data-a="habitideas" data-id="${h.id}" title="Ідеї"><span class="ridea-chevron"></span></button>`:""}</span>
          <button class="ico" data-a="habitedit" data-id="${h.id}" title="Змінити">✏️</button></span></td>
         ${cells}
         <td class="rsum">${dueN?`${doneN}/${dueN}`:`<span class="small">не заплановано</span>`}</td></tr>${ideasRow}`;
@@ -3127,6 +3142,7 @@ function bind(root){
  root.querySelectorAll(".emo button").forEach(b=>b.onclick=()=>{
   b.parentNode.querySelectorAll("button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
  });
+ bindHabitDrag(root);
  /* дот-індикатор під каруселлю цілей — щоб було видно, що праворуч є ще картки */
  const ggwrap=root.querySelector("#ggwrap");
  if(ggwrap){
@@ -3142,6 +3158,40 @@ function bind(root){
    ggwrap.onscroll=upd; upd();
   }
  }
+}
+/* перетягування рядків «Ритму тижня» — тягнути можна лише за ручку ⠿, курсор наводиться на будь-яку
+   іншу частину рядка (чекбокси, ✏️, шеврон ідей) не запускає drag. Порядок міняється в S.habits
+   напряму за id, тож архівні звички (яких у таблиці не видно) свою відносну позицію теж зберігають. */
+function bindHabitDrag(root){
+ const tbody=root.querySelector(".rtable tbody");
+ if(!tbody) return;
+ const rows=Array.from(tbody.querySelectorAll("tr.rhab"));
+ if(rows.length<2) return;
+ let dragId=null;
+ rows.forEach(tr=>{
+  const handle=tr.querySelector(".rdrag");
+  if(!handle) return;
+  handle.setAttribute("draggable","true");
+  handle.ondragstart=e=>{
+   dragId=tr.dataset.hid; tr.classList.add("dragging");
+   e.dataTransfer.effectAllowed="move";
+   try{ e.dataTransfer.setData("text/plain",dragId); }catch(err){}
+  };
+  handle.ondragend=()=>{ tr.classList.remove("dragging"); rows.forEach(r=>r.classList.remove("drag-over")); };
+  tr.ondragover=e=>{ e.preventDefault(); if(tr.dataset.hid!==dragId) tr.classList.add("drag-over"); };
+  tr.ondragleave=()=>tr.classList.remove("drag-over");
+  tr.ondrop=e=>{
+   e.preventDefault(); tr.classList.remove("drag-over");
+   const targetId=tr.dataset.hid;
+   if(!dragId||dragId===targetId) return;
+   const arr=S.habits;
+   const from=arr.findIndex(x=>x.id===dragId), to=arr.findIndex(x=>x.id===targetId);
+   if(from<0||to<0) return;
+   const [item]=arr.splice(from,1);
+   arr.splice(to,0,item);
+   dragId=null; commit();
+  };
+ });
 }
 const pickedEmo=sel=>{const b=document.querySelector(sel+" button.on");return (b&&b.textContent&&b.textContent.trim())||"🎯";};
 function emoPicker(id,cur,list){
