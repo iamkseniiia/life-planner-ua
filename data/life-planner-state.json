@@ -602,14 +602,16 @@
       "name": "Медитація",
       "emoji": "🧘‍♀️",
       "days": "all",
-      "ideas": [],
       "sphereId": "",
-      "archived": false
+      "archived": false,
+      "ideas": []
     }
   ],
   "habitLog": {
     "2026-09-21": {
-      "hb_search": "full"
+      "hb_search": "full",
+      "hb_train": "full",
+      "hb_eng": "full"
     }
   },
   "cycleResetSep2026": true,
