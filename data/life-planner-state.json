@@ -551,6 +551,15 @@
       "sphereId": "body",
       "archived": false,
       "ideas": []
+    },
+    {
+      "id": "hb_0tjfs4s8",
+      "name": "8.000 кроків Eліпс/Вело",
+      "emoji": "🎯",
+      "days": "all",
+      "ideas": [],
+      "sphereId": "",
+      "archived": false
     }
   ],
   "habitLog": {
