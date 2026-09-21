@@ -522,7 +522,8 @@
       "emoji": "🔍",
       "days": "weekdays",
       "sphereId": "money",
-      "archived": false
+      "archived": false,
+      "ideas": []
     },
     {
       "id": "hb_eng",
@@ -530,7 +531,8 @@
       "emoji": "📚",
       "days": "all",
       "sphereId": "growth",
-      "archived": false
+      "archived": false,
+      "ideas": []
     },
     {
       "id": "hb_train",
@@ -538,7 +540,8 @@
       "emoji": "🏋️",
       "days": "all",
       "sphereId": "body",
-      "archived": false
+      "archived": false,
+      "ideas": []
     },
     {
       "id": "hb_food",
@@ -546,7 +549,8 @@
       "emoji": "🥗",
       "days": "all",
       "sphereId": "body",
-      "archived": false
+      "archived": false,
+      "ideas": []
     }
   ],
   "habitLog": {
