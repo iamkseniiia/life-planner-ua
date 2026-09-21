@@ -522,8 +522,7 @@
       "emoji": "🔍",
       "days": "weekdays",
       "sphereId": "money",
-      "archived": false,
-      "ideas": []
+      "archived": false
     },
     {
       "id": "hb_eng",
@@ -531,8 +530,7 @@
       "emoji": "📚",
       "days": "all",
       "sphereId": "growth",
-      "archived": false,
-      "ideas": []
+      "archived": false
     },
     {
       "id": "hb_train",
@@ -540,8 +538,7 @@
       "emoji": "🏋️",
       "days": "all",
       "sphereId": "body",
-      "archived": false,
-      "ideas": []
+      "archived": false
     },
     {
       "id": "hb_food",
@@ -549,53 +546,7 @@
       "emoji": "🥗",
       "days": "all",
       "sphereId": "body",
-      "archived": false,
-      "ideas": []
-    },
-    {
-      "id": "hb_0tjfs4s8",
-      "name": "8.000 кроків Eліпс/Вело",
-      "emoji": "🏃‍♀️",
-      "days": "all",
-      "sphereId": "",
-      "archived": false,
-      "ideas": []
-    },
-    {
-      "id": "hb_e4osbeqk",
-      "name": "Дофаміновий смаколик",
-      "emoji": "🎉",
-      "days": "all",
-      "sphereId": "",
-      "archived": false,
-      "ideas": [
-        "• Design Thinking",
-        "• Монтаж reels/постов",
-        "• Стать именно фанатиком дизайна, изучать записывать, создавать как планер",
-        "• Поудалять телеграм каналы",
-        "• Редизайн одного экрана для удовольствия",
-        "• 30-minute brand challenge. Придумать вымышленный бренд: название, логотип, цвета, упаковка/сайт:",
-        "Netflix banking app, Zara travel app, Apple real-estate marketplace, Rhode wellness app и т. п. Такие концепты очень хорошо разгоняют дизайнерский мозг.",
-        "• Собирать свой visual library. Не бессмысленно скроллить Pinterest, а создавать коллекции: typography, hero sections, luxury UI, cards, mobile navigation, colors, animations.",
-        "• Сделать “Oksana 2027 visual world”. Огромный moodboard того, как ты хочешь выглядеть, где жить, какой дом, одежда, проекты, блог, путешествия, рабочее место.",
-        "• Фотопрогулка дома. Да, даже не выходя: придумать сет, свет, одежду, предметы и снять 5–10 кадров как мини-кампейн.",
-        "• AI + дизайн-вечера. Не изучать AI как курс, а играться: придумала продукт → сгенерировала концепцию → сделала UI → упаковала в маленький проект.",
-        "• Учиться чему-то визуальному, что не связано напрямую с UI. Motion, Blender, 3D, Lightroom, предметная фотография, fashion styling, интерьерный дизайн, typography posters.",
-        "• Планировать маленькие события. Не просто «что делать завтра», а придумать свидание дома, тематический вечер, маршрут выходного дня, фотосъёмку, маленькое путешествие, новое кафе на выходные."
-      ]
-    },
-    {
-      "id": "hb_v00x4dc1",
-      "name": "Reels/Posts",
-      "emoji": "🎥",
-      "days": "all",
-      "sphereId": "",
-      "archived": false,
-      "ideas": [
-        "монтаж існуючих відео",
-        "монтаж постів",
-        "зробити ті пости та ідеї які я ВЖЕ МОЖУ зробити інст та тік-ток"
-      ]
+      "archived": false
     }
   ],
   "habitLog": {
@@ -607,33 +558,7 @@
   "weeksMeta": {
     "1": {
       "outcome": "",
-      "focus": [
-        {
-          "id": "rnz2pn1m",
-          "text": "Податись на всі вакансіїї що на LinkedIn",
-          "done": false
-        },
-        {
-          "id": "dli4o988",
-          "text": "Змонтувати мінімум 2 відео",
-          "done": false
-        },
-        {
-          "id": "a6ooljzy",
-          "text": "Зробити рілс котрі я ВЖЕ МОЖУ зробити з архівів",
-          "done": false
-        },
-        {
-          "id": "mai1hv7g",
-          "text": "Відколібрувати дофамін, не дивитись короткі відео та ютуб, поки що використовуй ті знання що в тебе ВЖЕ Є",
-          "done": false
-        },
-        {
-          "id": "jrj99lyn",
-          "text": "Медитації",
-          "done": false
-        }
-      ],
+      "focus": [],
       "target": "",
       "reflection": {
         "a1": "",
