@@ -492,7 +492,7 @@
         "a2": "",
         "a3": ""
       },
-      "reviewStatus": "skipped"
+      "reviewStatus": "pending"
     }
   ],
   "monthReviews": {},
@@ -526,17 +526,13 @@
       "ideas": []
     },
     {
-      "id": "hb_v00x4dc1",
-      "name": "Reels/Posts",
-      "emoji": "🎥",
+      "id": "hb_eng",
+      "name": "Англійська / книга",
+      "emoji": "📚",
       "days": "all",
-      "sphereId": "",
+      "sphereId": "growth",
       "archived": false,
-      "ideas": [
-        "монтаж існуючих відео",
-        "монтаж постів",
-        "зробити ті пости та ідеї які я ВЖЕ МОЖУ зробити інст та тік-ток"
-      ]
+      "ideas": []
     },
     {
       "id": "hb_train",
@@ -548,11 +544,11 @@
       "ideas": []
     },
     {
-      "id": "hb_eng",
-      "name": "Англійська / книга",
-      "emoji": "📚",
+      "id": "hb_food",
+      "name": "Правильне харчування",
+      "emoji": "🥗",
       "days": "all",
-      "sphereId": "growth",
+      "sphereId": "body",
       "archived": false,
       "ideas": []
     },
@@ -589,16 +585,20 @@
       ]
     },
     {
-      "id": "hb_food",
-      "name": "Правильне харчування",
-      "emoji": "🥗",
+      "id": "hb_v00x4dc1",
+      "name": "Reels/Posts",
+      "emoji": "🎥",
       "days": "all",
-      "sphereId": "body",
+      "sphereId": "",
       "archived": false,
-      "ideas": []
+      "ideas": [
+        "монтаж існуючих відео",
+        "монтаж постів",
+        "зробити ті пости та ідеї які я ВЖЕ МОЖУ зробити інст та тік-ток"
+      ]
     },
     {
-      "id": "hb_0ogxwqop",
+      "id": "hb_drgwsxew",
       "name": "Медитація",
       "emoji": "🧘‍♀️",
       "days": "all",
@@ -609,7 +609,9 @@
   ],
   "habitLog": {
     "2026-09-21": {
-      "hb_search": "full"
+      "hb_search": "full",
+      "hb_train": "full",
+      "hb_eng": "full"
     }
   },
   "cycleResetSep2026": true,
