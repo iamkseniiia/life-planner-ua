@@ -612,6 +612,9 @@
       "hb_search": "full",
       "hb_train": "full",
       "hb_eng": "full"
+    },
+    "2026-09-22": {
+      "hb_search": "full"
     }
   },
   "cycleResetSep2026": true,
